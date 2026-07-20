@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Never Hold Back Gel — جل ترطيب للرجال، نتائج خلال 30 دقيقة، مرخّص من هيئة الدواء المصرية. اطلب الآن والدفع عند الاستلام.">
+  <title>Never Hold Back Gel | جل القوة للرجال</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0a0e17;
+      --bg-2:#0d1424;
+      --bg-3:#111a2e;
+      --neon:#00f0ff;
+      --neon-dim:rgba(0,240,255,.15);
+      --neon-glow:rgba(0,240,255,.45);
+      --white:#ffffff;
+      --muted:#a8b3c7;
+      --success:#22c55e;
+      --danger:#ef4444;
+      --radius:14px;
+      --max:1100px;
+      --header-h:64px;
+      --sticky-h:64px;
+    }
+    html{scroll-behavior:smooth}
+    body{
+      font-family:'Cairo',sans-serif;
+      background:var(--bg);
+      color:var(--white);
+      line-height:1.7;
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+    }
+    img{max-width:100%;display:block;height:auto}
+    a{color:inherit;text-decoration:none}
+    button,input,select{font:inherit}
+    .container{width:min(100% - 2rem,var(--max));margin-inline:auto}
+
+    /* Ambient energy background */
+    body::before{
+      content:"";
+      position:fixed;inset:0;z-index:-1;pointer-events:none;
+      background:
+        radial-gradient(ellipse 80% 50% at 80% -10%,rgba(0,240,255,.12),transparent 55%),
+        radial-gradient(ellipse 60% 40% at 10% 30%,rgba(0,120,255,.08),transparent 50%),
+        linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 50%,var(--bg) 100%);
+    }
+
+    /* Animations */
+    @keyframes fadeUp{
+      from{opacity:0;transform:translateY(24px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+    @keyframes pulseGlow{
+      0%,100%{box-shadow:0 0 0 0 var(--neon-glow)}
+      50%{box-shadow:0 0 28px 4px var(--neon-glow)}
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .fade-in{animation:fadeUp .7s ease both}
+    .delay-1{animation-delay:.12s}
+    .delay-2{animation-delay:.24s}
+    .delay-3{animation-delay:.36s}
+
+    /* Header */
+    .site-header{
+      position:sticky;top:0;z-index:100;
+      height:var(--header-h);
+      display:flex;align-items:center;
+      background:rgba(10,14,23,.85);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(0,240,255,.12);
+    }
+    .header-inner{
+      display:flex;align-items:center;justify-content:space-between;gap:1rem;
+      width:min(100% - 2rem,var(--max));margin-inline:auto;
+    }
+    .logo{
+      font-weight:900;font-size:clamp(1rem,3.5vw,1.25rem);
+      letter-spacing:.02em;
+      background:linear-gradient(90deg,var(--white),var(--neon));
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+    }
+    .header-cta{
+      display:inline-flex;align-items:center;justify-content:center;
+      min-height:44px;padding:.55rem 1.1rem;
+      background:var(--neon);color:#041018;font-weight:800;font-size:.9rem;
+      border:none;border-radius:999px;cursor:pointer;
+      transition:transform .2s,filter .2s;
+    }
+    .header-cta:hover{filter:brightness(1.08);transform:translateY(-1px)}
+    .header-cta:active{transform:scale(.97)}
+
+    /* Buttons */
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+      min-height:52px;padding:.85rem 1.6rem;
+      border:none;border-radius:999px;cursor:pointer;
+      font-weight:800;font-size:1.05rem;
+      transition:transform .2s,filter .2s,background .2s,opacity .2s;
+      text-align:center;
+    }
+    .btn:active{transform:scale(.97)}
+    .btn-primary{
+      background:linear-gradient(135deg,#00f0ff 0%,#00b8ff 100%);
+      color:#041018;
+      animation:pulseGlow 2.4s ease-in-out infinite;
+    }
+    .btn-primary:hover{filter:brightness(1.1)}
+    .btn-primary:disabled{opacity:.7;cursor:not-allowed;animation:none}
+    .btn-ghost{
+      background:transparent;color:var(--neon);
+      border:1.5px solid var(--neon);
+      animation:none;
+    }
+    .btn-block{width:100%}
+
+    /* Hero */
+    .hero{
+      padding:2rem 0 2.5rem;
+      display:grid;gap:2rem;
+    }
+    .hero-badge{
+      display:inline-flex;align-items:center;gap:.4rem;
+      padding:.35rem .85rem;
+      background:var(--neon-dim);
+      border:1px solid rgba(0,240,255,.35);
+      border-radius:999px;
+      color:var(--neon);font-size:.8rem;font-weight:700;
+      width:fit-content;
+    }
+    .hero h1{
+      font-size:clamp(1.75rem,6.5vw,3rem);
+      font-weight:900;line-height:1.25;
+      margin:.85rem 0 .6rem;
+    }
+    .hero h1 span{color:var(--neon)}
+    .hero-sub{
+      color:var(--muted);font-size:clamp(.95rem,2.8vw,1.15rem);
+      max-width:36ch;margin-bottom:1.25rem;
+    }
+    .price-row{
+      display:flex;flex-wrap:wrap;align-items:baseline;gap:.75rem 1.25rem;
+      margin-bottom:1.5rem;
+    }
+    .price{
+      font-size:clamp(1.75rem,5vw,2.4rem);
+      font-weight:900;color:var(--neon);
+    }
+    .price small{font-size:.55em;color:var(--white);font-weight:700}
+    .price-note{
+      color:var(--muted);font-size:.9rem;font-weight:600;
+    }
+    .cod-pill{
+      display:inline-flex;align-items:center;gap:.35rem;
+      margin-top:.85rem;color:var(--success);font-weight:700;font-size:.9rem;
+    }
+    .hero-visual{
+      position:relative;
+      border-radius:var(--radius);
+      overflow:hidden;
+      border:1px solid rgba(0,240,255,.2);
+      background:var(--bg-3);
+      box-shadow:0 0 40px rgba(0,240,255,.08);
+    }
+    .hero-visual img{
+      width:100%;aspect-ratio:3/4;object-fit:contain;background:linear-gradient(180deg,#10182a,#0a0e17);
+      padding:1rem;
+    }
+    .hero-visual::after{
+      content:"";
+      position:absolute;inset:0;pointer-events:none;
+      background:linear-gradient(180deg,transparent 55%,rgba(10,14,23,.55));
+    }
+
+    @media (min-width:768px){
+      .hero{
+        grid-template-columns:1.05fr .95fr;
+        align-items:center;
+        padding:3rem 0 3.5rem;
+        gap:3rem;
+      }
+      .hero-visual{order:-1}
+      .hero-visual img{aspect-ratio:3/4;padding:1.25rem}
+    }
+
+    /* Trust strip */
+    .trust{
+      padding:1rem 0 2rem;
+    }
+    .trust-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:.75rem;
+    }
+    .trust-item{
+      background:var(--bg-3);
+      border:1px solid rgba(0,240,255,.12);
+      border-radius:12px;
+      padding:1rem .9rem;
+      text-align:center;
+    }
+    .trust-item strong{
+      display:block;color:var(--neon);font-size:.95rem;margin-bottom:.25rem;
+    }
+    .trust-item span{color:var(--muted);font-size:.8rem;line-height:1.5}
+    @media (min-width:768px){
+      .trust-grid{grid-template-columns:repeat(4,1fr);gap:1rem}
+    }
+
+    /* Gallery */
+    .section{padding:2.5rem 0}
+    .section-head{margin-bottom:1.5rem;text-align:center}
+    .section-head h2{
+      font-size:clamp(1.4rem,4.5vw,2rem);
+      font-weight:900;margin-bottom:.4rem;
+    }
+    .section-head p{color:var(--muted);font-size:.95rem}
+    .gallery{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:.75rem;
+    }
+    .gallery figure{
+      margin:0;border-radius:12px;overflow:hidden;
+      border:1px solid rgba(0,240,255,.15);
+      background:var(--bg-3);
+      cursor:pointer;
+      transition:transform .25s,border-color .25s;
+    }
+    .gallery figure:hover{
+      transform:translateY(-3px);
+      border-color:rgba(0,240,255,.45);
+    }
+    .gallery img{
+      width:100%;aspect-ratio:1;object-fit:cover;
+    }
+    .gallery figure.wide img{aspect-ratio:4/5;object-fit:contain;background:#0a0e17}
+    .gallery figure.promo img{aspect-ratio:4/5;object-fit:cover}
+    .gallery figcaption{
+      padding:.55rem .7rem;
+      font-size:.78rem;color:var(--muted);text-align:center;
+    }
+    .promo-banner{
+      border-radius:var(--radius);overflow:hidden;
+      border:1px solid rgba(0,240,255,.2);
+      background:var(--bg-3);
+      box-shadow:0 0 40px rgba(0,240,255,.08);
+      cursor:pointer;
+    }
+    .promo-banner img{
+      width:100%;aspect-ratio:1/1;object-fit:cover;
+    }
+    .compare-shot{
+      border-radius:var(--radius);overflow:hidden;
+      border:1px solid rgba(0,240,255,.18);
+      background:#fff;
+      cursor:pointer;
+    }
+    .compare-shot img{
+      width:100%;aspect-ratio:4/5;object-fit:contain;background:#f5f7fa;
+    }
+    .howto-shot{
+      border-radius:var(--radius);overflow:hidden;
+      border:1px solid rgba(0,240,255,.18);
+      background:#fff;
+      cursor:pointer;
+      margin-top:1.5rem;
+    }
+    .howto-shot img{
+      width:100%;aspect-ratio:4/5;object-fit:contain;background:#f5f7fa;
+    }
+    @media (min-width:768px){
+      .gallery{grid-template-columns:repeat(4,1fr);gap:1rem}
+      .promo-banner img{aspect-ratio:16/10;object-position:center top}
+      .compare-shot img{aspect-ratio:16/11}
+      .howto-shot img{aspect-ratio:16/11}
+      .section{padding:3.5rem 0}
+    }
+
+    /* Lightbox */
+    .lightbox{
+      position:fixed;inset:0;z-index:200;
+      background:rgba(0,0,0,.88);
+      display:none;align-items:center;justify-content:center;
+      padding:1rem;
+    }
+    .lightbox.open{display:flex}
+    .lightbox img{
+      max-width:min(92vw,560px);
+      max-height:85vh;
+      border-radius:12px;
+      border:1px solid rgba(0,240,255,.3);
+    }
+    .lightbox-close{
+      position:absolute;top:1rem;left:1rem;
+      width:44px;height:44px;border-radius:50%;
+      background:var(--neon);color:#041018;border:none;
+      font-size:1.4rem;font-weight:800;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+    }
+
+    /* Benefits */
+    .benefits{background:linear-gradient(180deg,transparent,rgba(0,240,255,.03),transparent)}
+    .benefits-list{
+      display:grid;gap:1rem;
+    }
+    .benefit{
+      display:grid;grid-template-columns:auto 1fr;gap:1rem;
+      align-items:start;
+      background:var(--bg-3);
+      border:1px solid rgba(0,240,255,.14);
+      border-radius:var(--radius);
+      padding:1.15rem 1.1rem;
+    }
+    .benefit-icon{
+      width:48px;height:48px;border-radius:12px;
+      background:var(--neon-dim);
+      border:1px solid rgba(0,240,255,.35);
+      display:flex;align-items:center;justify-content:center;
+      color:var(--neon);font-size:1.35rem;font-weight:900;
+      flex-shrink:0;
+    }
+    .benefit h3{font-size:1.05rem;font-weight:800;margin-bottom:.25rem}
+    .benefit p{color:var(--muted);font-size:.9rem}
+    @media (min-width:768px){
+      .benefits-list{grid-template-columns:1fr 1fr}
+    }
+
+    /* How to use */
+    .steps{
+      display:grid;gap:1rem;
+      counter-reset:step;
+    }
+    .step{
+      position:relative;
+      background:var(--bg-3);
+      border:1px solid rgba(0,240,255,.14);
+      border-radius:var(--radius);
+      padding:1.25rem 1.15rem 1.25rem 1.15rem;
+      padding-inline-start:4.25rem;
+    }
+    .step::before{
+      counter-increment:step;
+      content:counter(step);
+      position:absolute;top:1.15rem;inset-inline-start:1.1rem;
+      width:40px;height:40px;border-radius:50%;
+      background:var(--neon);color:#041018;
+      font-weight:900;font-size:1.1rem;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .step h3{font-size:1.05rem;font-weight:800;margin-bottom:.3rem}
+    .step p{color:var(--muted);font-size:.9rem}
+    @media (min-width:768px){
+      .steps{grid-template-columns:repeat(3,1fr)}
+    }
+
+    /* Credibility */
+    .cred-box{
+      background:linear-gradient(135deg,rgba(0,240,255,.08),rgba(0,120,255,.04));
+      border:1px solid rgba(0,240,255,.3);
+      border-radius:var(--radius);
+      padding:1.5rem 1.25rem;
+      text-align:center;
+    }
+    .cred-box h2{font-size:clamp(1.25rem,4vw,1.75rem);margin-bottom:.6rem}
+    .cred-box p{color:var(--muted);max-width:48ch;margin-inline:auto}
+
+    /* Order form */
+    .order{
+      padding:2.5rem 0 6.5rem;
+    }
+    .order-card{
+      background:var(--bg-3);
+      border:1px solid rgba(0,240,255,.22);
+      border-radius:18px;
+      padding:1.5rem 1.15rem 1.75rem;
+      box-shadow:0 0 50px rgba(0,240,255,.06);
+    }
+    .order-card h2{
+      text-align:center;font-size:clamp(1.35rem,4vw,1.85rem);
+      font-weight:900;margin-bottom:.35rem;
+    }
+    .order-card .order-lead{
+      text-align:center;color:var(--muted);font-size:.92rem;margin-bottom:1.35rem;
+    }
+    .form-group{margin-bottom:1rem}
+    .form-group label{
+      display:block;font-weight:700;font-size:.9rem;margin-bottom:.4rem;
+    }
+    .form-group label .req{color:var(--neon)}
+    .form-group input,
+    .form-group select{
+      width:100%;min-height:52px;
+      padding:.75rem 1rem;
+      background:var(--bg);
+      border:1.5px solid rgba(0,240,255,.2);
+      border-radius:12px;
+      color:var(--white);
+      outline:none;
+      transition:border-color .2s,box-shadow .2s;
+      appearance:none;
+      -webkit-appearance:none;
+    }
+    .form-group select{
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2300f0ff' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;
+      background-position:left 1rem center;
+      padding-left:2.5rem;
+    }
+    .form-group input:focus,
+    .form-group select:focus{
+      border-color:var(--neon);
+      box-shadow:0 0 0 3px var(--neon-dim);
+    }
+    .form-group input::placeholder{color:#5a6a85}
+    .form-hint{font-size:.78rem;color:var(--muted);margin-top:.35rem}
+    .order-summary{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:1rem;
+      background:var(--neon-dim);
+      border-radius:12px;
+      margin:1.15rem 0 1.25rem;
+      border:1px solid rgba(0,240,255,.25);
+    }
+    .order-summary span{color:var(--muted);font-weight:600}
+    .order-summary strong{color:var(--neon);font-size:1.25rem}
+    .form-msg{
+      display:none;margin-top:1rem;padding:1rem;
+      border-radius:12px;text-align:center;font-weight:700;
+    }
+    .form-msg.success{
+      display:block;background:rgba(34,197,94,.12);
+      border:1px solid rgba(34,197,94,.4);color:var(--success);
+    }
+    .form-msg.error{
+      display:block;background:rgba(239,68,68,.12);
+      border:1px solid rgba(239,68,68,.4);color:var(--danger);
+    }
+    .spinner{
+      width:18px;height:18px;border:2.5px solid rgba(4,16,24,.25);
+      border-top-color:#041018;border-radius:50%;
+      animation:spin .7s linear infinite;
+    }
+    .form-footer-note{
+      text-align:center;margin-top:1rem;
+      color:var(--muted);font-size:.82rem;
+    }
+    @media (min-width:768px){
+      .order{padding:3.5rem 0 4rem}
+      .order-card{padding:2rem 2.25rem 2.25rem;max-width:560px;margin-inline:auto}
+    }
+
+    /* Sticky mobile CTA */
+    .sticky-cta{
+      position:fixed;bottom:0;inset-inline:0;z-index:90;
+      padding:.75rem 1rem calc(.75rem + env(safe-area-inset-bottom));
+      background:rgba(10,14,23,.94);
+      backdrop-filter:blur(10px);
+      border-top:1px solid rgba(0,240,255,.2);
+      display:flex;gap:.75rem;align-items:center;
+      transform:translateY(110%);
+      transition:transform .3s ease;
+    }
+    .sticky-cta.show{transform:translateY(0)}
+    .sticky-cta .sticky-price{
+      flex-shrink:0;font-weight:900;color:var(--neon);font-size:1.05rem;
+      line-height:1.2;
+    }
+    .sticky-cta .sticky-price small{
+      display:block;color:var(--muted);font-size:.7rem;font-weight:600;
+    }
+    .sticky-cta .btn{flex:1;min-height:48px;font-size:1rem;padding:.7rem 1rem}
+    @media (min-width:768px){
+      .sticky-cta{display:none}
+      .order{padding-bottom:3.5rem}
+    }
+
+    /* Footer */
+    footer{
+      padding:1.5rem 0 2rem;
+      border-top:1px solid rgba(0,240,255,.1);
+      text-align:center;color:var(--muted);font-size:.8rem;
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{
+        animation-duration:.01ms!important;
+        animation-iteration-count:1!important;
+        transition-duration:.01ms!important;
+      }
+      html{scroll-behavior:auto}
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">Never Hold Back</div>
+      <a class="header-cta" href="#order">اطلب الآن</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero container" aria-label="العرض الرئيسي">
+      <div class="hero-copy">
+        <div class="hero-badge fade-in">⚡ الأول من نوعه في مصر والعالم العربي</div>
+        <h1 class="fade-in delay-1">
+          لا تؤجّل اللحظة — <span>نتائج خلال 30 دقيقة</span>
+        </h1>
+        <p class="hero-sub fade-in delay-2">
+          جل ترطيب موضعي للرجال — بدون آثار جانبية كالحبوب، آمن للاستخدام اليومي، ومناسب لكبار السن ومرضى ضغط الدم.
+        </p>
+        <div class="price-row fade-in delay-2">
+          <div class="price">250 <small>ج.م</small></div>
+          <div class="price-note">سعر خاص لفترة محدودة</div>
+        </div>
+        <a class="btn btn-primary fade-in delay-3" href="#order">اطلب دلوقتي — الدفع عند الاستلام</a>
+        <div class="cod-pill fade-in delay-3">✓ ادفع لما تستلم طلبك بأمان لباب البيت</div>
+      </div>
+      <div class="hero-visual fade-in delay-1">
+        <img
+          src="images/IMG-20260719-WA0000.jpg"
+          alt="عبوة جل Never Hold Back Gel — جل ترطيب موضعي أسود بتصميم البرق الكهربائي"
+          width="600"
+          height="800"
+          fetchpriority="high"
+        >
+      </div>
+    </section>
+
+    <!-- Trust -->
+    <section class="trust container" aria-label="مميزات سريعة">
+      <div class="trust-grid">
+        <div class="trust-item fade-in">
+          <strong>30 دقيقة</strong>
+          <span>تبدأ تحس بالنتيجة بسرعة</span>
+        </div>
+        <div class="trust-item fade-in delay-1">
+          <strong>بدون آثار جانبية</strong>
+          <span>بديل آمن عن الحبوب الفموية</span>
+        </div>
+        <div class="trust-item fade-in delay-2">
+          <strong>مرخّص رسميًا</strong>
+          <span>هيئة الدواء المصرية</span>
+        </div>
+        <div class="trust-item fade-in delay-3">
+          <strong>دفع عند الاستلام</strong>
+          <span>اطلب وأنت مطمّن</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Promo banner -->
+    <section class="section container" aria-label="عرض ترويجي">
+      <div class="section-head">
+        <h2>جايين نكهرب الكل</h2>
+        <p>أول جل في مصر والوطن العربي — مرخّص من هيئة الدواء المصرية</p>
+      </div>
+      <figure class="promo-banner" data-full="images/IMG-20260719-WA0002.jpg">
+        <img
+          src="images/IMG-20260719-WA0002.jpg"
+          alt="إعلان Never Hold Back Gel — جايين نكهرب الكل، أول جل في مصر والوطن العربي مرخص من هيئة الدواء المصرية"
+          loading="lazy"
+          width="900"
+          height="900"
+        >
+      </figure>
+    </section>
+
+    <!-- Gallery -->
+    <section class="section container" id="gallery" aria-label="صور المنتج">
+      <div class="section-head">
+        <h2>شاهد المنتج عن قُرب</h2>
+        <p>عبوة فاخرة… سرعة المفعول واضحة من أول نظرة</p>
+      </div>
+      <div class="gallery">
+        <figure class="wide" data-full="images/IMG-20260719-WA0000.jpg">
+          <img src="images/IMG-20260719-WA0000.jpg" alt="صورة المنتج الرسمية لعبوة Never Hold Back Gel سعة 30 جرام" loading="lazy" width="400" height="500">
+          <figcaption>العبوة الرسمية</figcaption>
+        </figure>
+        <figure class="promo" data-full="images/IMG-20260719-WA0002.jpg">
+          <img src="images/IMG-20260719-WA0002.jpg" alt="تصميم الطاقة الكهربائية لمنتج Never Hold Back Gel" loading="lazy" width="400" height="500">
+          <figcaption>طاقة وقوة</figcaption>
+        </figure>
+        <figure class="promo" data-full="images/IMG-20260719-WA0003.jpg">
+          <img src="images/IMG-20260719-WA0003.jpg" alt="بديل فعال لأقراص الفياجرا — نتائج خلال 30 دقيقة فقط" loading="lazy" width="400" height="500">
+          <figcaption>خلال 30 دقيقة</figcaption>
+        </figure>
+        <figure class="promo" data-full="images/IMG-20260719-WA0005.jpg">
+          <img src="images/IMG-20260719-WA0005.jpg" alt="مقارنة بين جل Never Hold Back والأقراص الفموية — أسرع وأكثر أمانًا" loading="lazy" width="400" height="500">
+          <figcaption>مقارنة مع الأقراص</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Comparison -->
+    <section class="section container" id="compare" aria-label="مقارنة مع الأقراص">
+      <div class="section-head">
+        <h2>ليه الجل أحسن من الأقراص؟</h2>
+        <p>أسرع مفعولًا… وآمن لمرضى الضغط وكبار السن</p>
+      </div>
+      <figure class="compare-shot" data-full="images/IMG-20260719-WA0001.jpg">
+        <img
+          src="images/IMG-20260719-WA0001.jpg"
+          alt="مقارنة مرئية: جل Never Hold Back يبدأ خلال 30 دقيقة وبدون أعراض جانبية مقابل الأقراص الفموية خلال ساعتين وغير مناسبة لمرضى الضغط"
+          loading="lazy"
+          width="900"
+          height="1100"
+        >
+      </figure>
+    </section>
+
+    <!-- Benefits -->
+    <section class="section benefits" id="benefits" aria-label="الفوائد">
+      <div class="container">
+        <div class="section-head">
+          <h2>ليه تختاره؟</h2>
+          <p>سرعة + أمان + ثقة… بدون ما تخاطر بصحتك</p>
+        </div>
+        <div class="benefits-list">
+          <article class="benefit">
+            <div class="benefit-icon" aria-hidden="true">⚡</div>
+            <div>
+              <h3>نتائج خلال 30 دقيقة</h3>
+              <p>تحضير سريع قبل اللحظة المناسبة — بدون انتظار طويل أو خطط معقّدة.</p>
+            </div>
+          </article>
+          <article class="benefit">
+            <div class="benefit-icon" aria-hidden="true">✓</div>
+            <div>
+              <h3>بدون آثار جانبية كالحبوب</h3>
+              <p>استخدام موضعي مباشر — بعيد عن مخاطر الحبوب الفموية وتأثيرها على الجسم.</p>
+            </div>
+          </article>
+          <article class="benefit">
+            <div class="benefit-icon" aria-hidden="true">◆</div>
+            <div>
+              <h3>آمن للاستخدام اليومي</h3>
+              <p>تركيبة مُصمَّمة للاستخدام المنتظم بثقة، ضمن تعليمات الاستخدام الموضعي.</p>
+            </div>
+          </article>
+          <article class="benefit">
+            <div class="benefit-icon" aria-hidden="true">♥</div>
+            <div>
+              <h3>مناسب لكبار السن ومرضى الضغط</h3>
+              <p>خيار موضعي يراعي من يحتاج حذرًا أكبر مع المنتجات الفموية.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to use -->
+    <section class="section container" id="howto" aria-label="طريقة الاستخدام">
+      <div class="section-head">
+        <h2>طريقة الاستخدام</h2>
+        <p>ثلاث خطوات بسيطة… والنتيجة أقرب مما تتخيّل</p>
+      </div>
+      <div class="steps">
+        <article class="step">
+          <h3>كمية مناسبة</h3>
+          <p>ضع خطًا رفيعًا من الجل بطول حوالي 3 سلاميات (مفاصل الأصابع).</p>
+        </article>
+        <article class="step">
+          <h3>دلّك بلُطف</h3>
+          <p>وزّع المنتج موضعيًا ودلّكه برفق حتى يُمتصّ جيدًا في البشرة.</p>
+        </article>
+        <article class="step">
+          <h3>استعد خلال 30 دقيقة</h3>
+          <p>انتظر حتى يبدأ مفعول الجل — ثم عِش اللحظة بثقة كاملة.</p>
+        </article>
+      </div>
+      <figure class="howto-shot" data-full="images/IMG-20260717-WA0010.jpg">
+        <img
+          src="images/IMG-20260717-WA0010.jpg"
+          alt="كيفية استخدام جيل Never Hold Back — ضع خطًا رفيعًا بطول 3 عقلات ثم دلّك بلطف حتى الامتصاص الكامل"
+          loading="lazy"
+          width="900"
+          height="1100"
+        >
+      </figure>
+    </section>
+
+    <!-- Credibility -->
+    <section class="section container" aria-label="المصداقية">
+      <div class="cred-box">
+        <h2>الأول من نوعه في مصر والعالم العربي</h2>
+        <p>
+          Never Hold Back Gel منتج مرخّص من هيئة الدواء المصرية — ثقة رسمية تفرّقه عن المنتجات العشوائية في السوق.
+          اختَر الأصل، واختَر الأمان.
+        </p>
+      </div>
+    </section>
+
+    <!-- Order Form -->
+    <section class="order container" id="order" aria-label="نموذج الطلب">
+      <div class="order-card">
+        <h2>اطلب الآن</h2>
+        <p class="order-lead">املأ البيانات وسنتواصل معك لتأكيد الطلب — الدفع عند الاستلام</p>
+
+        <form id="orderForm" novalidate>
+          <input type="hidden" name="product" value="Never Hold Back Gel">
+
+          <div class="form-group">
+            <label for="name">الاسم بالكامل <span class="req">*</span></label>
+            <input type="text" id="name" name="name" placeholder="مثال: أحمد محمد" autocomplete="name" required minlength="3">
+          </div>
+
+          <div class="form-group">
+            <label for="phone">رقم الموبايل <span class="req">*</span></label>
+            <input type="tel" id="phone" name="phone" placeholder="01xxxxxxxxx" autocomplete="tel" inputmode="numeric" required pattern="01[0-9]{9}" maxlength="11">
+            <p class="form-hint">رقم مصري صحيح يبدأ بـ 01 ويتكون من 11 رقمًا</p>
+          </div>
+
+          <div class="form-group">
+            <label for="altPhone">رقم هاتف بديل</label>
+            <input type="tel" id="altPhone" name="altPhone" placeholder="01xxxxxxxxx (اختياري)" autocomplete="tel" inputmode="numeric" pattern="01[0-9]{9}" maxlength="11">
+          </div>
+
+          <div class="form-group">
+            <label for="governorate">المحافظة <span class="req">*</span></label>
+            <select id="governorate" name="governorate" required>
+              <option value="" disabled selected>اختر المحافظة</option>
+              <option value="القاهرة">القاهرة</option>
+              <option value="الجيزة">الجيزة</option>
+              <option value="الإسكندرية">الإسكندرية</option>
+              <option value="القليوبية">القليوبية</option>
+              <option value="الدقهلية">الدقهلية</option>
+              <option value="الشرقية">الشرقية</option>
+              <option value="الغربية">الغربية</option>
+              <option value="المنوفية">المنوفية</option>
+              <option value="البحيرة">البحيرة</option>
+              <option value="كفر الشيخ">كفر الشيخ</option>
+              <option value="دمياط">دمياط</option>
+              <option value="بورسعيد">بورسعيد</option>
+              <option value="الإسماعيلية">الإسماعيلية</option>
+              <option value="السويس">السويس</option>
+              <option value="شمال سيناء">شمال سيناء</option>
+              <option value="جنوب سيناء">جنوب سيناء</option>
+              <option value="الفيوم">الفيوم</option>
+              <option value="بني سويف">بني سويف</option>
+              <option value="المنيا">المنيا</option>
+              <option value="أسيوط">أسيوط</option>
+              <option value="سوهاج">سوهاج</option>
+              <option value="قنا">قنا</option>
+              <option value="الأقصر">الأقصر</option>
+              <option value="أسوان">أسوان</option>
+              <option value="البحر الأحمر">البحر الأحمر</option>
+              <option value="الوادي الجديد">الوادي الجديد</option>
+              <option value="مطروح">مطروح</option>
+              <option value="باقي المحافظات">باقي المحافظات</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="city">المدينة <span class="req">*</span></label>
+            <input type="text" id="city" name="city" placeholder="مثال: مصر الجديدة" autocomplete="address-level2" required minlength="2">
+          </div>
+
+          <div class="form-group">
+            <label for="address">العنوان <span class="req">*</span></label>
+            <input type="text" id="address" name="address" placeholder="الشارع والمبنى والشقة" autocomplete="street-address" required minlength="5">
+          </div>
+
+          <div class="form-group">
+            <label for="landmark">علامة مميزة</label>
+            <input type="text" id="landmark" name="landmark" placeholder="مثال: بجوار المستشفى (اختياري)">
+          </div>
+
+          <div class="form-group">
+            <label for="quantity">الكمية <span class="req">*</span></label>
+            <select id="quantity" name="quantity" required>
+              <option value="1" selected>عبوة واحدة — 250 ج.م</option>
+              <option value="2">عبوتان — 500 ج.م</option>
+              <option value="3">3 عبوات — 750 ج.م</option>
+            </select>
+          </div>
+
+          <div class="order-summary" aria-live="polite">
+            <span>الإجمالي المتوقع</span>
+            <strong id="totalPrice">250 ج.م</strong>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
+            <span class="btn-text">تأكيد الطلب — الدفع عند الاستلام</span>
+          </button>
+
+          <div class="form-msg" id="formMsg" role="status" aria-live="polite"></div>
+          <p class="form-footer-note">✓ بياناتك آمنة ولن تُستخدم إلا لتوصيل طلبك</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Never Hold Back Gel — للاستخدام الخارجي فقط. اتبع تعليمات الاستخدام.</p>
+      <p style="margin-top:.35rem">© <span id="year"></span> جميع الحقوق محفوظة</p>
+    </div>
+  </footer>
+
+  <!-- Sticky mobile CTA -->
+  <div class="sticky-cta" id="stickyCta" aria-hidden="true">
+    <div class="sticky-price">250 ج.م<small>الدفع عند الاستلام</small></div>
+    <a class="btn btn-primary" href="#order">اطلب الآن</a>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="عرض الصورة">
+    <button type="button" class="lightbox-close" id="lightboxClose" aria-label="إغلاق">×</button>
+    <img src="" alt="" id="lightboxImg">
+  </div>
+
+  <script>
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyv42Ob87yf648qZcA4F2vOjxIVltVNnJjQNyEKPclaHRS5Nm9r53cOe5GWU3BOu0odRw/exec';
+    const UNIT_PRICE = 250;
+
+    (function () {
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      /* Quantity → total */
+      const quantityEl = document.getElementById('quantity');
+      const totalPriceEl = document.getElementById('totalPrice');
+      function updateTotal() {
+        const qty = parseInt(quantityEl.value, 10) || 1;
+        totalPriceEl.textContent = (qty * UNIT_PRICE) + ' ج.م';
+      }
+      quantityEl.addEventListener('change', updateTotal);
+
+      /* Sticky CTA: show after scrolling past hero, hide near form */
+      const stickyCta = document.getElementById('stickyCta');
+      const orderSection = document.getElementById('order');
+      function updateSticky() {
+        if (window.matchMedia('(min-width: 768px)').matches) {
+          stickyCta.classList.remove('show');
+          stickyCta.setAttribute('aria-hidden', 'true');
+          return;
+        }
+        const orderTop = orderSection.getBoundingClientRect().top;
+        const scrolled = window.scrollY > 420;
+        const nearForm = orderTop < window.innerHeight * 0.75;
+        const show = scrolled && !nearForm;
+        stickyCta.classList.toggle('show', show);
+        stickyCta.setAttribute('aria-hidden', show ? 'false' : 'true');
+      }
+      window.addEventListener('scroll', updateSticky, { passive: true });
+      window.addEventListener('resize', updateSticky);
+      updateSticky();
+
+      /* Lightbox for gallery + promo shots */
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightboxImg');
+      const lightboxClose = document.getElementById('lightboxClose');
+      document.querySelectorAll('[data-full]').forEach(function (fig) {
+        fig.addEventListener('click', function () {
+          const src = fig.getAttribute('data-full');
+          const img = fig.querySelector('img');
+          lightboxImg.src = src;
+          lightboxImg.alt = img ? img.alt : '';
+          lightbox.classList.add('open');
+        });
+      });
+      function closeLightbox() {
+        lightbox.classList.remove('open');
+        lightboxImg.src = '';
+      }
+      lightboxClose.addEventListener('click', closeLightbox);
+      lightbox.addEventListener('click', function (e) {
+        if (e.target === lightbox) closeLightbox();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeLightbox();
+      });
+
+      /* Form submit → Google Apps Script */
+      const form = document.getElementById('orderForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const formMsg = document.getElementById('formMsg');
+      const btnText = submitBtn.querySelector('.btn-text');
+
+      function setLoading(isLoading) {
+        submitBtn.disabled = isLoading;
+        if (isLoading) {
+          btnText.innerHTML = '<span class="spinner" aria-hidden="true"></span> جاري إرسال الطلب...';
+        } else {
+          btnText.textContent = 'تأكيد الطلب — الدفع عند الاستلام';
+        }
+      }
+
+      function showMsg(type, text) {
+        formMsg.className = 'form-msg ' + type;
+        formMsg.textContent = text;
+      }
+
+      function validatePhone(phone) {
+        return /^01[0-9]{9}$/.test(phone.trim());
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        formMsg.className = 'form-msg';
+        formMsg.textContent = '';
+
+        const name = form.name.value.trim();
+        const phone = form.phone.value.trim();
+        const altPhone = form.altPhone.value.trim();
+        const governorate = form.governorate.value;
+        const city = form.city.value.trim();
+        const address = form.address.value.trim();
+        const landmark = form.landmark.value.trim();
+        const quantity = form.quantity.value;
+
+        if (name.length < 3) {
+          showMsg('error', 'من فضلك اكتب اسمك بالكامل.');
+          form.name.focus();
+          return;
+        }
+        if (!validatePhone(phone)) {
+          showMsg('error', 'من فضلك أدخل رقم موبايل مصري صحيح (11 رقم يبدأ بـ 01).');
+          form.phone.focus();
+          return;
+        }
+        if (altPhone && !validatePhone(altPhone)) {
+          showMsg('error', 'رقم الهاتف البديل غير صحيح (11 رقم يبدأ بـ 01) أو اتركه فاضي.');
+          form.altPhone.focus();
+          return;
+        }
+        if (!governorate) {
+          showMsg('error', 'من فضلك اختر المحافظة.');
+          form.governorate.focus();
+          return;
+        }
+        if (city.length < 2) {
+          showMsg('error', 'من فضلك اكتب المدينة.');
+          form.city.focus();
+          return;
+        }
+        if (address.length < 5) {
+          showMsg('error', 'من فضلك اكتب العنوان بالتفصيل.');
+          form.address.focus();
+          return;
+        }
+
+        if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
+          showMsg('error', 'لم يتم ضبط رابط Google Script بعد. استبدل YOUR_GOOGLE_SCRIPT_URL_HERE برابط الـ Web App.');
+          return;
+        }
+
+        setLoading(true);
+
+        /*
+         * GET with query params instead of POST.
+         * Reason: Apps Script Web Apps respond to POST with a redirect, and
+         * many browsers drop the POST body when following that redirect —
+         * the request "succeeds" (no network error) but Apps Script receives
+         * an empty payload and writes nothing. GET query params survive the
+         * redirect intact, and doGet() in Code.gs writes the order when
+         * name+phone are present.
+         */
+        var product = (form.product && form.product.value) || 'Never Hold Back Gel';
+        var params = new URLSearchParams({
+          name: name,
+          phone: phone,
+          altPhone: altPhone,
+          governorate: governorate,
+          city: city,
+          address: address,
+          landmark: landmark,
+          quantity: String(quantity),
+          product: product,
+          _ts: Date.now() /* cache-buster */
+        });
+        var requestUrl = GOOGLE_SCRIPT_URL + '?' + params.toString();
+
+        fetch(requestUrl, {
+          method: 'GET',
+          mode: 'no-cors',
+          cache: 'no-store'
+        })
+          .then(function () {
+            showMsg('success', 'تم استلام طلبك بنجاح! هنتواصل معاك قريب لتأكيد التوصيل. شكرًا لثقتك.');
+            form.reset();
+            quantityEl.value = '1';
+            updateTotal();
+          })
+          .catch(function () {
+            showMsg('error', 'حصل خطأ أثناء الإرسال. حاول تاني خلال لحظات.');
+          })
+          .finally(function () {
+            setLoading(false);
+          });
+      });
+    })();
+  </script>
+</body>
+</html>
