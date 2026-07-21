@@ -24,6 +24,7 @@
       --radius:14px;
       --max:1100px;
       --header-h:64px;
+      --sticky-h:64px;
     }
     html{scroll-behavior:smooth}
     body{
@@ -39,6 +40,7 @@
     button,input,select{font:inherit}
     .container{width:min(100% - 2rem,var(--max));margin-inline:auto}
 
+    /* Ambient energy background */
     body::before{
       content:"";
       position:fixed;inset:0;z-index:-1;pointer-events:none;
@@ -48,6 +50,7 @@
         linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 50%,var(--bg) 100%);
     }
 
+    /* Animations */
     @keyframes fadeUp{
       from{opacity:0;transform:translateY(24px)}
       to{opacity:1;transform:translateY(0)}
@@ -56,15 +59,11 @@
       0%,100%{box-shadow:0 0 0 0 var(--neon-glow)}
       50%{box-shadow:0 0 28px 4px var(--neon-glow)}
     }
-    @keyframes pulseStock{
-      0%,100%{opacity: 1;}
-      50%{opacity: 0.6;}
-    }
     @keyframes spin{to{transform:rotate(360deg)}}
-    
     .fade-in{animation:fadeUp .7s ease both}
     .delay-1{animation-delay:.12s}
     .delay-2{animation-delay:.24s}
+    .delay-3{animation-delay:.36s}
 
     /* Header */
     .site-header{
@@ -93,6 +92,7 @@
       transition:transform .2s,filter .2s;
     }
     .header-cta:hover{filter:brightness(1.08);transform:translateY(-1px)}
+    .header-cta:active{transform:scale(.97)}
 
     /* Buttons */
     .btn{
@@ -103,6 +103,7 @@
       transition:transform .2s,filter .2s,background .2s,opacity .2s;
       text-align:center;
     }
+    .btn:active{transform:scale(.97)}
     .btn-primary{
       background:linear-gradient(135deg,#00f0ff 0%,#00b8ff 100%);
       color:#041018;
@@ -110,6 +111,11 @@
     }
     .btn-primary:hover{filter:brightness(1.1)}
     .btn-primary:disabled{opacity:.7;cursor:not-allowed;animation:none}
+    .btn-ghost{
+      background:transparent;color:var(--neon);
+      border:1.5px solid var(--neon);
+      animation:none;
+    }
     .btn-block{width:100%}
 
     /* Hero */
@@ -148,6 +154,10 @@
     .price-note{
       color:var(--muted);font-size:.9rem;font-weight:600;
     }
+    .cod-pill{
+      display:inline-flex;align-items:center;gap:.35rem;
+      margin-top:.85rem;color:var(--success);font-weight:700;font-size:.9rem;
+    }
     .hero-visual{
       position:relative;
       border-radius:var(--radius);
@@ -155,23 +165,36 @@
       border:1px solid rgba(0,240,255,.2);
       background:var(--bg-3);
       box-shadow:0 0 40px rgba(0,240,255,.08);
-      cursor:pointer;
     }
     .hero-visual img{
       width:100%;aspect-ratio:3/4;object-fit:contain;background:linear-gradient(180deg,#10182a,#0a0e17);
       padding:1rem;
-      transition:transform 0.3s;
     }
-    .hero-visual:hover img { transform: scale(1.02); }
+    .hero-visual::after{
+      content:"";
+      position:absolute;inset:0;pointer-events:none;
+      background:linear-gradient(180deg,transparent 55%,rgba(10,14,23,.55));
+    }
+
     @media (min-width:768px){
-      .hero{grid-template-columns:1.05fr .95fr;align-items:center;padding:3rem 0 3.5rem;gap:3rem;}
+      .hero{
+        grid-template-columns:1.05fr .95fr;
+        align-items:center;
+        padding:3rem 0 3.5rem;
+        gap:3rem;
+      }
       .hero-visual{order:-1}
+      .hero-visual img{aspect-ratio:3/4;padding:1.25rem}
     }
 
     /* Trust strip */
-    .trust{padding:1rem 0 2rem;}
+    .trust{
+      padding:1rem 0 2rem;
+    }
     .trust-grid{
-      display:grid;grid-template-columns:1fr 1fr;gap:.75rem;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:.75rem;
     }
     .trust-item{
       background:var(--bg-3);
@@ -180,12 +203,176 @@
       padding:1rem .9rem;
       text-align:center;
     }
-    .trust-item strong{display:block;color:var(--neon);font-size:.95rem;margin-bottom:.25rem;}
+    .trust-item strong{
+      display:block;color:var(--neon);font-size:.95rem;margin-bottom:.25rem;
+    }
     .trust-item span{color:var(--muted);font-size:.8rem;line-height:1.5}
-    @media (min-width:768px){ .trust-grid{grid-template-columns:repeat(4,1fr);gap:1rem} }
+    @media (min-width:768px){
+      .trust-grid{grid-template-columns:repeat(4,1fr);gap:1rem}
+    }
 
-    /* Order */
-    .order{padding:2.5rem 0 6.5rem;}
+    /* Gallery */
+    .section{padding:2.5rem 0}
+    .section-head{margin-bottom:1.5rem;text-align:center}
+    .section-head h2{
+      font-size:clamp(1.4rem,4.5vw,2rem);
+      font-weight:900;margin-bottom:.4rem;
+    }
+    .section-head p{color:var(--muted);font-size:.95rem}
+    .gallery{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:.75rem;
+    }
+    .gallery figure{
+      margin:0;border-radius:12px;overflow:hidden;
+      border:1px solid rgba(0,240,255,.15);
+      background:var(--bg-3);
+      cursor:pointer;
+      transition:transform .25s,border-color .25s;
+    }
+    .gallery figure:hover{
+      transform:translateY(-3px);
+      border-color:rgba(0,240,255,.45);
+    }
+    .gallery img{
+      width:100%;aspect-ratio:1;object-fit:cover;
+    }
+    .gallery figure.wide img{aspect-ratio:4/5;object-fit:contain;background:#0a0e17}
+    .gallery figure.promo img{aspect-ratio:4/5;object-fit:cover}
+    .gallery figcaption{
+      padding:.55rem .7rem;
+      font-size:.78rem;color:var(--muted);text-align:center;
+    }
+    .promo-banner{
+      border-radius:var(--radius);overflow:hidden;
+      border:1px solid rgba(0,240,255,.2);
+      background:var(--bg-3);
+      box-shadow:0 0 40px rgba(0,240,255,.08);
+      cursor:pointer;
+    }
+    .promo-banner img{
+      width:100%;aspect-ratio:1/1;object-fit:cover;
+    }
+    .compare-shot{
+      border-radius:var(--radius);overflow:hidden;
+      border:1px solid rgba(0,240,255,.18);
+      background:#fff;
+      cursor:pointer;
+    }
+    .compare-shot img{
+      width:100%;aspect-ratio:4/5;object-fit:contain;background:#f5f7fa;
+    }
+    .howto-shot{
+      border-radius:var(--radius);overflow:hidden;
+      border:1px solid rgba(0,240,255,.18);
+      background:#fff;
+      cursor:pointer;
+      margin-top:1.5rem;
+    }
+    .howto-shot img{
+      width:100%;aspect-ratio:4/5;object-fit:contain;background:#f5f7fa;
+    }
+    @media (min-width:768px){
+      .gallery{grid-template-columns:repeat(4,1fr);gap:1rem}
+      .promo-banner img{aspect-ratio:16/10;object-position:center top}
+      .compare-shot img{aspect-ratio:16/11}
+      .howto-shot img{aspect-ratio:16/11}
+      .section{padding:3.5rem 0}
+    }
+
+    /* Lightbox */
+    .lightbox{
+      position:fixed;inset:0;z-index:200;
+      background:rgba(0,0,0,.88);
+      display:none;align-items:center;justify-content:center;
+      padding:1rem;
+    }
+    .lightbox.open{display:flex}
+    .lightbox img{
+      max-width:min(92vw,560px);
+      max-height:85vh;
+      border-radius:12px;
+      border:1px solid rgba(0,240,255,.3);
+    }
+    .lightbox-close{
+      position:absolute;top:1rem;left:1rem;
+      width:44px;height:44px;border-radius:50%;
+      background:var(--neon);color:#041018;border:none;
+      font-size:1.4rem;font-weight:800;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+    }
+
+    /* Benefits */
+    .benefits{background:linear-gradient(180deg,transparent,rgba(0,240,255,.03),transparent)}
+    .benefits-list{
+      display:grid;gap:1rem;
+    }
+    .benefit{
+      display:grid;grid-template-columns:auto 1fr;gap:1rem;
+      align-items:start;
+      background:var(--bg-3);
+      border:1px solid rgba(0,240,255,.14);
+      border-radius:var(--radius);
+      padding:1.15rem 1.1rem;
+    }
+    .benefit-icon{
+      width:48px;height:48px;border-radius:12px;
+      background:var(--neon-dim);
+      border:1px solid rgba(0,240,255,.35);
+      display:flex;align-items:center;justify-content:center;
+      color:var(--neon);font-size:1.35rem;font-weight:900;
+      flex-shrink:0;
+    }
+    .benefit h3{font-size:1.05rem;font-weight:800;margin-bottom:.25rem}
+    .benefit p{color:var(--muted);font-size:.9rem}
+    @media (min-width:768px){
+      .benefits-list{grid-template-columns:1fr 1fr}
+    }
+
+    /* How to use */
+    .steps{
+      display:grid;gap:1rem;
+      counter-reset:step;
+    }
+    .step{
+      position:relative;
+      background:var(--bg-3);
+      border:1px solid rgba(0,240,255,.14);
+      border-radius:var(--radius);
+      padding:1.25rem 1.15rem 1.25rem 1.15rem;
+      padding-inline-start:4.25rem;
+    }
+    .step::before{
+      counter-increment:step;
+      content:counter(step);
+      position:absolute;top:1.15rem;inset-inline-start:1.1rem;
+      width:40px;height:40px;border-radius:50%;
+      background:var(--neon);color:#041018;
+      font-weight:900;font-size:1.1rem;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .step h3{font-size:1.05rem;font-weight:800;margin-bottom:.3rem}
+    .step p{color:var(--muted);font-size:.9rem}
+    @media (min-width:768px){
+      .steps{grid-template-columns:repeat(3,1fr)}
+    }
+
+    /* Credibility */
+    .cred-box{
+      background:linear-gradient(135deg,rgba(0,240,255,.08),rgba(0,120,255,.04));
+      border:1px solid rgba(0,240,255,.3);
+      border-radius:var(--radius);
+      padding:1.5rem 1.25rem;
+      text-align:center;
+    }
+    .cred-box h2{font-size:clamp(1.25rem,4vw,1.75rem);margin-bottom:.6rem}
+    .cred-box p{color:var(--muted);max-width:48ch;margin-inline:auto}
+
+    /* Order form */
+    .order{
+      padding:2.5rem 0 6.5rem;
+    }
     .order-card{
       background:var(--bg-3);
       border:1px solid rgba(0,240,255,.22);
@@ -193,29 +380,6 @@
       padding:1.5rem 1.15rem 1.75rem;
       box-shadow:0 0 50px rgba(0,240,255,.06);
     }
-    
-    .live-visitors {
-      background: rgba(0, 240, 255, 0.08);
-      border: 1px solid rgba(0, 240, 255, 0.2);
-      color: var(--neon);
-      padding: 10px 14px;
-      border-radius: 12px;
-      text-align: center;
-      font-weight: 700;
-      font-size: .95rem;
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .pulsing-dot {
-      width: 10px; height: 10px;
-      background: var(--neon);
-      border-radius: 50%;
-      animation: pulseGlow 1.5s infinite;
-    }
-
     .order-card h2{
       text-align:center;font-size:clamp(1.35rem,4vw,1.85rem);
       font-weight:900;margin-bottom:.35rem;
@@ -223,10 +387,9 @@
     .order-card .order-lead{
       text-align:center;color:var(--muted);font-size:.92rem;margin-bottom:1.35rem;
     }
-    
-    .form-group{margin-bottom:1.2rem}
+    .form-group{margin-bottom:1rem}
     .form-group label{
-      display:block;font-weight:700;font-size:.95rem;margin-bottom:.4rem;
+      display:block;font-weight:700;font-size:.9rem;margin-bottom:.4rem;
     }
     .form-group label .req{color:var(--neon)}
     .form-group input,
@@ -239,83 +402,32 @@
       color:var(--white);
       outline:none;
       transition:border-color .2s,box-shadow .2s;
+      appearance:none;
+      -webkit-appearance:none;
+    }
+    .form-group select{
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2300f0ff' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;
+      background-position:left 1rem center;
+      padding-left:2.5rem;
     }
     .form-group input:focus,
     .form-group select:focus{
       border-color:var(--neon);
       box-shadow:0 0 0 3px var(--neon-dim);
     }
-    
-    .form-hint{
-      font-size:.85rem;
-      color: #93c5fd;
-      background: rgba(59, 130, 246, 0.1);
-      padding: 6px 10px;
-      border-radius: 6px;
-      border-right: 3px solid #3b82f6; 
-      margin-top:.5rem;
-      display: block;
-      font-weight: 600;
-    }
-
-    .qty-stock-container {
-      margin-top: 1.5rem;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-    .qty-control {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 0.8rem;
-    }
-    .qty-btn {
-      width: 48px; height: 48px;
-      border-radius: 12px;
-      border: 1.5px solid var(--neon);
-      background: var(--bg);
-      color: var(--neon);
-      font-size: 1.8rem;
-      font-weight: bold;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s, transform 0.1s;
-    }
-    .qty-btn:hover { background: var(--neon-dim); }
-    .qty-btn:active { transform: scale(0.92); }
-    .qty-input {
-      width: 60px; text-align: center;
-      font-size: 1.4rem; font-weight: 900;
-      background: transparent; border: none; color: var(--white);
-      -moz-appearance: textfield;
-    }
-    .qty-input::-webkit-outer-spin-button, .qty-input::-webkit-inner-spin-button { 
-      -webkit-appearance: none; margin: 0; 
-    }
-    
-    .stock-mock {
-      color: var(--danger);
-      font-size: 1rem;
-      font-weight: 800;
-      background: rgba(239, 68, 68, 0.1);
-      padding: 6px 12px;
-      border-radius: 8px;
-      display: inline-block;
-      animation: pulseStock 2s infinite alternate;
-    }
-
+    .form-group input::placeholder{color:#5a6a85}
+    .form-hint{font-size:.78rem;color:var(--muted);margin-top:.35rem}
     .order-summary{
       display:flex;justify-content:space-between;align-items:center;
-      padding:1.2rem;
-      background: rgba(0, 240, 255, 0.05);
+      padding:1rem;
+      background:var(--neon-dim);
       border-radius:12px;
-      margin:1rem 0 1.25rem;
-      border:1px solid rgba(0,240,255,.2);
+      margin:1.15rem 0 1.25rem;
+      border:1px solid rgba(0,240,255,.25);
     }
-    .order-summary span{color:var(--muted);font-weight:700; font-size: 1.1rem;}
-    .order-summary strong{color:var(--neon);font-size:1.4rem;}
-    
+    .order-summary span{color:var(--muted);font-weight:600}
+    .order-summary strong{color:var(--neon);font-size:1.25rem}
     .form-msg{
       display:none;margin-top:1rem;padding:1rem;
       border-radius:12px;text-align:center;font-weight:700;
@@ -342,34 +454,50 @@
       .order-card{padding:2rem 2.25rem 2.25rem;max-width:560px;margin-inline:auto}
     }
 
-    /* Lightbox */
-    .lightbox {
-      position: fixed; inset: 0; z-index: 1000;
-      background: rgba(10,14,23,0.95);
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.3s ease;
+    /* Sticky mobile CTA */
+    .sticky-cta{
+      position:fixed;bottom:0;inset-inline:0;z-index:90;
+      padding:.75rem 1rem calc(.75rem + env(safe-area-inset-bottom));
+      background:rgba(10,14,23,.94);
+      backdrop-filter:blur(10px);
+      border-top:1px solid rgba(0,240,255,.2);
+      display:flex;gap:.75rem;align-items:center;
+      transform:translateY(110%);
+      transition:transform .3s ease;
     }
-    .lightbox.open { opacity: 1; pointer-events: auto; }
-    .lightbox img {
-      max-width: 90%; max-height: 90vh;
-      border-radius: 12px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    .sticky-cta.show{transform:translateY(0)}
+    .sticky-cta .sticky-price{
+      flex-shrink:0;font-weight:900;color:var(--neon);font-size:1.05rem;
+      line-height:1.2;
     }
-    .lightbox-close {
-      position: absolute; top: 20px; right: 20px;
-      background: rgba(255,255,255,0.1);
-      border: none; color: white;
-      width: 44px; height: 44px;
-      border-radius: 50%; font-size: 24px;
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s;
+    .sticky-cta .sticky-price small{
+      display:block;color:var(--muted);font-size:.7rem;font-weight:600;
     }
-    .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+    .sticky-cta .btn{flex:1;min-height:48px;font-size:1rem;padding:.7rem 1rem}
+    @media (min-width:768px){
+      .sticky-cta{display:none}
+      .order{padding-bottom:3.5rem}
+    }
+
+    /* Footer */
+    footer{
+      padding:1.5rem 0 2rem;
+      border-top:1px solid rgba(0,240,255,.1);
+      text-align:center;color:var(--muted);font-size:.8rem;
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{
+        animation-duration:.01ms!important;
+        animation-iteration-count:1!important;
+        transition-duration:.01ms!important;
+      }
+      html{scroll-behavior:auto}
+    }
   </style>
 </head>
 <body>
-
   <header class="site-header">
     <div class="header-inner">
       <div class="logo">Never Hold Back</div>
@@ -378,55 +506,201 @@
   </header>
 
   <main>
-    <!-- Hero Section -->
-    <section class="hero container fade-in">
-      <div class="hero-content">
-        <div class="hero-badge">✓ مرخّص من هيئة الدواء المصرية</div>
-        <h1>جل القوة والثقة <span>Never Hold Back</span></h1>
-        <p class="hero-sub">تركيبة متطورة لترطيب مثالي ونتائج تبدأ خلال 30 دقيقة. استعد لثقة لا حدود لها.</p>
-        <div class="price-row">
+    <!-- Hero -->
+    <section class="hero container" aria-label="العرض الرئيسي">
+      <div class="hero-copy">
+        <div class="hero-badge fade-in">⚡ الأول من نوعه في مصر والعالم العربي</div>
+        <h1 class="fade-in delay-1">
+          لا تؤجّل اللحظة — <span>نتائج خلال 30 دقيقة</span>
+        </h1>
+        <p class="hero-sub fade-in delay-2">
+          جل ترطيب موضعي للرجال — بدون آثار جانبية كالحبوب، آمن للاستخدام اليومي، ومناسب لكبار السن ومرضى ضغط الدم.
+        </p>
+        <div class="price-row fade-in delay-2">
           <div class="price">250 <small>ج.م</small></div>
-          <div class="price-note">+ مصاريف الشحن</div>
+          <div class="price-note">سعر خاص لفترة محدودة</div>
         </div>
-        <a href="#order" class="btn btn-primary btn-block">اطلب الآن — الدفع عند الاستلام</a>
+        <a class="btn btn-primary fade-in delay-3" href="#order">اطلب دلوقتي — الدفع عند الاستلام</a>
+        <div class="cod-pill fade-in delay-3">✓ ادفع لما تستلم طلبك بأمان لباب البيت</div>
       </div>
-      <div class="hero-visual delay-1" id="productImageTrigger">
-        <!-- Make sure IMG-20260719-WA0000.jpg is in the same folder -->
-        <img src="IMG-20260719-WA0000.jpg" alt="Never Hold Back Gel" id="mainProductImage">
+      <div class="hero-visual fade-in delay-1">
+        <img
+          src="IMG-20260719-WA0000.jpg"
+          alt="عبوة جل Never Hold Back Gel — جل ترطيب موضعي أسود بتصميم البرق الكهربائي"
+          width="600"
+          height="800"
+          fetchpriority="high"
+        >
       </div>
     </section>
 
-    <!-- Trust Section -->
-    <section class="trust container fade-in delay-2">
+    <!-- Trust -->
+    <section class="trust container" aria-label="مميزات سريعة">
       <div class="trust-grid">
-        <div class="trust-item">
-          <strong>سرية تامة</strong>
-          <span>تغليف غير شفاف يحفظ خصوصيتك 100%</span>
+        <div class="trust-item fade-in">
+          <strong>30 دقيقة</strong>
+          <span>تبدأ تحس بالنتيجة بسرعة</span>
         </div>
-        <div class="trust-item">
-          <strong>الدفع عند الاستلام</strong>
-          <span>لا تدفع أي مبلغ إلا عند استلام طلبك</span>
+        <div class="trust-item fade-in delay-1">
+          <strong>بدون آثار جانبية</strong>
+          <span>بديل آمن عن الحبوب الفموية</span>
         </div>
-        <div class="trust-item">
-          <strong>توصيل سريع</strong>
-          <span>شحن لجميع المحافظات خلال 2-4 أيام</span>
+        <div class="trust-item fade-in delay-2">
+          <strong>مرخّص رسميًا</strong>
+          <span>هيئة الدواء المصرية</span>
         </div>
-        <div class="trust-item">
-          <strong>آمن ومضمون</strong>
-          <span>منتج مرخص وخاضع لاختبارات الجودة</span>
+        <div class="trust-item fade-in delay-3">
+          <strong>دفع عند الاستلام</strong>
+          <span>اطلب وأنت مطمّن</span>
         </div>
       </div>
     </section>
 
-    <!-- Order Form Section -->
-    <section class="order container" id="order" aria-label="نموذج الطلب">
-      <div class="order-card fade-in delay-2">
-        
-        <div class="live-visitors">
-          <div class="pulsing-dot"></div>
-          يشاهد هذا المنتج الآن: <span id="visitorCount">--</span> شخص
-        </div>
+    <!-- Promo banner -->
+    <section class="section container" aria-label="عرض ترويجي">
+      <div class="section-head">
+        <h2>جايين نكهرب الكل</h2>
+        <p>أول جل في مصر والوطن العربي — مرخّص من هيئة الدواء المصرية</p>
+      </div>
+      <figure class="promo-banner" data-full="IMG-20260719-WA0002.jpg">
+        <img
+          src="IMG-20260719-WA0002.jpg"
+          alt="إعلان Never Hold Back Gel — جايين نكهرب الكل، أول جل في مصر والوطن العربي مرخص من هيئة الدواء المصرية"
+          loading="lazy"
+          width="900"
+          height="900"
+        >
+      </figure>
+    </section>
 
+    <!-- Gallery -->
+    <section class="section container" id="gallery" aria-label="صور المنتج">
+      <div class="section-head">
+        <h2>شاهد المنتج عن قُرب</h2>
+        <p>عبوة فاخرة… سرعة المفعول واضحة من أول نظرة</p>
+      </div>
+      <div class="gallery">
+        <figure class="wide" data-full="IMG-20260719-WA0000.jpg">
+          <img src="IMG-20260719-WA0000.jpg" alt="صورة المنتج الرسمية لعبوة Never Hold Back Gel سعة 30 جرام" loading="lazy" width="400" height="500">
+          <figcaption>العبوة الرسمية</figcaption>
+        </figure>
+        <figure class="promo" data-full="IMG-20260719-WA0002.jpg">
+          <img src="IMG-20260719-WA0002.jpg" alt="تصميم الطاقة الكهربائية لمنتج Never Hold Back Gel" loading="lazy" width="400" height="500">
+          <figcaption>طاقة وقوة</figcaption>
+        </figure>
+        <figure class="promo" data-full="IMG-20260719-WA0003.jpg">
+          <img src="IMG-20260719-WA0003.jpg" alt="بديل فعال لأقراص الفياجرا — نتائج خلال 30 دقيقة فقط" loading="lazy" width="400" height="500">
+          <figcaption>خلال 30 دقيقة</figcaption>
+        </figure>
+        <figure class="promo" data-full="IMG-20260719-WA0005.jpg">
+          <img src="IMG-20260719-WA0005.jpg" alt="مقارنة بين جل Never Hold Back والأقراص الفموية — أسرع وأكثر أمانًا" loading="lazy" width="400" height="500">
+          <figcaption>مقارنة مع الأقراص</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Comparison -->
+    <section class="section container" id="compare" aria-label="مقارنة مع الأقراص">
+      <div class="section-head">
+        <h2>ليه الجل أحسن من الأقراص؟</h2>
+        <p>أسرع مفعولًا… وآمن لمرضى الضغط وكبار السن</p>
+      </div>
+      <figure class="compare-shot" data-full="IMG-20260719-WA0001.jpg">
+        <img
+          src="IMG-20260719-WA0001.jpg"
+          alt="مقارنة مرئية: جل Never Hold Back يبدأ خلال 30 دقيقة وبدون أعراض جانبية مقابل الأقراص الفموية خلال ساعتين وغير مناسبة لمرضى الضغط"
+          loading="lazy"
+          width="900"
+          height="1100"
+        >
+      </figure>
+    </section>
+
+    <!-- Benefits -->
+    <section class="section benefits" id="benefits" aria-label="الفوائد">
+      <div class="container">
+        <div class="section-head">
+          <h2>ليه تختاره؟</h2>
+          <p>سرعة + أمان + ثقة… بدون ما تخاطر بصحتك</p>
+        </div>
+        <div class="benefits-list">
+          <article class="benefit">
+            <div class="benefit-icon" aria-hidden="true">⚡</div>
+            <div>
+              <h3>نتائج خلال 30 دقيقة</h3>
+              <p>تحضير سريع قبل اللحظة المناسبة — بدون انتظار طويل أو خطط معقّدة.</p>
+            </div>
+          </article>
+          <article class="benefit">
+            <div class="benefit-icon" aria-hidden="true">✓</div>
+            <div>
+              <h3>بدون آثار جانبية كالحبوب</h3>
+              <p>استخدام موضعي مباشر — بعيد عن مخاطر الحبوب الفموية وتأثيرها على الجسم.</p>
+            </div>
+          </article>
+          <article class="benefit">
+            <div class="benefit-icon" aria-hidden="true">◆</div>
+            <div>
+              <h3>آمن للاستخدام اليومي</h3>
+              <p>تركيبة مُصمَّمة للاستخدام المنتظم بثقة، ضمن تعليمات الاستخدام الموضعي.</p>
+            </div>
+          </article>
+          <article class="benefit">
+            <div class="benefit-icon" aria-hidden="true">♥</div>
+            <div>
+              <h3>مناسب لكبار السن ومرضى الضغط</h3>
+              <p>خيار موضعي يراعي من يحتاج حذرًا أكبر مع المنتجات الفموية.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to use -->
+    <section class="section container" id="howto" aria-label="طريقة الاستخدام">
+      <div class="section-head">
+        <h2>طريقة الاستخدام</h2>
+        <p>ثلاث خطوات بسيطة… والنتيجة أقرب مما تتخيّل</p>
+      </div>
+      <div class="steps">
+        <article class="step">
+          <h3>كمية مناسبة</h3>
+          <p>ضع خطًا رفيعًا من الجل بطول حوالي 3 سلاميات (مفاصل الأصابع).</p>
+        </article>
+        <article class="step">
+          <h3>دلّك بلُطف</h3>
+          <p>وزّع المنتج موضعيًا ودلّكه برفق حتى يُمتصّ جيدًا في البشرة.</p>
+        </article>
+        <article class="step">
+          <h3>استعد خلال 30 دقيقة</h3>
+          <p>انتظر حتى يبدأ مفعول الجل — ثم عِش اللحظة بثقة كاملة.</p>
+        </article>
+      </div>
+      <figure class="howto-shot" data-full="IMG-20260717-WA0010.jpg">
+        <img
+          src="IMG-20260717-WA0010.jpg"
+          alt="كيفية استخدام جيل Never Hold Back — ضع خطًا رفيعًا بطول 3 عقلات ثم دلّك بلطف حتى الامتصاص الكامل"
+          loading="lazy"
+          width="900"
+          height="1100"
+        >
+      </figure>
+    </section>
+
+    <!-- Credibility -->
+    <section class="section container" aria-label="المصداقية">
+      <div class="cred-box">
+        <h2>الأول من نوعه في مصر والعالم العربي</h2>
+        <p>
+          Never Hold Back Gel منتج مرخّص من هيئة الدواء المصرية — ثقة رسمية تفرّقه عن المنتجات العشوائية في السوق.
+          اختَر الأصل، واختَر الأمان.
+        </p>
+      </div>
+    </section>
+
+    <!-- Order Form -->
+    <section class="order container" id="order" aria-label="نموذج الطلب">
+      <div class="order-card">
         <h2>اطلب الآن</h2>
         <p class="order-lead">املأ البيانات وسنتواصل معك لتأكيد الطلب — الدفع عند الاستلام</p>
 
@@ -436,7 +710,6 @@
           <div class="form-group">
             <label for="name">الاسم بالكامل <span class="req">*</span></label>
             <input type="text" id="name" name="name" placeholder="مثال: أحمد محمد" autocomplete="name" required minlength="3">
-            <p class="form-hint">يجب إدخال أحرف فقط (بدون أرقام أو رموز)</p>
           </div>
 
           <div class="form-group">
@@ -446,9 +719,8 @@
           </div>
 
           <div class="form-group">
-            <label for="altPhone">رقم هاتف بديل <span class="req">*</span></label>
-            <input type="tel" id="altPhone" name="altPhone" placeholder="01xxxxxxxxx" autocomplete="tel" inputmode="numeric" required pattern="01[0-9]{9}" maxlength="11">
-            <p class="form-hint">يجب إدخال رقم بديل لضمان سرعة التوصيل</p>
+            <label for="altPhone">رقم هاتف بديل</label>
+            <input type="tel" id="altPhone" name="altPhone" placeholder="01xxxxxxxxx (اختياري)" autocomplete="tel" inputmode="numeric" pattern="01[0-9]{9}" maxlength="11">
           </div>
 
           <div class="form-group">
@@ -458,6 +730,30 @@
               <option value="القاهرة">القاهرة</option>
               <option value="الجيزة">الجيزة</option>
               <option value="الإسكندرية">الإسكندرية</option>
+              <option value="القليوبية">القليوبية</option>
+              <option value="الدقهلية">الدقهلية</option>
+              <option value="الشرقية">الشرقية</option>
+              <option value="الغربية">الغربية</option>
+              <option value="المنوفية">المنوفية</option>
+              <option value="البحيرة">البحيرة</option>
+              <option value="كفر الشيخ">كفر الشيخ</option>
+              <option value="دمياط">دمياط</option>
+              <option value="بورسعيد">بورسعيد</option>
+              <option value="الإسماعيلية">الإسماعيلية</option>
+              <option value="السويس">السويس</option>
+              <option value="شمال سيناء">شمال سيناء</option>
+              <option value="جنوب سيناء">جنوب سيناء</option>
+              <option value="الفيوم">الفيوم</option>
+              <option value="بني سويف">بني سويف</option>
+              <option value="المنيا">المنيا</option>
+              <option value="أسيوط">أسيوط</option>
+              <option value="سوهاج">سوهاج</option>
+              <option value="قنا">قنا</option>
+              <option value="الأقصر">الأقصر</option>
+              <option value="أسوان">أسوان</option>
+              <option value="البحر الأحمر">البحر الأحمر</option>
+              <option value="الوادي الجديد">الوادي الجديد</option>
+              <option value="مطروح">مطروح</option>
               <option value="باقي المحافظات">باقي المحافظات</option>
             </select>
           </div>
@@ -472,14 +768,18 @@
             <input type="text" id="address" name="address" placeholder="الشارع والمبنى والشقة" autocomplete="street-address" required minlength="5">
           </div>
 
-          <div class="qty-stock-container">
-             <label style="display:block; font-weight:700; margin-bottom:.8rem;">الكمية المطلوبة <span class="req">*</span></label>
-             <div class="qty-control">
-               <button type="button" class="qty-btn" id="qtyPlus">+</button>
-               <input type="number" id="quantity" name="quantity" class="qty-input" value="1" min="1" max="10" readonly>
-               <button type="button" class="qty-btn" id="qtyMinus">-</button>
-             </div>
-             <div class="stock-mock" id="stockMessage">🔥 متبقي 14 عبوة فقط في المخزن!</div>
+          <div class="form-group">
+            <label for="landmark">علامة مميزة</label>
+            <input type="text" id="landmark" name="landmark" placeholder="مثال: بجوار المستشفى (اختياري)">
+          </div>
+
+          <div class="form-group">
+            <label for="quantity">الكمية <span class="req">*</span></label>
+            <select id="quantity" name="quantity" required>
+              <option value="1" selected>عبوة واحدة — 250 ج.م</option>
+              <option value="2">عبوتان — 500 ج.م</option>
+              <option value="3">3 عبوات — 750 ج.م</option>
+            </select>
           </div>
 
           <div class="order-summary" aria-live="polite">
@@ -498,16 +798,23 @@
     </section>
   </main>
 
-  <footer style="text-align:center; padding: 2rem 0; border-top: 1px solid rgba(0,240,255,0.1); margin-top: 2rem;">
+  <footer>
     <div class="container">
-      <p style="color: var(--muted); font-size: 0.85rem;">Never Hold Back Gel — للاستخدام الخارجي فقط. اتبع تعليمات الاستخدام.</p>
+      <p>Never Hold Back Gel — للاستخدام الخارجي فقط. اتبع تعليمات الاستخدام.</p>
+      <p style="margin-top:.35rem">© <span id="year"></span> جميع الحقوق محفوظة</p>
     </div>
   </footer>
 
-  <!-- Lightbox Modal -->
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" id="lightboxClose">&times;</button>
-    <img src="" alt="Product Fullscreen" id="lightboxImg">
+  <!-- Sticky mobile CTA -->
+  <div class="sticky-cta" id="stickyCta" aria-hidden="true">
+    <div class="sticky-price">250 ج.م<small>الدفع عند الاستلام</small></div>
+    <a class="btn btn-primary" href="#order">اطلب الآن</a>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="عرض الصورة">
+    <button type="button" class="lightbox-close" id="lightboxClose" aria-label="إغلاق">×</button>
+    <img src="" alt="" id="lightboxImg">
   </div>
 
   <script>
@@ -515,146 +822,123 @@
     const UNIT_PRICE = 250;
 
     (function () {
-      
-      // 1. Lightbox Logic
-      const imgTrigger = document.getElementById('productImageTrigger');
-      const mainImg = document.getElementById('mainProductImage');
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      /* Quantity → total */
+      const quantityEl = document.getElementById('quantity');
+      const totalPriceEl = document.getElementById('totalPrice');
+      function updateTotal() {
+        const qty = parseInt(quantityEl.value, 10) || 1;
+        totalPriceEl.textContent = (qty * UNIT_PRICE) + ' ج.م';
+      }
+      quantityEl.addEventListener('change', updateTotal);
+
+      /* Sticky CTA: show after scrolling past hero, hide near form */
+      const stickyCta = document.getElementById('stickyCta');
+      const orderSection = document.getElementById('order');
+      function updateSticky() {
+        if (window.matchMedia('(min-width: 768px)').matches) {
+          stickyCta.classList.remove('show');
+          stickyCta.setAttribute('aria-hidden', 'true');
+          return;
+        }
+        const orderTop = orderSection.getBoundingClientRect().top;
+        const scrolled = window.scrollY > 420;
+        const nearForm = orderTop < window.innerHeight * 0.75;
+        const show = scrolled && !nearForm;
+        stickyCta.classList.toggle('show', show);
+        stickyCta.setAttribute('aria-hidden', show ? 'false' : 'true');
+      }
+      window.addEventListener('scroll', updateSticky, { passive: true });
+      window.addEventListener('resize', updateSticky);
+      updateSticky();
+
+      /* Lightbox for gallery + promo shots */
       const lightbox = document.getElementById('lightbox');
       const lightboxImg = document.getElementById('lightboxImg');
       const lightboxClose = document.getElementById('lightboxClose');
-
-      if (imgTrigger && mainImg) {
-        imgTrigger.addEventListener('click', () => {
-          lightboxImg.src = mainImg.src;
+      document.querySelectorAll('[data-full]').forEach(function (fig) {
+        fig.addEventListener('click', function () {
+          const src = fig.getAttribute('data-full');
+          const img = fig.querySelector('img');
+          lightboxImg.src = src;
+          lightboxImg.alt = img ? img.alt : '';
           lightbox.classList.add('open');
         });
-      }
+      });
 
       function closeLightbox() {
         lightbox.classList.remove('open');
-        setTimeout(() => { lightboxImg.src = ''; }, 300);
+        lightboxImg.src = '';
       }
-
       lightboxClose.addEventListener('click', closeLightbox);
-      lightbox.addEventListener('click', (e) => {
+      lightbox.addEventListener('click', function (e) {
         if (e.target === lightbox) closeLightbox();
       });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
-      });
 
-      // 2. Text Form Validations (Name Filter)
-      const nameInput = document.getElementById('name');
-      nameInput.addEventListener('input', function() {
-        this.value = this.value.replace(/[^a-zA-Z\u0600-\u06FF\s]/g, '');
-      });
-
-      // 3. Quantity Controller & Total Price
-      const qtyInput = document.getElementById('quantity');
-      const btnMinus = document.getElementById('qtyMinus');
-      const btnPlus = document.getElementById('qtyPlus');
-      const totalPriceEl = document.getElementById('totalPrice');
-
-      function updateTotal() {
-        const qty = parseInt(qtyInput.value, 10) || 1;
-        totalPriceEl.textContent = (qty * UNIT_PRICE) + ' ج.م';
-      }
-
-      btnMinus.addEventListener('click', () => {
-        let current = parseInt(qtyInput.value) || 1;
-        if (current > 1) {
-          qtyInput.value = current - 1;
-          updateTotal();
-        }
-      });
-
-      btnPlus.addEventListener('click', () => {
-        let current = parseInt(qtyInput.value) || 1;
-        if (current < 10) { 
-          qtyInput.value = current + 1;
-          updateTotal();
-        }
-      });
-
-      // 4. Dynamic Visitors Mock
-      function updateVisitors() {
-        const visitorEl = document.getElementById('visitorCount');
-        if(!visitorEl) return;
-
-        const currentHour = new Date().getHours();
-        let min, max;
-        
-        // من 8 صباحاً حتى 11 مساءً
-        if (currentHour >= 8 && currentHour < 23) {
-            min = 50; 
-            max = 140;
-        } else {
-        // ليلاً
-            min = 5; 
-            max = 25;
-        }
-
-        let currentCount = parseInt(visitorEl.innerText);
-        if (isNaN(currentCount)) {
-            currentCount = Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-        
-        let change = Math.floor(Math.random() * 9) - 4;
-        let newCount = currentCount + change;
-
-        if (newCount < min) newCount = min + 2;
-        if (newCount > max) newCount = max - 2;
-
-        visitorEl.innerText = newCount;
-      }
-      
-      updateVisitors(); 
-      setInterval(updateVisitors, 5000); 
-
-      // 5. Form Submission Logic
+      /* Form Submission Handling */
       const form = document.getElementById('orderForm');
       const submitBtn = document.getElementById('submitBtn');
-      const btnText = submitBtn.querySelector('.btn-text');
       const formMsg = document.getElementById('formMsg');
 
       form.addEventListener('submit', function (e) {
-        e.preventDefault(); 
-        
+        e.preventDefault();
+
+        // Clear previous state messages
+        formMsg.className = 'form-msg';
+        formMsg.style.display = 'none';
+        formMsg.textContent = '';
+
+        // Native custom constraint checking
         if (!form.checkValidity()) {
-          form.reportValidity();
+          formMsg.textContent = 'من فضلك تأكد من ملء جميع الحقول الإلزامية (*) بشكل صحيح.';
+          formMsg.classList.add('error');
           return;
         }
 
+        // Apply loading spinner to action button
         submitBtn.disabled = true;
-        btnText.innerHTML = '<div class="spinner" style="display:inline-block; vertical-align:middle; margin-left:8px;"></div> جاري إرسال الطلب...';
-        formMsg.className = 'form-msg';
-        formMsg.style.display = 'none';
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<div class="spinner" style="margin: 0 auto;"></div>';
 
+        // Gather structural form key values
         const formData = new FormData(form);
+        const data = {};
+        formData.forEach((value, key) => {
+          data[key] = value.trim();
+        });
+        
+        // Include calculation mapping for the dashboard
+        data['totalPrice'] = (parseInt(data['quantity'], 10) || 1) * UNIT_PRICE;
 
+        // Async dispatch request to the Web App URL endpoint
         fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
-          body: formData
+          mode: 'no-cors', // Bypasses explicit header validation routines safely
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
         })
-        .then(response => {
-          formMsg.textContent = 'تم تسجيل طلبك بنجاح! سنتواصل معك قريباً لتأكيد الأوردر.';
-          formMsg.className = 'form-msg success';
-          formMsg.style.display = 'block';
-          form.reset(); 
-          qtyInput.value = 1; 
-          updateTotal(); 
+        .then(() => {
+          // Success Response State Block
+          formMsg.textContent = 'تم تسجيل طلبك بنجاح! سنتوصل معك قريباً لتأكيد الشحن.';
+          formMsg.classList.add('success');
+          form.reset();
+          updateTotal();
         })
-        .catch(error => {
-          formMsg.textContent = 'حدث خطأ أثناء إرسال الطلب. يرجى المحاولة مرة أخرى أو التأكد من اتصالك بالإنترنت.';
-          formMsg.className = 'form-msg error';
-          formMsg.style.display = 'block';
+        .catch((error) => {
+          // Failure State Block Exception Handling
+          console.error('Submission processing failure:', error);
+          formMsg.textContent = 'عذراً، حدث خطأ أثناء إرسال البيانات. يرجى المحاولة مرة أخرى.';
+          formMsg.classList.add('error');
         })
         .finally(() => {
+          // Clean state values back down to base settings
           submitBtn.disabled = false;
-          btnText.textContent = 'تأكيد الطلب — الدفع عند الاستلام';
+          submitBtn.innerHTML = originalBtnText;
         });
       });
-
     })();
   </script>
 </body>
