@@ -40,6 +40,7 @@
     button,input,select{font:inherit}
     .container{width:min(100% - 2rem,var(--max));margin-inline:auto}
 
+    /* Ambient energy background */
     body::before{
       content:"";
       position:fixed;inset:0;z-index:-1;pointer-events:none;
@@ -49,6 +50,7 @@
         linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 50%,var(--bg) 100%);
     }
 
+    /* Animations */
     @keyframes fadeUp{
       from{opacity:0;transform:translateY(24px)}
       to{opacity:1;transform:translateY(0)}
@@ -63,7 +65,11 @@
     }
     @keyframes spin{to{transform:rotate(360deg)}}
     .fade-in{animation:fadeUp .7s ease both}
+    .delay-1{animation-delay:.12s}
+    .delay-2{animation-delay:.24s}
+    .delay-3{animation-delay:.36s}
 
+    /* Header */
     .site-header{
       position:sticky;top:0;z-index:100;
       height:var(--header-h);
@@ -90,7 +96,9 @@
       transition:transform .2s,filter .2s;
     }
     .header-cta:hover{filter:brightness(1.08);transform:translateY(-1px)}
+    .header-cta:active{transform:scale(.97)}
 
+    /* Buttons */
     .btn{
       display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
       min-height:52px;padding:.85rem 1.6rem;
@@ -99,6 +107,7 @@
       transition:transform .2s,filter .2s,background .2s,opacity .2s;
       text-align:center;
     }
+    .btn:active{transform:scale(.97)}
     .btn-primary{
       background:linear-gradient(135deg,#00f0ff 0%,#00b8ff 100%);
       color:#041018;
@@ -108,6 +117,94 @@
     .btn-primary:disabled{opacity:.7;cursor:not-allowed;animation:none}
     .btn-block{width:100%}
 
+    /* Hero */
+    .hero{
+      padding:2rem 0 2.5rem;
+      display:grid;gap:2rem;
+    }
+    .hero-badge{
+      display:inline-flex;align-items:center;gap:.4rem;
+      padding:.35rem .85rem;
+      background:var(--neon-dim);
+      border:1px solid rgba(0,240,255,.35);
+      border-radius:999px;
+      color:var(--neon);font-size:.8rem;font-weight:700;
+      width:fit-content;
+    }
+    .hero h1{
+      font-size:clamp(1.75rem,6.5vw,3rem);
+      font-weight:900;line-height:1.25;
+      margin:.85rem 0 .6rem;
+    }
+    .hero h1 span{color:var(--neon)}
+    .hero-sub{
+      color:var(--muted);font-size:clamp(.95rem,2.8vw,1.15rem);
+      max-width:36ch;margin-bottom:1.25rem;
+    }
+    .price-row{
+      display:flex;flex-wrap:wrap;align-items:baseline;gap:.75rem 1.25rem;
+      margin-bottom:1.5rem;
+    }
+    .price{
+      font-size:clamp(1.75rem,5vw,2.4rem);
+      font-weight:900;color:var(--neon);
+    }
+    .price small{font-size:.55em;color:var(--white);font-weight:700}
+    .price-note{
+      color:var(--muted);font-size:.9rem;font-weight:600;
+    }
+    .cod-pill{
+      display:inline-flex;align-items:center;gap:.35rem;
+      margin-top:.85rem;color:var(--success);font-weight:700;font-size:.9rem;
+    }
+    .hero-visual{
+      position:relative;
+      border-radius:var(--radius);
+      overflow:hidden;
+      border:1px solid rgba(0,240,255,.2);
+      background:var(--bg-3);
+      box-shadow:0 0 40px rgba(0,240,255,.08);
+    }
+    .hero-visual img{
+      width:100%;aspect-ratio:3/4;object-fit:contain;background:linear-gradient(180deg,#10182a,#0a0e17);
+      padding:1rem;
+    }
+    .hero-visual::after{
+      content:"";
+      position:absolute;inset:0;pointer-events:none;
+      background:linear-gradient(180deg,transparent 55%,rgba(10,14,23,.55));
+    }
+
+    @media (min-width:768px){
+      .hero{
+        grid-template-columns:1.05fr .95fr;
+        align-items:center;
+        padding:3rem 0 3.5rem;
+        gap:3rem;
+      }
+      .hero-visual{order:-1}
+      .hero-visual img{aspect-ratio:3/4;padding:1.25rem}
+    }
+
+    /* Trust strip */
+    .trust{padding:1rem 0 2rem;}
+    .trust-grid{
+      display:grid;grid-template-columns:1fr 1fr;gap:.75rem;
+    }
+    .trust-item{
+      background:var(--bg-3);
+      border:1px solid rgba(0,240,255,.12);
+      border-radius:12px;
+      padding:1rem .9rem;
+      text-align:center;
+    }
+    .trust-item strong{
+      display:block;color:var(--neon);font-size:.95rem;margin-bottom:.25rem;
+    }
+    .trust-item span{color:var(--muted);font-size:.8rem;line-height:1.5}
+    @media (min-width:768px){ .trust-grid{grid-template-columns:repeat(4,1fr);gap:1rem} }
+
+    /* Order form & Updates */
     .order{padding:2.5rem 0 6.5rem;}
     .order-card{
       background:var(--bg-3);
@@ -117,6 +214,7 @@
       box-shadow:0 0 50px rgba(0,240,255,.06);
     }
     
+    /* Live Visitors Notification */
     .live-visitors {
       background: rgba(0, 240, 255, 0.08);
       border: 1px solid rgba(0, 240, 255, 0.2);
@@ -146,7 +244,6 @@
     .order-card .order-lead{
       text-align:center;color:var(--muted);font-size:.92rem;margin-bottom:1.35rem;
     }
-    
     .form-group{margin-bottom:1.2rem}
     .form-group label{
       display:block;font-weight:700;font-size:.95rem;margin-bottom:.4rem;
@@ -162,25 +259,36 @@
       color:var(--white);
       outline:none;
       transition:border-color .2s,box-shadow .2s;
+      appearance:none;
+      -webkit-appearance:none;
+    }
+    .form-group select{
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2300f0ff' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;
+      background-position:left 1rem center;
+      padding-left:2.5rem;
     }
     .form-group input:focus,
     .form-group select:focus{
       border-color:var(--neon);
       box-shadow:0 0 0 3px var(--neon-dim);
     }
+    .form-group input::placeholder{color:#5a6a85}
     
+    /* Updated Form Hint Style */
     .form-hint{
       font-size:.85rem;
       color: #93c5fd;
       background: rgba(59, 130, 246, 0.1);
       padding: 6px 10px;
       border-radius: 6px;
-      border-right: 3px solid #3b82f6; 
+      border-right: 3px solid #3b82f6; /* Right border for RTL */
       margin-top:.5rem;
       display: block;
       font-weight: 600;
     }
 
+    /* Quantity Setup */
     .qty-stock-container {
       margin-top: 1.5rem;
       margin-bottom: 1rem;
@@ -216,7 +324,6 @@
     .qty-input::-webkit-outer-spin-button, .qty-input::-webkit-inner-spin-button { 
       -webkit-appearance: none; margin: 0; 
     }
-    
     .stock-mock {
       color: var(--danger);
       font-size: 1rem;
@@ -228,6 +335,7 @@
       animation: pulseStock 2s infinite alternate;
     }
 
+    /* Total Summary aligned with Image */
     .order-summary{
       display:flex;justify-content:space-between;align-items:center;
       padding:1.2rem;
@@ -264,6 +372,7 @@
       .order{padding:3.5rem 0 4rem}
       .order-card{padding:2rem 2.25rem 2.25rem;max-width:560px;margin-inline:auto}
     }
+
   </style>
 </head>
 <body>
@@ -275,9 +384,11 @@
   </header>
 
   <main>
+    <!-- Order Form Section -->
     <section class="order container" id="order" aria-label="نموذج الطلب">
       <div class="order-card">
         
+        <!-- DYNAMIC VISITORS MOCK -->
         <div class="live-visitors">
           <div class="pulsing-dot"></div>
           يشاهد هذا المنتج الآن: <span id="visitorCount">--</span> شخص
@@ -289,6 +400,7 @@
         <form id="orderForm" novalidate>
           <input type="hidden" name="product" value="Never Hold Back Gel">
 
+          <!-- NAME VALIDATION -->
           <div class="form-group">
             <label for="name">الاسم بالكامل <span class="req">*</span></label>
             <input type="text" id="name" name="name" placeholder="مثال: أحمد محمد" autocomplete="name" required minlength="3">
@@ -301,9 +413,9 @@
             <p class="form-hint">رقم مصري صحيح يبدأ بـ 01 ويتكون من 11 رقمًا</p>
           </div>
 
+          <!-- ALT PHONE REQUIRED -->
           <div class="form-group">
             <label for="altPhone">رقم هاتف بديل <span class="req">*</span></label>
-            <!-- تمت إضافة required هنا ليصبح إجبارياً -->
             <input type="tel" id="altPhone" name="altPhone" placeholder="01xxxxxxxxx" autocomplete="tel" inputmode="numeric" required pattern="01[0-9]{9}" maxlength="11">
             <p class="form-hint">يجب إدخال رقم بديل لضمان سرعة التوصيل</p>
           </div>
@@ -329,6 +441,7 @@
             <input type="text" id="address" name="address" placeholder="الشارع والمبنى والشقة" autocomplete="street-address" required minlength="5">
           </div>
 
+          <!-- QUANTITY & MOCK STOCK -->
           <div class="qty-stock-container">
              <label style="display:block; font-weight:700; margin-bottom:.8rem;">الكمية المطلوبة <span class="req">*</span></label>
              <div class="qty-control">
@@ -339,6 +452,7 @@
              <div class="stock-mock" id="stockMessage">🔥 متبقي 14 عبوة فقط في المخزن!</div>
           </div>
 
+          <!-- TOTAL & BUTTON (Matches image_a978d6.png) -->
           <div class="order-summary" aria-live="polite">
             <span>الإجمالي المتوقع</span>
             <strong id="totalPrice">250 ج.م</strong>
@@ -355,18 +469,26 @@
     </section>
   </main>
 
+  <footer>
+    <div class="container">
+      <p>Never Hold Back Gel — للاستخدام الخارجي فقط. اتبع تعليمات الاستخدام.</p>
+    </div>
+  </footer>
+
   <script>
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyv42Ob87yf648qZcA4F2vOjxIVltVNnJjQNyEKPclaHRS5Nm9r53cOe5GWU3BOu0odRw/exec';
     const UNIT_PRICE = 250;
 
     (function () {
-      // فلترة حقل الاسم ليقبل الحروف والمسافات فقط
+      
+      // 1. Text Form Validations
       const nameInput = document.getElementById('name');
+      // Only allow alphabetic characters (Arabic & English) and spaces
       nameInput.addEventListener('input', function() {
         this.value = this.value.replace(/[^a-zA-Z\u0600-\u06FF\s]/g, '');
       });
 
-      // أزرار الكمية (+ و -) وتحديث السعر الإجمالي
+      // 2. Quantity Controller
       const qtyInput = document.getElementById('quantity');
       const btnMinus = document.getElementById('qtyMinus');
       const btnPlus = document.getElementById('qtyPlus');
@@ -387,13 +509,13 @@
 
       btnPlus.addEventListener('click', () => {
         let current = parseInt(qtyInput.value) || 1;
-        if (current < 10) { 
+        if (current < 10) { // Max limit
           qtyInput.value = current + 1;
           updateTotal();
         }
       });
 
-      // دالة الزوار الوهميين متغيرة حسب الوقت (صباحاً أو ليلاً)
+      // 3. Dynamic Visitors Mock based on Time of Day
       function updateVisitors() {
         const visitorEl = document.getElementById('visitorCount');
         if(!visitorEl) return;
@@ -401,34 +523,37 @@
         const currentHour = new Date().getHours();
         let min, max;
         
-        // من 8 صباحاً حتى 11 مساءً (زوار أكثر)
+        // Daytime (8 AM to 11 PM): High Traffic
         if (currentHour >= 8 && currentHour < 23) {
             min = 50; 
             max = 140;
         } else {
-        // ليلاً (زوار أقل)
+        // Nighttime (11 PM to 8 AM): Low Traffic
             min = 5; 
             max = 25;
         }
 
+        // Get current displayed count or generate a random one to start
         let currentCount = parseInt(visitorEl.innerText);
         if (isNaN(currentCount)) {
             currentCount = Math.floor(Math.random() * (max - min + 1)) + min;
         }
         
+        // Fluctuate the number slightly (-4 to +4)
         let change = Math.floor(Math.random() * 9) - 4;
         let newCount = currentCount + change;
 
+        // Keep it realistic within boundaries
         if (newCount < min) newCount = min + 2;
         if (newCount > max) newCount = max - 2;
 
         visitorEl.innerText = newCount;
       }
       
-      updateVisitors(); 
-      setInterval(updateVisitors, 5000); 
+      updateVisitors(); // Set initially
+      setInterval(updateVisitors, 5000); // Fluctuate every 5 seconds
 
-      // إرسال البيانات إلى Google Sheets
+      // 4. Form Submission Logic
       const form = document.getElementById('orderForm');
       const submitBtn = document.getElementById('submitBtn');
       const btnText = submitBtn.querySelector('.btn-text');
@@ -458,7 +583,7 @@
           formMsg.className = 'form-msg success';
           formMsg.style.display = 'block';
           form.reset(); 
-          qtyInput.value = 1; 
+          qtyInput.value = 1; // Reset quantity
           updateTotal(); 
         })
         .catch(error => {
