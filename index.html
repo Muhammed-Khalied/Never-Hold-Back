@@ -18,7 +18,7 @@
       --neon-dim:rgba(0,240,255,.15);
       --neon-glow:rgba(0,240,255,.45);
       --white:#ffffff;
-      --muted:#a8b3c7;
+      --muted:#ffffff;
       --success:#22c55e;
       --danger:#ef4444;
       --radius:14px;
@@ -27,7 +27,7 @@
       --sticky-h:64px;
       --topbar-h:34px;
     }
-    html{scroll-behavior:smooth}
+    html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
     body{
       font-family:'Cairo',sans-serif;
       background:var(--bg);
@@ -39,8 +39,8 @@
     }
     img{max-width:100%;display:block;height:auto}
     a{color:inherit;text-decoration:none}
-    button,input,select{font:inherit}
-    .container{width:min(100% - 2rem,var(--max));margin-inline:auto}
+    button,input,select{font:inherit;max-width:100%}
+    .container{width:min(100% - clamp(1rem,5vw,2rem),var(--max));margin-inline:auto}
 
     /* Ambient energy background */
     body::before{
@@ -80,7 +80,7 @@
     /* Header */
     .site-header{
       position:sticky;top:var(--topbar-h);z-index:100;
-      height:var(--header-h);
+      min-height:var(--header-h);
       display:flex;align-items:center;
       background:rgba(10,14,23,.85);
       backdrop-filter:blur(12px);
@@ -88,6 +88,7 @@
     }
     .header-inner{
       display:flex;align-items:center;justify-content:space-between;gap:1rem;
+      min-height:var(--header-h);
       width:min(100% - 2rem,var(--max));margin-inline:auto;
     }
     .logo{
@@ -95,6 +96,8 @@
       letter-spacing:.02em;
       background:linear-gradient(90deg,var(--white),var(--neon));
       -webkit-background-clip:text;background-clip:text;color:transparent;
+      min-width:0;
+      overflow-wrap:anywhere;
     }
     .site-nav{
       display:none;
@@ -106,7 +109,7 @@
       transition:color .2s;
     }
     .site-nav a:hover{color:var(--neon)}
-    .header-actions{display:flex;align-items:center;gap:.6rem}
+    .header-actions{display:flex;align-items:center;gap:.6rem;flex-shrink:0}
     .nav-toggle{
       display:flex;align-items:center;justify-content:center;
       width:40px;height:40px;flex-shrink:0;
@@ -169,6 +172,7 @@
       padding:2rem 0 2.5rem;
       display:grid;gap:2rem;
     }
+    .hero-copy{min-width:0}
     .hero-badge{
       display:inline-flex;align-items:center;gap:.4rem;
       padding:.35rem .85rem;
@@ -373,11 +377,92 @@
     .howto-shot img{
       width:100%;aspect-ratio:4/5;object-fit:contain;background:#f5f7fa;
     }
+    .howto-media-grid{
+      display:grid;
+      gap:1.1rem;
+      margin-top:1.6rem;
+      align-items:stretch;
+    }
+    .howto-media-grid .howto-shot{
+      margin-top:0;
+      padding:.55rem;
+      min-height:100%;
+      border-radius:24px;
+      border-color:rgba(0,240,255,.34);
+      background:
+        radial-gradient(circle at 50% 0%,rgba(0,240,255,.16),transparent 16rem),
+        linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02)),
+        var(--bg-3);
+      box-shadow:0 22px 55px rgba(0,0,0,.32),0 0 38px rgba(0,240,255,.1);
+    }
+    .howto-side-video{
+      position:relative;
+      margin:0;
+      padding:.55rem;
+      border-radius:24px;
+      overflow:hidden;
+      border:1px solid rgba(0,240,255,.28);
+      background:
+        radial-gradient(circle at 50% 0%,rgba(0,240,255,.16),transparent 16rem),
+        linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02)),
+        var(--bg-3);
+      box-shadow:0 22px 55px rgba(0,0,0,.32),0 0 38px rgba(0,240,255,.1);
+    }
+    .howto-side-video::before,
+    .howto-media-grid .howto-shot::before{
+      content:"";
+      position:absolute;
+      inset:-35%;
+      background:radial-gradient(circle,rgba(0,240,255,.18),transparent 58%);
+      pointer-events:none;
+    }
+    .howto-media-grid .howto-shot{position:relative}
+    .howto-side-video video{
+      position:relative;
+      width:100%;
+      height:100%;
+      min-height:320px;
+      aspect-ratio:4/5;
+      object-fit:cover;
+      background:#000;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .howto-media-grid .howto-shot img{
+      position:relative;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .howto-side-video figcaption{
+      position:absolute;
+      inset-inline:1rem;
+      bottom:1rem;
+      padding:.65rem .9rem;
+      border-radius:999px;
+      background:rgba(10,14,23,.78);
+      backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,.12);
+      color:var(--white);
+      font-size:.82rem;
+      font-weight:800;
+      text-align:center;
+    }
+    .howto-media-grid .howto-shot figcaption{
+      position:relative;
+      padding:.8rem .4rem .25rem;
+      color:var(--white);
+      font-size:.9rem;
+      font-weight:800;
+      text-align:center;
+    }
     @media (min-width:768px){
       .gallery{grid-template-columns:repeat(4,1fr);gap:1rem}
       .promo-banner img{aspect-ratio:16/10;object-position:center top}
       .compare-shot img{aspect-ratio:16/11}
       .howto-shot img{aspect-ratio:16/11}
+      .howto-media-grid{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:1.25rem}
+      .howto-media-grid .howto-shot img{aspect-ratio:16/11}
+      .howto-side-video video{height:100%;aspect-ratio:16/11}
       .section{padding:3.5rem 0}
     }
 
@@ -474,7 +559,7 @@
       min-height:8.5rem;
     }
     .review-top{
-      display:flex;align-items:center;gap:.75rem;
+      display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;
       margin-bottom:.9rem;
     }
     .review-avatar{
@@ -496,7 +581,7 @@
     }
     .review-rating{
       display:flex;flex-direction:column;align-items:flex-end;gap:.15rem;
-      flex-shrink:0;
+      flex-shrink:0;margin-inline-start:auto;
     }
     .review-score{color:var(--white);font-weight:800;font-size:.85rem}
     .reviews-dots{
@@ -523,7 +608,7 @@
     }
     .faq-slide{
       flex:0 0 auto;
-      width:270px;
+      width:min(270px,calc(100vw - 3rem));
       box-sizing:border-box;
       text-align:center;
       cursor:pointer;
@@ -796,6 +881,130 @@
       text-align:center;color:var(--muted);font-size:.8rem;
     }
 
+    /* Small-screen adaptive refinements */
+    @media (max-width:640px){
+      :root{
+        --header-h:60px;
+        --topbar-h:40px;
+      }
+      .top-bar{
+        min-height:var(--topbar-h);
+        height:auto;
+        font-size:.72rem;
+        line-height:1.35;
+        padding:.35rem .75rem;
+      }
+      .header-inner{
+        width:min(100% - 1rem,var(--max));
+        gap:.55rem;
+      }
+      .header-cta{
+        min-height:40px;
+        padding:.5rem .85rem;
+        font-size:.82rem;
+      }
+      .nav-toggle{
+        width:40px;
+        height:40px;
+      }
+      .site-nav.mobile-open{
+        align-items:stretch;
+        padding:1rem;
+      }
+      .site-nav.mobile-open a{
+        padding:.65rem .75rem;
+        border-radius:10px;
+        background:rgba(255,255,255,.04);
+      }
+      .hero{
+        padding:1.5rem 0 2rem;
+        gap:1.35rem;
+      }
+      .hero-badge,
+      .offer-timer{
+        width:100%;
+        justify-content:center;
+        text-align:center;
+      }
+      .price-row{
+        align-items:center;
+      }
+      .hero .btn{
+        width:100%;
+      }
+      .section{
+        padding:2rem 0;
+      }
+      .gallery{
+        grid-template-columns:1fr;
+      }
+      .gallery figure.promo img,
+      .gallery figure.wide img{
+        aspect-ratio:4/5;
+      }
+      .benefit{
+        grid-template-columns:1fr;
+        text-align:center;
+      }
+      .benefit-icon{
+        margin-inline:auto;
+      }
+      .faq-track-viewport{
+        padding:1rem 0;
+      }
+      .faq-arrow{
+        width:34px;
+        height:34px;
+      }
+      .faq-arrow-prev{inset-inline-start:0}
+      .faq-arrow-next{inset-inline-end:0}
+      .order-summary{
+        gap:.75rem;
+        flex-wrap:wrap;
+      }
+      .sticky-cta{
+        padding:.65rem .75rem calc(.65rem + env(safe-area-inset-bottom));
+      }
+    }
+
+    @media (max-width:420px){
+      .trust-grid{
+        grid-template-columns:1fr;
+      }
+      .logo{
+        font-size:.95rem;
+      }
+      .header-cta{
+        padding:.45rem .65rem;
+        font-size:.78rem;
+      }
+      .price-row,
+      .qty-stepper{
+        justify-content:center;
+        text-align:center;
+      }
+      .offer-timer-clock{
+        width:100%;
+        justify-content:center;
+      }
+      .review-rating{
+        width:100%;
+        align-items:flex-start;
+        margin-inline-start:0;
+      }
+      .sticky-cta{
+        flex-direction:column;
+        align-items:stretch;
+        gap:.5rem;
+      }
+      .sticky-cta .sticky-price{
+        text-align:center;
+      }
+      .sticky-cta .btn{
+        width:100%;
+      }
+    }
+
     /* Reduced motion */
     @media (prefers-reduced-motion:reduce){
       *,*::before,*::after{
@@ -1015,15 +1224,25 @@
           <p>انتظر حتى يبدأ مفعول الجل — ثم عِش اللحظة بثقة كاملة.</p>
         </article>
       </div>
-      <figure class="howto-shot" data-full="images/IMG-20260717-WA0010.jpg">
-        <img
-          src="images/IMG-20260717-WA0010.jpg"
-          alt="كيفية استخدام جيل Never Hold Back — ضع خطًا رفيعًا بطول 3 عقلات ثم دلّك بلطف حتى الامتصاص الكامل"
-          loading="lazy"
-          width="900"
-          height="1100"
-        >
-      </figure>
+      <div class="howto-media-grid" aria-label="شرح مرئي لطريقة الاستخدام">
+        <figure class="howto-side-video">
+          <video controls playsinline preload="metadata">
+            <source src="VID_20260722_214635.mp4" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو.
+          </video>
+          <figcaption>تطبيق عملي سريع وواضح</figcaption>
+        </figure>
+        <figure class="howto-shot" data-full="images/IMG-20260717-WA0010.jpg">
+          <img
+            src="images/IMG-20260717-WA0010.jpg"
+            alt="كيفية استخدام جيل Never Hold Back — ضع خطًا رفيعًا بطول 3 عقلات ثم دلّك بلطف حتى الامتصاص الكامل"
+            loading="lazy"
+            width="900"
+            height="1100"
+          >
+          <figcaption>دليل الاستخدام المصور</figcaption>
+        </figure>
+      </div>
     </section>
 
     <!-- Reviews -->
@@ -1285,4 +1504,505 @@
             <div class="qty-stepper">
               <button type="button" class="qty-btn" id="qtyIncrease" aria-label="زيادة الكمية">+</button>
               <input type="number" id="quantityInput" name="quantity" value="1" min="1" max="50" step="1" inputmode="numeric" aria-labelledby="quantityLabel">
-              <button type="button" class="qty-btn" id="qtyDecrease" aria-label="تقليل الك
+              <button type="button" class="qty-btn" id="qtyDecrease" aria-label="تقليل الكمية">−</button>
+              <span class="qty-unit-price">350 ج.م / عبوة</span>
+            </div>
+            <div class="stock-widget" aria-live="polite">
+              <div class="stock-text"><span id="stockCount">99</span> عبوات فقط متبقية في المخزون — اطلب قبل النفاد</div>
+              <div class="stock-bar"><div class="stock-bar-fill" id="stockBarFill"></div></div>
+            </div>
+          </div>
+
+          <div class="order-summary" aria-live="polite">
+            <span>الإجمالي المتوقع</span>
+            <strong id="totalPrice">350 ج.م</strong>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
+            <span class="btn-text">تأكيد الطلب — الدفع عند الاستلام</span>
+          </button>
+
+          <div class="form-msg" id="formMsg" role="status" aria-live="polite"></div>
+          <p class="form-footer-note">✓ بياناتك آمنة ولن تُستخدم إلا لتوصيل طلبك</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <!-- TODO: استبدل الروابط أدناه (href="#") بروابط حساباتك الفعلية على السوشيال ميديا -->
+      <div class="social-links" aria-label="تابعنا على وسائل التواصل الاجتماعي">
+        <a href="https://www.facebook.com/share/1DoxHkCPRo/" target="_blank" rel="noopener" aria-label="فيسبوك">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.41c0-2.51 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.78-1.63 1.58v1.9h2.78l-.44 2.91h-2.34V22c4.78-.79 8.44-4.94 8.44-9.94z"/></svg>
+        </a>
+        <a href="#" target="_blank" rel="noopener" aria-label="انستجرام">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11zm0 2a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zM17.8 5.3a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6z"/></svg>
+        </a>
+        <a href="https://wa.me/201000000000" target="_blank" rel="noopener" aria-label="واتساب">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.47 14.38c-.29-.15-1.71-.84-1.98-.94-.27-.1-.46-.15-.66.15-.2.29-.75.94-.92 1.13-.17.2-.34.22-.63.07-.29-.15-1.22-.45-2.32-1.43-.86-.77-1.44-1.72-1.61-2.01-.17-.29-.02-.45.13-.6.15-.15.34-.39.51-.58.17-.2.22-.34.34-.56.11-.22.06-.41-.03-.56-.09-.15-.66-1.6-.91-2.18-.24-.58-.49-.5-.66-.51-.17-.01-.37-.01-.56-.01-.2 0-.51.07-.78.36-.27.29-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.11 3.22 5.12 4.39 2.55 1 2.55.67 3.01.63.46-.05 1.71-.7 1.95-1.38.24-.68.24-1.26.17-1.38-.07-.12-.26-.19-.55-.34zM12.02 2C6.5 2 2 6.48 2 12c0 1.94.55 3.75 1.5 5.28L2 22l4.87-1.44A9.95 9.95 0 0 0 12.02 22C17.53 22 22 17.52 22 12S17.53 2 12.02 2z"/></svg>
+        </a>
+        <a href="#" target="_blank" rel="noopener" aria-label="تيك توك">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2h2.5a5.5 5.5 0 0 0 4.5 4.5V9a8 8 0 0 1-4.5-1.38V15a6 6 0 1 1-6-6c.17 0 .33.01.5.03v2.55A3.5 3.5 0 1 0 14 15V2z"/></svg>
+        </a>
+      </div>
+      <p>Never Hold Back Gel — للاستخدام الخارجي فقط. اتبع تعليمات الاستخدام.</p>
+      <p style="margin-top:.35rem">© <span id="year"></span> جميع الحقوق محفوظة</p>
+    </div>
+  </footer>
+
+  <!-- Sticky mobile CTA -->
+  <div class="sticky-cta" id="stickyCta" aria-hidden="true">
+    <div class="sticky-price">350 ج.م<small>بدل 400 ج.م — الدفع عند الاستلام</small></div>
+    <a class="btn btn-primary" href="#order">اطلب الآن</a>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="عرض الصورة">
+    <button type="button" class="lightbox-close" id="lightboxClose" aria-label="إغلاق">×</button>
+    <img src="" alt="" id="lightboxImg">
+  </div>
+
+  <script>
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyv42Ob87yf648qZcA4F2vOjxIVltVNnJjQNyEKPclaHRS5Nm9r53cOe5GWU3BOu0odRw/exec';
+    const UNIT_PRICE = 350;
+    const ORIGINAL_PRICE = 400;
+
+    (function () {
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      /* Offer countdown timer — resets automatically every night at midnight */
+      var timerH = document.getElementById('timerH');
+      var timerM = document.getElementById('timerM');
+      var timerS = document.getElementById('timerS');
+      function pad(n) { return String(n).padStart(2, '0'); }
+      function updateOfferTimer() {
+        var now = new Date();
+        var midnight = new Date(now);
+        midnight.setHours(24, 0, 0, 0);
+        var diff = Math.max(0, midnight - now);
+        var h = Math.floor(diff / 3600000);
+        var m = Math.floor((diff % 3600000) / 60000);
+        var s = Math.floor((diff % 60000) / 1000);
+        timerH.textContent = pad(h);
+        timerM.textContent = pad(m);
+        timerS.textContent = pad(s);
+      }
+      updateOfferTimer();
+      setInterval(updateOfferTimer, 1000);
+
+      /* Header nav toggle (mobile dropdown) */
+      var navToggle = document.getElementById('navToggle');
+      var siteNav = document.getElementById('siteNav');
+      function closeNav() {
+        siteNav.classList.remove('mobile-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+      navToggle.addEventListener('click', function () {
+        var isOpen = siteNav.classList.toggle('mobile-open');
+        navToggle.setAttribute('aria-expanded', String(isOpen));
+      });
+      siteNav.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', closeNav);
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeNav();
+      });
+      window.addEventListener('resize', function () {
+        if (window.matchMedia('(min-width: 900px)').matches) closeNav();
+      });
+
+      /* Mock "visitors viewing now" counter — fixed top bar, stays between 100 and 150 */
+      var visitorCountEl = document.getElementById('visitorCount');
+      var VISITOR_MIN = 100;
+      var VISITOR_MAX = 150;
+      var visitorCount = VISITOR_MIN + Math.floor(Math.random() * (VISITOR_MAX - VISITOR_MIN + 1));
+      visitorCountEl.textContent = visitorCount;
+      setInterval(function () {
+        var delta = Math.floor(Math.random() * 9) - 4;
+        visitorCount = Math.max(VISITOR_MIN, Math.min(VISITOR_MAX, visitorCount + delta));
+        visitorCountEl.textContent = visitorCount;
+      }, 4000);
+
+      /* Quantity stepper → total + remaining stock (100 minus the selected quantity) */
+      const quantityInput = document.getElementById('quantityInput');
+      const qtyDecrease = document.getElementById('qtyDecrease');
+      const qtyIncrease = document.getElementById('qtyIncrease');
+      const totalPriceEl = document.getElementById('totalPrice');
+      const stockCountEl = document.getElementById('stockCount');
+      const stockBarFill = document.getElementById('stockBarFill');
+      const QTY_MIN = 1;
+      const QTY_MAX = 50;
+      const STOCK_BASE = 100;
+
+      function clampQty(value) {
+        var n = parseInt(value, 10);
+        if (isNaN(n)) n = QTY_MIN;
+        return Math.min(QTY_MAX, Math.max(QTY_MIN, n));
+      }
+      function updateTotal() {
+        const qty = clampQty(quantityInput.value);
+        totalPriceEl.textContent = (qty * UNIT_PRICE) + ' ج.م';
+      }
+      function updateStock() {
+        const qty = clampQty(quantityInput.value);
+        const remaining = Math.max(0, STOCK_BASE - qty);
+        stockCountEl.textContent = remaining;
+        stockBarFill.style.width = Math.max(2, (remaining / STOCK_BASE) * 100) + '%';
+      }
+      function setQty(value) {
+        const qty = clampQty(value);
+        quantityInput.value = qty;
+        qtyDecrease.disabled = qty <= QTY_MIN;
+        qtyIncrease.disabled = qty >= QTY_MAX;
+        updateTotal();
+        updateStock();
+      }
+      qtyDecrease.addEventListener('click', function () {
+        setQty(clampQty(quantityInput.value) - 1);
+      });
+      qtyIncrease.addEventListener('click', function () {
+        setQty(clampQty(quantityInput.value) + 1);
+      });
+      quantityInput.addEventListener('input', function () {
+        updateTotal();
+        updateStock();
+      });
+      quantityInput.addEventListener('change', function () {
+        setQty(quantityInput.value);
+      });
+      setQty(quantityInput.value);
+
+      /* Sticky CTA: show after scrolling past hero, hide near form */
+      const stickyCta = document.getElementById('stickyCta');
+      const orderSection = document.getElementById('order');
+      function updateSticky() {
+        if (window.matchMedia('(min-width: 768px)').matches) {
+          stickyCta.classList.remove('show');
+          stickyCta.setAttribute('aria-hidden', 'true');
+          return;
+        }
+        const orderTop = orderSection.getBoundingClientRect().top;
+        const scrolled = window.scrollY > 420;
+        const nearForm = orderTop < window.innerHeight * 0.75;
+        const show = scrolled && !nearForm;
+        stickyCta.classList.toggle('show', show);
+        stickyCta.setAttribute('aria-hidden', show ? 'false' : 'true');
+      }
+      window.addEventListener('scroll', updateSticky, { passive: true });
+      window.addEventListener('resize', updateSticky);
+      updateSticky();
+
+      /* Reviews carousel — advances automatically, no interaction required */
+      const reviewsTrack = document.getElementById('reviewsTrack');
+      const reviewSlides = reviewsTrack.querySelectorAll('.review-card');
+      const reviewsDotsWrap = document.getElementById('reviewsDots');
+      const REVIEWS_INTERVAL = 4500;
+      let reviewIndex = 0;
+      let reviewsAutoplayTimer = null;
+
+      reviewSlides.forEach(function (_, i) {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'reviews-dot';
+        dot.setAttribute('aria-label', 'تقييم رقم ' + (i + 1));
+        dot.addEventListener('click', function () {
+          goToReview(i);
+          restartReviewsAutoplay();
+        });
+        reviewsDotsWrap.appendChild(dot);
+      });
+      const reviewDots = reviewsDotsWrap.querySelectorAll('.reviews-dot');
+
+      function renderReviews() {
+        reviewsTrack.style.transform = 'translateX(' + (reviewIndex * 100) + '%)';
+        reviewDots.forEach(function (dot, i) {
+          dot.classList.toggle('active', i === reviewIndex);
+        });
+      }
+      function goToReview(i) {
+        const total = reviewSlides.length;
+        reviewIndex = (i + total) % total;
+        renderReviews();
+      }
+      function startReviewsAutoplay() {
+        clearInterval(reviewsAutoplayTimer);
+        reviewsAutoplayTimer = setInterval(function () {
+          goToReview(reviewIndex + 1);
+        }, REVIEWS_INTERVAL);
+      }
+      function restartReviewsAutoplay() {
+        startReviewsAutoplay();
+      }
+
+      const reviewsCarousel = document.querySelector('.reviews-carousel');
+      reviewsCarousel.addEventListener('mouseenter', function () {
+        clearInterval(reviewsAutoplayTimer);
+      });
+      reviewsCarousel.addEventListener('mouseleave', startReviewsAutoplay);
+
+      let reviewsTouchStartX = null;
+      reviewsTrack.addEventListener('touchstart', function (e) {
+        reviewsTouchStartX = e.touches[0].clientX;
+        clearInterval(reviewsAutoplayTimer);
+      }, { passive: true });
+      reviewsTrack.addEventListener('touchend', function (e) {
+        if (reviewsTouchStartX !== null) {
+          const delta = e.changedTouches[0].clientX - reviewsTouchStartX;
+          if (Math.abs(delta) > 40) {
+            if (delta < 0) goToReview(reviewIndex + 1);
+            else goToReview(reviewIndex - 1);
+          }
+        }
+        reviewsTouchStartX = null;
+        startReviewsAutoplay();
+      }, { passive: true });
+
+      renderReviews();
+      startReviewsAutoplay();
+
+      /* FAQ carousel — centered focus card with peeking side cards, arrows + dots + swipe, auto-advances */
+      const faqTrack = document.getElementById('faqTrack');
+      const faqViewport = document.querySelector('.faq-track-viewport');
+      const faqSlides = Array.prototype.slice.call(faqTrack.querySelectorAll('.faq-slide'));
+      const faqDotsWrap = document.getElementById('faqDots');
+      const faqPrev = document.getElementById('faqPrev');
+      const faqNext = document.getElementById('faqNext');
+      const FAQ_INTERVAL = 6000;
+      let faqIndex = 0;
+      let faqAutoplayTimer = null;
+
+      faqSlides.forEach(function (slide, i) {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'faq-dot';
+        dot.setAttribute('aria-label', 'سؤال رقم ' + (i + 1));
+        dot.addEventListener('click', function () {
+          goToFaq(i);
+          restartFaqAutoplay();
+        });
+        faqDotsWrap.appendChild(dot);
+
+        slide.addEventListener('click', function () {
+          if (i !== faqIndex) {
+            goToFaq(i);
+            restartFaqAutoplay();
+          }
+        });
+      });
+      const faqDots = faqDotsWrap.querySelectorAll('.faq-dot');
+
+      function centerFaqSlide() {
+        const activeSlide = faqSlides[faqIndex];
+        if (!activeSlide || !faqViewport) return;
+        const viewportWidth = faqViewport.getBoundingClientRect().width;
+        const offset = (viewportWidth / 2) - (activeSlide.offsetLeft + activeSlide.offsetWidth / 2);
+        faqTrack.style.transform = 'translateX(' + offset + 'px)';
+      }
+      function renderFaq() {
+        faqSlides.forEach(function (slide, i) {
+          slide.classList.toggle('active', i === faqIndex);
+        });
+        faqDots.forEach(function (dot, i) {
+          dot.classList.toggle('active', i === faqIndex);
+        });
+        centerFaqSlide();
+      }
+      function goToFaq(i) {
+        const total = faqSlides.length;
+        faqIndex = (i + total) % total;
+        renderFaq();
+      }
+      function startFaqAutoplay() {
+        clearInterval(faqAutoplayTimer);
+        faqAutoplayTimer = setInterval(function () {
+          goToFaq(faqIndex + 1);
+        }, FAQ_INTERVAL);
+      }
+      function restartFaqAutoplay() {
+        startFaqAutoplay();
+      }
+
+      faqPrev.addEventListener('click', function () {
+        goToFaq(faqIndex - 1);
+        restartFaqAutoplay();
+      });
+      faqNext.addEventListener('click', function () {
+        goToFaq(faqIndex + 1);
+        restartFaqAutoplay();
+      });
+
+      const faqCarousel = document.querySelector('.faq-carousel');
+      faqCarousel.addEventListener('mouseenter', function () {
+        clearInterval(faqAutoplayTimer);
+      });
+      faqCarousel.addEventListener('mouseleave', startFaqAutoplay);
+
+      let faqTouchStartX = null;
+      faqTrack.addEventListener('touchstart', function (e) {
+        faqTouchStartX = e.touches[0].clientX;
+        clearInterval(faqAutoplayTimer);
+      }, { passive: true });
+      faqTrack.addEventListener('touchend', function (e) {
+        if (faqTouchStartX !== null) {
+          const delta = e.changedTouches[0].clientX - faqTouchStartX;
+          if (Math.abs(delta) > 40) {
+            if (delta < 0) goToFaq(faqIndex + 1);
+            else goToFaq(faqIndex - 1);
+          }
+        }
+        faqTouchStartX = null;
+        startFaqAutoplay();
+      }, { passive: true });
+
+      window.addEventListener('resize', centerFaqSlide);
+
+      renderFaq();
+      startFaqAutoplay();
+
+      /* Lightbox for gallery + promo shots */
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightboxImg');
+      const lightboxClose = document.getElementById('lightboxClose');
+      document.querySelectorAll('[data-full]').forEach(function (fig) {
+        fig.addEventListener('click', function () {
+          const src = fig.getAttribute('data-full');
+          const img = fig.querySelector('img');
+          lightboxImg.src = src;
+          lightboxImg.alt = img ? img.alt : '';
+          lightbox.classList.add('open');
+        });
+      });
+      function closeLightbox() {
+        lightbox.classList.remove('open');
+        lightboxImg.src = '';
+      }
+      lightboxClose.addEventListener('click', closeLightbox);
+      lightbox.addEventListener('click', function (e) {
+        if (e.target === lightbox) closeLightbox();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeLightbox();
+      });
+
+      /* Form submit → Google Apps Script */
+      const form = document.getElementById('orderForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const formMsg = document.getElementById('formMsg');
+      const btnText = submitBtn.querySelector('.btn-text');
+
+      function setLoading(isLoading) {
+        submitBtn.disabled = isLoading;
+        if (isLoading) {
+          btnText.innerHTML = '<span class="spinner" aria-hidden="true"></span> جاري إرسال الطلب...';
+        } else {
+          btnText.textContent = 'تأكيد الطلب — الدفع عند الاستلام';
+        }
+      }
+
+      function showMsg(type, text) {
+        formMsg.className = 'form-msg ' + type;
+        formMsg.textContent = text;
+      }
+
+      function validatePhone(phone) {
+        return /^01[0-9]{9}$/.test(phone.trim());
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        formMsg.className = 'form-msg';
+        formMsg.textContent = '';
+
+        const name = form.name.value.trim();
+        const phone = form.phone.value.trim();
+        const altPhone = form.altPhone.value.trim();
+        const governorate = form.governorate.value;
+        const city = form.city.value.trim();
+        const address = form.address.value.trim();
+        const landmark = form.landmark.value.trim();
+        const quantity = form.quantity.value;
+
+        if (name.length < 3) {
+          showMsg('error', 'من فضلك اكتب اسمك بالكامل.');
+          form.name.focus();
+          return;
+        }
+        if (!validatePhone(phone)) {
+          showMsg('error', 'من فضلك أدخل رقم موبايل مصري صحيح (11 رقم يبدأ بـ 01).');
+          form.phone.focus();
+          return;
+        }
+        if (altPhone && !validatePhone(altPhone)) {
+          showMsg('error', 'رقم الهاتف البديل غير صحيح (11 رقم يبدأ بـ 01) أو اتركه فاضي.');
+          form.altPhone.focus();
+          return;
+        }
+        if (!governorate) {
+          showMsg('error', 'من فضلك اختر المحافظة.');
+          form.governorate.focus();
+          return;
+        }
+        if (city.length < 2) {
+          showMsg('error', 'من فضلك اكتب المدينة.');
+          form.city.focus();
+          return;
+        }
+        if (address.length < 5) {
+          showMsg('error', 'من فضلك اكتب العنوان بالتفصيل.');
+          form.address.focus();
+          return;
+        }
+
+        if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL === 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
+          showMsg('error', 'لم يتم ضبط رابط Google Script بعد. استبدل YOUR_GOOGLE_SCRIPT_URL_HERE برابط الـ Web App.');
+          return;
+        }
+
+        setLoading(true);
+
+        /*
+         * GET with query params instead of POST.
+         * Reason: Apps Script Web Apps respond to POST with a redirect, and
+         * many browsers drop the POST body when following that redirect —
+         * the request "succeeds" (no network error) but Apps Script receives
+         * an empty payload and writes nothing. GET query params survive the
+         * redirect intact, and doGet() in Code.gs writes the order when
+         * name+phone are present.
+         */
+        var product = (form.product && form.product.value) || 'Never Hold Back Gel';
+        var params = new URLSearchParams({
+          name: name,
+          phone: phone,
+          altPhone: altPhone,
+          governorate: governorate,
+          city: city,
+          address: address,
+          landmark: landmark,
+          quantity: String(quantity),
+          product: product,
+          _ts: Date.now() /* cache-buster */
+        });
+        var requestUrl = GOOGLE_SCRIPT_URL + '?' + params.toString();
+
+        fetch(requestUrl, {
+          method: 'GET',
+          mode: 'no-cors',
+          cache: 'no-store'
+        })
+          .then(function () {
+            showMsg('success', 'تم استلام طلبك بنجاح! هنتواصل معاك قريب لتأكيد التوصيل. شكرًا لثقتك.');
+            form.reset();
+            setQty(quantityInput.value);
+          })
+          .catch(function () {
+            showMsg('error', 'حصل خطأ أثناء الإرسال. حاول تاني خلال لحظات.');
+          })
+          .finally(function () {
+            setLoading(false);
+          });
+      });
+    })();
+  </script>
+</body>
+</html>
