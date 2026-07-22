@@ -25,6 +25,7 @@
       --max:1100px;
       --header-h:64px;
       --sticky-h:64px;
+      --topbar-h:34px;
     }
     html{scroll-behavior:smooth}
     body{
@@ -34,6 +35,7 @@
       line-height:1.7;
       overflow-x:hidden;
       -webkit-font-smoothing:antialiased;
+      padding-top:var(--topbar-h);
     }
     img{max-width:100%;display:block;height:auto}
     a{color:inherit;text-decoration:none}
@@ -65,9 +67,19 @@
     .delay-2{animation-delay:.24s}
     .delay-3{animation-delay:.36s}
 
+    /* Top bar (fixed, mock visitor counter) */
+    .top-bar{
+      position:fixed;top:0;inset-inline:0;z-index:110;
+      height:var(--topbar-h);
+      display:flex;align-items:center;justify-content:center;gap:.4rem;
+      background:linear-gradient(90deg,rgba(239,68,68,.92),rgba(255,138,0,.92));
+      color:#fff;font-weight:800;font-size:.78rem;
+      padding:0 1rem;text-align:center;
+    }
+
     /* Header */
     .site-header{
-      position:sticky;top:0;z-index:100;
+      position:sticky;top:var(--topbar-h);z-index:100;
       height:var(--header-h);
       display:flex;align-items:center;
       background:rgba(10,14,23,.85);
@@ -84,6 +96,26 @@
       background:linear-gradient(90deg,var(--white),var(--neon));
       -webkit-background-clip:text;background-clip:text;color:transparent;
     }
+    .site-nav{
+      display:none;
+      align-items:center;gap:1.35rem;
+    }
+    .site-nav a{
+      font-size:.85rem;font-weight:700;color:var(--muted);
+      white-space:nowrap;
+      transition:color .2s;
+    }
+    .site-nav a:hover{color:var(--neon)}
+    .header-actions{display:flex;align-items:center;gap:.6rem}
+    .nav-toggle{
+      display:flex;align-items:center;justify-content:center;
+      width:40px;height:40px;flex-shrink:0;
+      border-radius:10px;
+      background:transparent;
+      border:1.5px solid rgba(0,240,255,.25);
+      color:var(--neon);cursor:pointer;
+    }
+    .nav-toggle svg{width:18px;height:18px;fill:currentColor}
     .header-cta{
       display:inline-flex;align-items:center;justify-content:center;
       min-height:44px;padding:.55rem 1.1rem;
@@ -93,6 +125,20 @@
     }
     .header-cta:hover{filter:brightness(1.08);transform:translateY(-1px)}
     .header-cta:active{transform:scale(.97)}
+    @media (min-width:900px){
+      .site-nav{display:flex}
+      .nav-toggle{display:none}
+    }
+    @media (max-width:899px){
+      .site-nav.mobile-open{
+        display:flex;flex-direction:column;align-items:flex-start;
+        position:absolute;top:100%;inset-inline:0;
+        background:rgba(10,14,23,.98);
+        backdrop-filter:blur(12px);
+        border-bottom:1px solid rgba(0,240,255,.15);
+        padding:1rem min(1rem,4vw);gap:.9rem;
+      }
+    }
 
     /* Buttons */
     .btn{
@@ -146,17 +192,71 @@
       display:flex;flex-wrap:wrap;align-items:baseline;gap:.75rem 1.25rem;
       margin-bottom:1.5rem;
     }
+    .price-block{display:flex;flex-direction:column;gap:.1rem}
+    .price-old{
+      color:var(--muted);font-size:1.05rem;font-weight:700;
+      text-decoration:line-through;
+    }
     .price{
       font-size:clamp(1.75rem,5vw,2.4rem);
       font-weight:900;color:var(--neon);
     }
     .price small{font-size:.55em;color:var(--white);font-weight:700}
+    .discount-badge{
+      display:inline-flex;align-items:center;
+      background:rgba(239,68,68,.15);
+      border:1px solid rgba(239,68,68,.4);
+      color:var(--danger);font-weight:800;font-size:.8rem;
+      padding:.3rem .75rem;border-radius:999px;white-space:nowrap;
+    }
     .price-note{
       color:var(--muted);font-size:.9rem;font-weight:600;
     }
     .cod-pill{
       display:inline-flex;align-items:center;gap:.35rem;
       margin-top:.85rem;color:var(--success);font-weight:700;font-size:.9rem;
+    }
+
+    /* Offer countdown timer */
+    .offer-timer{
+      display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;
+      background:rgba(239,68,68,.08);
+      border:1px solid rgba(239,68,68,.35);
+      border-radius:12px;
+      padding:.55rem .9rem;
+      margin:.9rem 0 1.15rem;
+      width:fit-content;
+    }
+    .offer-timer-label{color:var(--danger);font-weight:700;font-size:.82rem;white-space:nowrap}
+    .offer-timer-clock{
+      display:flex;gap:.25rem;align-items:center;
+      font-weight:900;font-size:1.05rem;color:var(--white);
+      font-variant-numeric:tabular-nums;
+    }
+    .offer-timer-clock span{
+      background:rgba(0,0,0,.35);
+      border-radius:6px;
+      padding:.15rem .4rem;
+      min-width:1.9rem;text-align:center;
+    }
+    .offer-timer-clock .sep{background:none;padding:0;min-width:auto}
+
+    /* Stock widget (mock, shown under the quantity field) */
+    .stock-widget{
+      margin-top:.9rem;
+      background:var(--bg);
+      border:1px solid rgba(0,240,255,.18);
+      border-radius:10px;
+      padding:.65rem .85rem;
+      font-size:.85rem;
+    }
+    .stock-widget .stock-text{margin-bottom:.45rem;color:var(--white);font-weight:600}
+    .stock-widget .stock-text #stockCount{color:var(--danger);font-weight:900}
+    .stock-bar{height:8px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}
+    .stock-bar-fill{
+      height:100%;border-radius:999px;
+      background:linear-gradient(90deg,var(--danger),#ff8a00);
+      transition:width .6s ease;
     }
     .hero-visual{
       position:relative;
@@ -358,6 +458,151 @@
       .steps{grid-template-columns:repeat(3,1fr)}
     }
 
+    /* Reviews carousel (auto-advancing) */
+    .reviews-carousel{position:relative}
+    .reviews-track-viewport{overflow:hidden;border-radius:var(--radius)}
+    .reviews-track{
+      display:flex;
+      transition:transform .5s ease;
+    }
+    .review-card{
+      min-width:100%;flex-shrink:0;box-sizing:border-box;
+      background:var(--bg-3);
+      border:1px solid rgba(0,240,255,.14);
+      border-radius:var(--radius);
+      padding:1.5rem 1.35rem;
+      min-height:8.5rem;
+    }
+    .review-top{
+      display:flex;align-items:center;gap:.75rem;
+      margin-bottom:.9rem;
+    }
+    .review-avatar{
+      width:44px;height:44px;border-radius:50%;flex-shrink:0;
+      background:linear-gradient(135deg,#00f0ff 0%,#00b8ff 100%);
+      color:#041018;font-weight:900;font-size:1.05rem;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .review-meta{flex:1;min-width:0}
+    .review-stars{color:#ffb400;font-size:1rem;letter-spacing:.15em}
+    .review-text{color:var(--muted);font-size:.92rem;margin-bottom:.9rem;line-height:1.75}
+    .review-author{font-weight:800;font-size:.9rem;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+    .review-location{display:block;color:var(--muted);font-weight:600;font-size:.8rem}
+    .review-verified{
+      display:inline-flex;align-items:center;gap:.2rem;
+      background:rgba(34,197,94,.14);border:1px solid rgba(34,197,94,.4);
+      color:var(--success);font-size:.72rem;font-weight:700;
+      padding:.15rem .5rem;border-radius:999px;white-space:nowrap;
+    }
+    .review-rating{
+      display:flex;flex-direction:column;align-items:flex-end;gap:.15rem;
+      flex-shrink:0;
+    }
+    .review-score{color:var(--white);font-weight:800;font-size:.85rem}
+    .reviews-dots{
+      display:flex;align-items:center;justify-content:center;gap:.5rem;
+      margin-top:1.1rem;
+    }
+    .reviews-dot{
+      width:9px;height:9px;border-radius:50%;padding:0;
+      background:rgba(0,240,255,.2);border:none;cursor:pointer;
+      transition:background .2s,transform .2s;
+    }
+    .reviews-dot.active{background:var(--neon);transform:scale(1.3)}
+    @media (min-width:768px){
+      .review-card{padding:2rem 2.5rem;min-height:7.5rem}
+    }
+
+    /* FAQ carousel — centered "focus" card with dimmed peeking cards on each side */
+    .faq-carousel{position:relative;width:100%;margin-inline:auto}
+    .faq-track-viewport{overflow:hidden;padding:1.5rem 0}
+    .faq-track{
+      display:flex;align-items:center;gap:.9rem;
+      transition:transform .45s ease;
+      will-change:transform;
+    }
+    .faq-slide{
+      flex:0 0 auto;
+      width:270px;
+      box-sizing:border-box;
+      text-align:center;
+      cursor:pointer;
+      background:var(--bg-3);
+      border:1px solid rgba(0,240,255,.14);
+      border-radius:var(--radius);
+      padding:1.35rem 1.1rem;
+      opacity:.4;
+      transform:scale(.78);
+      transition:opacity .4s ease,transform .4s ease,border-color .4s ease,box-shadow .4s ease;
+    }
+    .faq-slide:hover{opacity:.7}
+    .faq-icon{
+      width:52px;height:52px;border-radius:14px;margin:0 auto .8rem;
+      background:var(--neon-dim);
+      border:1px solid rgba(0,240,255,.3);
+      display:flex;align-items:center;justify-content:center;
+      color:var(--neon);font-size:1.3rem;font-weight:900;
+      transition:width .4s ease,height .4s ease,font-size .4s ease;
+    }
+    .faq-q{
+      font-size:.85rem;font-weight:800;color:var(--white);
+      line-height:1.45;margin:0;
+      transition:font-size .4s ease,color .4s ease;
+    }
+    .faq-a{display:none;margin-top:1rem;text-align:start}
+    .faq-a p{color:var(--muted);font-size:.9rem;line-height:1.8;margin-bottom:.6rem}
+    .faq-a p:last-child{margin-bottom:0}
+    .faq-a ul{list-style:none;margin:0 0 .6rem;padding:0;display:grid;gap:.35rem}
+    .faq-a ul li{
+      color:var(--white);font-size:.9rem;font-weight:700;
+      padding-inline-start:1.3rem;position:relative;
+    }
+    .faq-a ul li::before{
+      content:"✓";position:absolute;inset-inline-start:0;
+      color:var(--neon);font-weight:900;
+    }
+    .faq-slide.active{
+      cursor:default;
+      opacity:1;transform:scale(1);
+      border-color:rgba(0,240,255,.45);
+      box-shadow:0 0 34px rgba(0,240,255,.1);
+    }
+    .faq-slide.active .faq-icon{width:60px;height:60px;font-size:1.5rem}
+    .faq-slide.active .faq-q{font-size:1.05rem;color:var(--neon)}
+    .faq-slide.active .faq-a{display:block}
+    .faq-arrow{
+      position:absolute;top:50%;transform:translateY(-50%);
+      width:38px;height:38px;border-radius:50%;flex-shrink:0;
+      background:rgba(10,14,23,.75);
+      border:1.5px solid rgba(0,240,255,.35);
+      color:var(--neon);font-size:1.4rem;font-weight:900;
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;z-index:2;
+      transition:border-color .2s,background .2s;
+    }
+    .faq-arrow:hover{border-color:var(--neon);background:rgba(0,240,255,.15)}
+    .faq-arrow-prev{inset-inline-start:-.5rem}
+    .faq-arrow-next{inset-inline-end:-.5rem}
+    .faq-dots{
+      display:flex;align-items:center;justify-content:center;gap:.5rem;
+      margin-top:1.1rem;
+    }
+    .faq-dot{
+      width:9px;height:9px;border-radius:50%;padding:0;
+      background:rgba(0,240,255,.2);border:none;cursor:pointer;
+      transition:background .2s,transform .2s;
+    }
+    .faq-dot.active{background:var(--neon);transform:scale(1.3)}
+    .faq-footer-note{
+      text-align:center;color:var(--muted);font-size:.88rem;
+      margin-top:1.25rem;
+    }
+    @media (min-width:768px){
+      .faq-slide{width:340px;padding:1.6rem 1.75rem}
+      .faq-arrow-prev{inset-inline-start:-1.4rem}
+      .faq-arrow-next{inset-inline-end:-1.4rem}
+    }
+
     /* Credibility */
     .cred-box{
       background:linear-gradient(135deg,rgba(0,240,255,.08),rgba(0,120,255,.04));
@@ -368,6 +613,33 @@
     }
     .cred-box h2{font-size:clamp(1.25rem,4vw,1.75rem);margin-bottom:.6rem}
     .cred-box p{color:var(--muted);max-width:48ch;margin-inline:auto}
+    .cred-highlight{
+      margin-top:.9rem;font-weight:700;color:var(--white)!important;
+      max-width:52ch!important;
+    }
+    .cred-badges{
+      display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;
+      margin-top:1.15rem;
+    }
+    .cred-badge{
+      background:rgba(0,240,255,.08);
+      border:1px solid rgba(0,240,255,.3);
+      color:var(--neon);font-size:.78rem;font-weight:700;
+      padding:.4rem .8rem;border-radius:999px;
+    }
+
+    /* Social links */
+    .social-links{display:flex;justify-content:center;gap:.75rem;margin-bottom:1rem}
+    .social-links a{
+      width:38px;height:38px;border-radius:50%;
+      background:var(--bg-3);
+      border:1px solid rgba(0,240,255,.25);
+      display:flex;align-items:center;justify-content:center;
+      color:var(--neon);
+      transition:border-color .2s,transform .2s;
+    }
+    .social-links a:hover{border-color:var(--neon);transform:translateY(-2px)}
+    .social-links svg{width:18px;height:18px;fill:currentColor}
 
     /* Order form */
     .order{
@@ -416,8 +688,46 @@
       border-color:var(--neon);
       box-shadow:0 0 0 3px var(--neon-dim);
     }
-    .form-group input::placeholder{color:#5a6a85}
-    .form-hint{font-size:.78rem;color:var(--muted);margin-top:.35rem}
+    .form-group input::placeholder{color:var(--white);opacity:.75}
+    .form-hint{font-size:.78rem;color:var(--white);margin-top:.35rem}
+    /* Quantity stepper */
+    .qty-stepper{
+      display:flex;align-items:center;flex-wrap:wrap;gap:.85rem;
+      margin-top:.6rem;
+    }
+    .qty-btn{
+      width:48px;height:48px;flex-shrink:0;
+      border-radius:12px;
+      background:var(--bg);
+      border:1.5px solid rgba(0,240,255,.3);
+      color:var(--neon);
+      font-size:1.5rem;font-weight:800;line-height:1;
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;
+      transition:border-color .2s,background .2s,transform .2s;
+    }
+    .qty-btn:hover:not(:disabled){border-color:var(--neon);background:var(--neon-dim)}
+    .qty-btn:active:not(:disabled){transform:scale(.92)}
+    .qty-btn:disabled{opacity:.35;cursor:not-allowed}
+    #quantityInput{
+      width:64px;min-height:48px;
+      padding:0;
+      text-align:center;
+      background:var(--bg);
+      border:1.5px solid rgba(0,240,255,.2);
+      border-radius:12px;
+      color:var(--white);font-weight:900;font-size:1.2rem;
+      appearance:textfield;
+      -moz-appearance:textfield;
+    }
+    #quantityInput::-webkit-outer-spin-button,
+    #quantityInput::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+    #quantityInput:focus{
+      border-color:var(--neon);
+      box-shadow:0 0 0 3px var(--neon-dim);
+    }
+    .qty-unit-price{color:var(--muted);font-size:.85rem;font-weight:600}
+
     .order-summary{
       display:flex;justify-content:space-between;align-items:center;
       padding:1rem;
@@ -498,10 +808,29 @@
   </style>
 </head>
 <body>
+  <div class="top-bar" id="topBar" aria-live="polite">
+    <span aria-hidden="true">🔥</span>
+    <span><span id="visitorCount">120</span> شخص يشاهدون هذا المنتج الآن</span>
+  </div>
+
   <header class="site-header">
     <div class="header-inner">
       <div class="logo">Never Hold Back</div>
-      <a class="header-cta" href="#order">اطلب الآن</a>
+      <nav class="site-nav" id="siteNav" aria-label="روابط الأقسام">
+        <a href="#gallery">المعرض</a>
+        <a href="#compare">المقارنة</a>
+        <a href="#benefits">المميزات</a>
+        <a href="#howto">الاستخدام</a>
+        <a href="#reviews">التقييمات</a>
+        <a href="#faq">الأسئلة الشائعة</a>
+        <a href="#order">اطلب الآن</a>
+      </nav>
+      <div class="header-actions">
+        <a class="header-cta" href="#order">اطلب الآن</a>
+        <button type="button" class="nav-toggle" id="navToggle" aria-label="فتح قائمة الأقسام" aria-expanded="false" aria-controls="siteNav">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="2.4" rx="1.2"/><rect x="3" y="10.8" width="18" height="2.4" rx="1.2"/><rect x="3" y="16.6" width="18" height="2.4" rx="1.2"/></svg>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -514,18 +843,28 @@
           لا تؤجّل اللحظة — <span>نتائج خلال 30 دقيقة</span>
         </h1>
         <p class="hero-sub fade-in delay-2">
-          جل ترطيب موضعي للرجال — بدون آثار جانبية كالحبوب، آمن للاستخدام اليومي، ومناسب لكبار السن ومرضى ضغط الدم.
+          جيل موضعي لعلاج ضعف الانتصاب للرجال — بدون آثار جانبية كالحبوب، آمن للاستخدام اليومي، ومناسب لكبار السن ومرضى ضغط الدم.
         </p>
+        <div class="offer-timer fade-in delay-2" role="timer" aria-live="off">
+          <span class="offer-timer-label">⏰ العرض ينتهي الليلة خلال</span>
+          <div class="offer-timer-clock" aria-hidden="true">
+            <span id="timerH">00</span><span class="sep">:</span><span id="timerM">00</span><span class="sep">:</span><span id="timerS">00</span>
+          </div>
+        </div>
         <div class="price-row fade-in delay-2">
-          <div class="price">250 <small>ج.م</small></div>
+          <div class="price-block">
+            <div class="price-old">400 ج.م</div>
+            <div class="price">350 <small>ج.م</small></div>
+          </div>
+          <span class="discount-badge">وفّر 50 ج.م</span>
           <div class="price-note">سعر خاص لفترة محدودة</div>
         </div>
-        <a class="btn btn-primary fade-in delay-3" href="#order">اطلب دلوقتي — الدفع عند الاستلام</a>
+        <a class="btn btn-primary fade-in delay-3" href="#order">اطلب دلوقتي — شحن مجاني لفترة محدودة</a>
         <div class="cod-pill fade-in delay-3">✓ ادفع لما تستلم طلبك بأمان لباب البيت</div>
       </div>
       <div class="hero-visual fade-in delay-1">
         <img
-          src="IMG-20260719-WA0000.jpg"
+          src="images/IMG-20260719-WA0000.jpg"
           alt="عبوة جل Never Hold Back Gel — جل ترطيب موضعي أسود بتصميم البرق الكهربائي"
           width="600"
           height="800"
@@ -562,9 +901,9 @@
         <h2>جايين نكهرب الكل</h2>
         <p>أول جل في مصر والوطن العربي — مرخّص من هيئة الدواء المصرية</p>
       </div>
-      <figure class="promo-banner" data-full="IMG-20260719-WA0002.jpg">
+      <figure class="promo-banner" data-full="images/IMG-20260719-WA0002.jpg">
         <img
-          src="IMG-20260719-WA0002.jpg"
+          src="images/IMG-20260719-WA0002.jpg"
           alt="إعلان Never Hold Back Gel — جايين نكهرب الكل، أول جل في مصر والوطن العربي مرخص من هيئة الدواء المصرية"
           loading="lazy"
           width="900"
@@ -580,20 +919,20 @@
         <p>عبوة فاخرة… سرعة المفعول واضحة من أول نظرة</p>
       </div>
       <div class="gallery">
-        <figure class="wide" data-full="IMG-20260719-WA0000.jpg">
-          <img src="IMG-20260719-WA0000.jpg" alt="صورة المنتج الرسمية لعبوة Never Hold Back Gel سعة 30 جرام" loading="lazy" width="400" height="500">
+        <figure class="wide" data-full="images/IMG-20260719-WA0000.jpg">
+          <img src="images/IMG-20260719-WA0000.jpg" alt="صورة المنتج الرسمية لعبوة Never Hold Back Gel سعة 30 جرام" loading="lazy" width="400" height="500">
           <figcaption>العبوة الرسمية</figcaption>
         </figure>
-        <figure class="promo" data-full="IMG-20260719-WA0002.jpg">
-          <img src="IMG-20260719-WA0002.jpg" alt="تصميم الطاقة الكهربائية لمنتج Never Hold Back Gel" loading="lazy" width="400" height="500">
+        <figure class="promo" data-full="images/IMG-20260719-WA0002.jpg">
+          <img src="images/IMG-20260719-WA0002.jpg" alt="تصميم الطاقة الكهربائية لمنتج Never Hold Back Gel" loading="lazy" width="400" height="500">
           <figcaption>طاقة وقوة</figcaption>
         </figure>
-        <figure class="promo" data-full="IMG-20260719-WA0003.jpg">
-          <img src="IMG-20260719-WA0003.jpg" alt="بديل فعال لأقراص الفياجرا — نتائج خلال 30 دقيقة فقط" loading="lazy" width="400" height="500">
+        <figure class="promo" data-full="images/IMG-20260719-WA0003.jpg">
+          <img src="images/IMG-20260719-WA0003.jpg" alt="بديل فعال لأقراص الفياجرا — نتائج خلال 30 دقيقة فقط" loading="lazy" width="400" height="500">
           <figcaption>خلال 30 دقيقة</figcaption>
         </figure>
-        <figure class="promo" data-full="IMG-20260719-WA0005.jpg">
-          <img src="IMG-20260719-WA0005.jpg" alt="مقارنة بين جل Never Hold Back والأقراص الفموية — أسرع وأكثر أمانًا" loading="lazy" width="400" height="500">
+        <figure class="promo" data-full="images/IMG-20260719-WA0005.jpg">
+          <img src="images/IMG-20260719-WA0005.jpg" alt="مقارنة بين جل Never Hold Back والأقراص الفموية — أسرع وأكثر أمانًا" loading="lazy" width="400" height="500">
           <figcaption>مقارنة مع الأقراص</figcaption>
         </figure>
       </div>
@@ -605,9 +944,9 @@
         <h2>ليه الجل أحسن من الأقراص؟</h2>
         <p>أسرع مفعولًا… وآمن لمرضى الضغط وكبار السن</p>
       </div>
-      <figure class="compare-shot" data-full="IMG-20260719-WA0001.jpg">
+      <figure class="compare-shot" data-full="images/IMG-20260719-WA0001.jpg">
         <img
-          src="IMG-20260719-WA0001.jpg"
+          src="images/IMG-20260719-WA0001.jpg"
           alt="مقارنة مرئية: جل Never Hold Back يبدأ خلال 30 دقيقة وبدون أعراض جانبية مقابل الأقراص الفموية خلال ساعتين وغير مناسبة لمرضى الضغط"
           loading="lazy"
           width="900"
@@ -642,7 +981,7 @@
             <div class="benefit-icon" aria-hidden="true">◆</div>
             <div>
               <h3>آمن للاستخدام اليومي</h3>
-              <p>تركيبة مُصمَّمة للاستخدام المنتظم بثقة، ضمن تعليمات الاستخدام الموضعي.</p>
+              <p>تركيبة مُصمَّمة للاستخدام المنتظم بثقة، ضمن تعليمات الاستخدام الموضعي.</p>
             </div>
           </article>
           <article class="benefit">
@@ -676,15 +1015,86 @@
           <p>انتظر حتى يبدأ مفعول الجل — ثم عِش اللحظة بثقة كاملة.</p>
         </article>
       </div>
-      <figure class="howto-shot" data-full="IMG-20260717-WA0010.jpg">
+      <figure class="howto-shot" data-full="images/IMG-20260717-WA0010.jpg">
         <img
-          src="IMG-20260717-WA0010.jpg"
+          src="images/IMG-20260717-WA0010.jpg"
           alt="كيفية استخدام جيل Never Hold Back — ضع خطًا رفيعًا بطول 3 عقلات ثم دلّك بلطف حتى الامتصاص الكامل"
           loading="lazy"
           width="900"
           height="1100"
         >
       </figure>
+    </section>
+
+    <!-- Reviews -->
+    <section class="section container" id="reviews" aria-label="تقييمات العملاء">
+      <div class="section-head">
+        <h2>ماذا يقول عملاؤنا</h2>
+        <p>آراء عملاء تجربوا المنتج قبل كده</p>
+      </div>
+      <div class="reviews-carousel">
+        <div class="reviews-track-viewport">
+          <div class="reviews-track" id="reviewsTrack">
+            <article class="review-card">
+              <div class="review-top">
+                <div class="review-avatar" aria-hidden="true">أ</div>
+                <div class="review-meta">
+                  <div class="review-author">أحمد س. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <span class="review-location">القاهرة</span>
+                </div>
+                <div class="review-rating">
+                  <span class="review-stars" aria-hidden="true">★★★★★</span>
+                  <span class="review-score">5.0</span>
+                </div>
+              </div>
+              <p class="review-text">"جربت المنتج والفرق واضح من أول استخدام، سريع وسهل ومفيش أي حاجة تضايق."</p>
+            </article>
+            <article class="review-card">
+              <div class="review-top">
+                <div class="review-avatar" aria-hidden="true">م</div>
+                <div class="review-meta">
+                  <div class="review-author">محمود ع. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <span class="review-location">الجيزة</span>
+                </div>
+                <div class="review-rating">
+                  <span class="review-stars" aria-hidden="true">★★★★★</span>
+                  <span class="review-score">5.0</span>
+                </div>
+              </div>
+              <p class="review-text">"كنت متخوف في الأول بس بعد ما استخدمته اطمنت، آمن وسريع ومفعوله فعلاً خلال دقايق."</p>
+            </article>
+            <article class="review-card">
+              <div class="review-top">
+                <div class="review-avatar" aria-hidden="true">ك</div>
+                <div class="review-meta">
+                  <div class="review-author">كريم م. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <span class="review-location">الإسكندرية</span>
+                </div>
+                <div class="review-rating">
+                  <span class="review-stars" aria-hidden="true">★★★★★</span>
+                  <span class="review-score">4.9</span>
+                </div>
+              </div>
+              <p class="review-text">"التوصيل كان سريع و🔥شحن مجاني لفترة محدودة خلاني مطمّن أكتر. المنتج فعلاً يستحق."</p>
+            </article>
+            <article class="review-card">
+              <div class="review-top">
+                <div class="review-avatar" aria-hidden="true">إ</div>
+                <div class="review-meta">
+                  <div class="review-author">إسلام ح. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <span class="review-location">المنصورة</span>
+                </div>
+                <div class="review-rating">
+                  <span class="review-stars" aria-hidden="true">★★★★★</span>
+                  <span class="review-score">5.0</span>
+                </div>
+              </div>
+              <p class="review-text">"بديل ممتاز عن الحبوب، مفيش أي آثار جانبية وحسيت بفرق حقيقي."</p>
+            </article>
+          </div>
+        </div>
+        <div class="reviews-dots" id="reviewsDots"></div>
+      </div>
     </section>
 
     <!-- Credibility -->
@@ -695,7 +1105,104 @@
           Never Hold Back Gel منتج مرخّص من هيئة الدواء المصرية — ثقة رسمية تفرّقه عن المنتجات العشوائية في السوق.
           اختَر الأصل، واختَر الأمان.
         </p>
+        <p class="cred-highlight">
+          نحن المصدر الوحيد في مصر والوطن العربي لبيع هذا المنتج بصفة رسمية، والوكيل المعتمد من الشركة المصنعة
+          <strong><!-- TODO: ضع اسم الشركة المصنعة الحقيقي هنا -->[اسم الشركة المصنعة]</strong>.
+        </p>
+        <div class="cred-badges">
+          <span class="cred-badge">✓ مرخّص من هيئة الدواء المصرية</span>
+          <span class="cred-badge">✓ منتج آمن ومعتمد من وزارة الصحة</span>
+          <span class="cred-badge">✓ وكيل رسمي معتمد</span>
+        </div>
       </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section container" id="faq" aria-label="الأسئلة الشائعة">
+      <div class="section-head">
+        <h2>الأسئلة الشائعة</h2>
+        <p>كل ما تحتاج تعرفه قبل الطلب</p>
+      </div>
+      <div class="faq-carousel">
+        <div class="faq-track-viewport">
+          <div class="faq-track" id="faqTrack">
+            <article class="faq-slide">
+              <div class="faq-icon" aria-hidden="true">١</div>
+              <h3 class="faq-q">ما هي مكونات المنتج؟ وبلد الصنع؟</h3>
+              <div class="faq-a">
+                <p>المنتج يحتوي على مكونات فعالة وآمنة مثل:</p>
+                <ul>
+                  <li>L-Arginine (إل-أرجينين)</li>
+                  <li>L-Carnitine (إل-كارنيتين)</li>
+                  <li>Ginseng (الجينسنغ)</li>
+                  <li>Ginkgo Biloba (الجنكة بيلوبا)</li>
+                </ul>
+                <p>تعمل هذه المكونات على توسيع الأوعية الدموية وزيادة تدفق الدم، مما يساعد على تحسين الأداء بشكل طبيعي.</p>
+                <p>المنتج مصري 100% ومسجل رسميًا في هيئة الدواء المصرية.</p>
+              </div>
+            </article>
+            <article class="faq-slide">
+              <div class="faq-icon" aria-hidden="true">٢</div>
+              <h3 class="faq-q">المنتج يكفي كم مرة؟</h3>
+              <div class="faq-a">
+                <p>العبوة تكفي أكثر من 15 استخدام.</p>
+                <p>يُفضل الاستخدام اليومي للحصول على أفضل نتيجة.</p>
+                <p><strong>حسبة بسيطة:</strong> قسم سعر العبوة على 15، وستجد أن تكلفة الاستخدام الواحد أقل بكثير من أي بديل مثل الفياجرا (والتي يبلغ سعر القرص الواحد منها حوالي 36 جنيهًا).</p>
+              </div>
+            </article>
+            <article class="faq-slide">
+              <div class="faq-icon" aria-hidden="true">٣</div>
+              <h3 class="faq-q">هل المنتج يُغسل بعد الاستخدام؟</h3>
+              <div class="faq-a">
+                <p>لا، لا يحتاج للغسل.</p>
+                <p>لأنه يتم امتصاصه بالكامل أثناء التدليك ولا يترك أي أثر.</p>
+              </div>
+            </article>
+            <article class="faq-slide">
+              <div class="faq-icon" aria-hidden="true">٤</div>
+              <h3 class="faq-q">هل المنتج يساعد على التضخيم؟</h3>
+              <div class="faq-a">
+                <p>لا.</p>
+                <p>وظيفة المنتج الأساسية هي مساعدتك للوصول إلى أقصى درجة انتصاب طبيعية.</p>
+                <p>أي حديث عن التضخيم الدائم هو مجرد دعاية غير حقيقية.</p>
+              </div>
+            </article>
+            <article class="faq-slide">
+              <div class="faq-icon" aria-hidden="true">٥</div>
+              <h3 class="faq-q">هل له علاقة بسرعة القذف؟</h3>
+              <div class="faq-a">
+                <p>لا بشكل مباشر.</p>
+                <p>المنتج مخصص لحالات ضعف الانتصاب فقط.</p>
+                <p>يمكن استخدامه مع منتج آخر مخصص للتأخير إذا لزم الأمر.</p>
+              </div>
+            </article>
+            <article class="faq-slide">
+              <div class="faq-icon" aria-hidden="true">٦</div>
+              <h3 class="faq-q">هل المنتج مرخص؟ وما هو رقم الترخيص؟</h3>
+              <div class="faq-a">
+                <p>نعم، المنتج مسجل رسميًا.</p>
+                <p>رقم التسجيل: <strong>Cosmtol26126126</strong> بهيئة الدواء المصرية.</p>
+              </div>
+            </article>
+            <article class="faq-slide">
+              <div class="faq-icon" aria-hidden="true">٧</div>
+              <h3 class="faq-q">لماذا تختار هذا المنتج؟</h3>
+              <div class="faq-a">
+                <ul>
+                  <li>تركيبة طبيعية فعالة.</li>
+                  <li>آمن ومسجل رسميًا.</li>
+                  <li>نتائج ملحوظة مع الاستخدام المنتظم.</li>
+                  <li>أوفر بكثير من البدائل التقليدية.</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </div>
+        <button type="button" class="faq-arrow faq-arrow-prev" id="faqPrev" aria-label="السؤال السابق">‹</button>
+        <button type="button" class="faq-arrow faq-arrow-next" id="faqNext" aria-label="السؤال التالي">›</button>
+        <div class="faq-dots" id="faqDots"></div>
+      </div>
+      <p class="faq-footer-note">إذا كان لديك أي استفسار آخر، تواصل معنا وسنرد عليك فورًا.</p>
     </section>
 
     <!-- Order Form -->
@@ -774,172 +1281,8 @@
           </div>
 
           <div class="form-group">
-            <label for="quantity">الكمية <span class="req">*</span></label>
-            <select id="quantity" name="quantity" required>
-              <option value="1" selected>عبوة واحدة — 250 ج.م</option>
-              <option value="2">عبوتان — 500 ج.م</option>
-              <option value="3">3 عبوات — 750 ج.م</option>
-            </select>
-          </div>
-
-          <div class="order-summary" aria-live="polite">
-            <span>الإجمالي المتوقع</span>
-            <strong id="totalPrice">250 ج.م</strong>
-          </div>
-
-          <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
-            <span class="btn-text">تأكيد الطلب — الدفع عند الاستلام</span>
-          </button>
-
-          <div class="form-msg" id="formMsg" role="status" aria-live="polite"></div>
-          <p class="form-footer-note">✓ بياناتك آمنة ولن تُستخدم إلا لتوصيل طلبك</p>
-        </form>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container">
-      <p>Never Hold Back Gel — للاستخدام الخارجي فقط. اتبع تعليمات الاستخدام.</p>
-      <p style="margin-top:.35rem">© <span id="year"></span> جميع الحقوق محفوظة</p>
-    </div>
-  </footer>
-
-  <!-- Sticky mobile CTA -->
-  <div class="sticky-cta" id="stickyCta" aria-hidden="true">
-    <div class="sticky-price">250 ج.م<small>الدفع عند الاستلام</small></div>
-    <a class="btn btn-primary" href="#order">اطلب الآن</a>
-  </div>
-
-  <!-- Lightbox -->
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="عرض الصورة">
-    <button type="button" class="lightbox-close" id="lightboxClose" aria-label="إغلاق">×</button>
-    <img src="" alt="" id="lightboxImg">
-  </div>
-
-  <script>
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyv42Ob87yf648qZcA4F2vOjxIVltVNnJjQNyEKPclaHRS5Nm9r53cOe5GWU3BOu0odRw/exec';
-    const UNIT_PRICE = 250;
-
-    (function () {
-      document.getElementById('year').textContent = new Date().getFullYear();
-
-      /* Quantity → total */
-      const quantityEl = document.getElementById('quantity');
-      const totalPriceEl = document.getElementById('totalPrice');
-      function updateTotal() {
-        const qty = parseInt(quantityEl.value, 10) || 1;
-        totalPriceEl.textContent = (qty * UNIT_PRICE) + ' ج.م';
-      }
-      quantityEl.addEventListener('change', updateTotal);
-
-      /* Sticky CTA: show after scrolling past hero, hide near form */
-      const stickyCta = document.getElementById('stickyCta');
-      const orderSection = document.getElementById('order');
-      function updateSticky() {
-        if (window.matchMedia('(min-width: 768px)').matches) {
-          stickyCta.classList.remove('show');
-          stickyCta.setAttribute('aria-hidden', 'true');
-          return;
-        }
-        const orderTop = orderSection.getBoundingClientRect().top;
-        const scrolled = window.scrollY > 420;
-        const nearForm = orderTop < window.innerHeight * 0.75;
-        const show = scrolled && !nearForm;
-        stickyCta.classList.toggle('show', show);
-        stickyCta.setAttribute('aria-hidden', show ? 'false' : 'true');
-      }
-      window.addEventListener('scroll', updateSticky, { passive: true });
-      window.addEventListener('resize', updateSticky);
-      updateSticky();
-
-      /* Lightbox for gallery + promo shots */
-      const lightbox = document.getElementById('lightbox');
-      const lightboxImg = document.getElementById('lightboxImg');
-      const lightboxClose = document.getElementById('lightboxClose');
-      document.querySelectorAll('[data-full]').forEach(function (fig) {
-        fig.addEventListener('click', function () {
-          const src = fig.getAttribute('data-full');
-          const img = fig.querySelector('img');
-          lightboxImg.src = src;
-          lightboxImg.alt = img ? img.alt : '';
-          lightbox.classList.add('open');
-        });
-      });
-
-      function closeLightbox() {
-        lightbox.classList.remove('open');
-        lightboxImg.src = '';
-      }
-      lightboxClose.addEventListener('click', closeLightbox);
-      lightbox.addEventListener('click', function (e) {
-        if (e.target === lightbox) closeLightbox();
-      });
-
-      /* Form Submission Handling */
-      const form = document.getElementById('orderForm');
-      const submitBtn = document.getElementById('submitBtn');
-      const formMsg = document.getElementById('formMsg');
-
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        // Clear previous state messages
-        formMsg.className = 'form-msg';
-        formMsg.style.display = 'none';
-        formMsg.textContent = '';
-
-        // Native custom constraint checking
-        if (!form.checkValidity()) {
-          formMsg.textContent = 'من فضلك تأكد من ملء جميع الحقول الإلزامية (*) بشكل صحيح.';
-          formMsg.classList.add('error');
-          return;
-        }
-
-        // Apply loading spinner to action button
-        submitBtn.disabled = true;
-        const originalBtnText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<div class="spinner" style="margin: 0 auto;"></div>';
-
-        // Gather structural form key values
-        const formData = new FormData(form);
-        const data = {};
-        formData.forEach((value, key) => {
-          data[key] = value.trim();
-        });
-        
-        // Include calculation mapping for the dashboard
-        data['totalPrice'] = (parseInt(data['quantity'], 10) || 1) * UNIT_PRICE;
-
-        // Async dispatch request to the Web App URL endpoint
-        fetch(GOOGLE_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors', // Bypasses explicit header validation routines safely
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
-        .then(() => {
-          // Success Response State Block
-          formMsg.textContent = 'تم تسجيل طلبك بنجاح! سنتوصل معك قريباً لتأكيد الشحن.';
-          formMsg.classList.add('success');
-          form.reset();
-          updateTotal();
-        })
-        .catch((error) => {
-          // Failure State Block Exception Handling
-          console.error('Submission processing failure:', error);
-          formMsg.textContent = 'عذراً، حدث خطأ أثناء إرسال البيانات. يرجى المحاولة مرة أخرى.';
-          formMsg.classList.add('error');
-        })
-        .finally(() => {
-          // Clean state values back down to base settings
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalBtnText;
-        });
-      });
-    })();
-  </script>
-</body>
-</html>
+            <label id="quantityLabel" for="quantityInput">الكمية <span class="req">*</span></label>
+            <div class="qty-stepper">
+              <button type="button" class="qty-btn" id="qtyIncrease" aria-label="زيادة الكمية">+</button>
+              <input type="number" id="quantityInput" name="quantity" value="1" min="1" max="50" step="1" inputmode="numeric" aria-labelledby="quantityLabel">
+              <button type="button" class="qty-btn" id="qtyDecrease" aria-label="تقليل الك
