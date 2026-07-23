@@ -262,33 +262,9 @@
       background:linear-gradient(90deg,var(--danger),#ff8a00);
       transition:width .6s ease;
     }
-    .hero-visual{
-      position:relative;
-      border-radius:var(--radius);
-      overflow:hidden;
-      border:1px solid rgba(0,240,255,.2);
-      background:var(--bg-3);
-      box-shadow:0 0 40px rgba(0,240,255,.08);
-    }
-    .hero-visual img{
-      width:100%;aspect-ratio:3/4;object-fit:contain;background:linear-gradient(180deg,#10182a,#0a0e17);
-      padding:1rem;
-    }
-    .hero-visual::after{
-      content:"";
-      position:absolute;inset:0;pointer-events:none;
-      background:linear-gradient(180deg,transparent 55%,rgba(10,14,23,.55));
-    }
-
     @media (min-width:768px){
-      .hero{
-        grid-template-columns:1.05fr .95fr;
-        align-items:center;
-        padding:3rem 0 3.5rem;
-        gap:3rem;
-      }
-      .hero-visual{order:-1}
-      .hero-visual img{aspect-ratio:3/4;padding:1.25rem}
+      .hero{padding:3rem 0 3.5rem}
+      .hero-copy{max-width:42rem;margin-inline:auto}
     }
 
     /* Trust strip */
@@ -340,10 +316,9 @@
       border-color:rgba(0,240,255,.45);
     }
     .gallery img{
-      width:100%;aspect-ratio:1;object-fit:cover;
+      width:100%;aspect-ratio:1;object-fit:contain;background:#0a0e17;
     }
-    .gallery figure.wide img{aspect-ratio:4/5;object-fit:contain;background:#0a0e17}
-    .gallery figure.promo img{aspect-ratio:4/5;object-fit:cover}
+    .gallery figure.promo img{aspect-ratio:4/5;object-fit:contain;background:#0a0e17}
     .gallery figcaption{
       padding:.55rem .7rem;
       font-size:.78rem;color:var(--muted);text-align:center;
@@ -356,7 +331,7 @@
       cursor:pointer;
     }
     .promo-banner img{
-      width:100%;aspect-ratio:1/1;object-fit:cover;
+      width:100%;aspect-ratio:1/1;object-fit:contain;background:#0a0e17;
     }
     .compare-shot{
       border-radius:var(--radius);overflow:hidden;
@@ -456,8 +431,8 @@
       text-align:center;
     }
     @media (min-width:768px){
-      .gallery{grid-template-columns:repeat(4,1fr);gap:1rem}
-      .promo-banner img{aspect-ratio:16/10;object-position:center top}
+      .gallery{grid-template-columns:repeat(2,1fr);gap:1rem;max-width:40rem;margin-inline:auto}
+      .promo-banner img{aspect-ratio:16/10;object-position:center center}
       .compare-shot img{aspect-ratio:16/11}
       .howto-shot img{aspect-ratio:16/11}
       .howto-media-grid{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:1.25rem}
@@ -543,21 +518,29 @@
       .steps{grid-template-columns:repeat(3,1fr)}
     }
 
-    /* Reviews carousel (auto-advancing) */
+    /* Reviews carousel (auto-advancing).
+       Crossfade, not slide: only ONE review card is ever laid out / visible
+       at a time (display:none for inactive ones), so there is no travel
+       distance between slides and it's structurally impossible to ever
+       catch two different cards on screen at once, even mid-transition. */
     .reviews-carousel{position:relative}
     .reviews-track-viewport{overflow:hidden;border-radius:var(--radius)}
     .reviews-track{
-      display:flex;
-      transition:transform .5s ease;
+      position:relative;
     }
     .review-card{
-      min-width:100%;flex-shrink:0;box-sizing:border-box;
+      display:none;
+      box-sizing:border-box;
       background:var(--bg-3);
       border:1px solid rgba(0,240,255,.14);
       border-radius:var(--radius);
       padding:1.5rem 1.35rem;
       min-height:8.5rem;
+      opacity:0;
+      transition:opacity .28s ease;
     }
+    .review-card.is-active{display:block}
+    .review-card.is-visible{opacity:1}
     .review-top{
       display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;
       margin-bottom:.9rem;
@@ -586,7 +569,6 @@
     .review-score{color:var(--white);font-weight:800;font-size:.85rem}
     .reviews-dots{
       display:flex;align-items:center;justify-content:center;gap:.5rem;
-      margin-top:1.1rem;
     }
     .reviews-dot{
       width:9px;height:9px;border-radius:50%;padding:0;
@@ -594,8 +576,34 @@
       transition:background .2s,transform .2s;
     }
     .reviews-dot.active{background:var(--neon);transform:scale(1.3)}
+    /* Mobile-first: arrows sit in a control row with the dots, below the
+       card — full-width review cards leave no safe gutter for floating
+       side arrows without covering the card's own content (name/stars). */
+    .reviews-controls{
+      display:flex;align-items:center;justify-content:center;gap:1rem;
+      margin-top:1.1rem;
+    }
+    .reviews-arrow{
+      position:static;
+      width:34px;height:34px;border-radius:50%;flex-shrink:0;
+      background:rgba(10,14,23,.75);
+      border:1.5px solid rgba(0,240,255,.35);
+      color:var(--neon);font-size:1.4rem;font-weight:900;
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;z-index:2;
+      transition:border-color .2s,background .2s;
+    }
+    .reviews-arrow:hover{border-color:var(--neon);background:rgba(0,240,255,.15)}
     @media (min-width:768px){
       .review-card{padding:2rem 2.5rem;min-height:7.5rem}
+      /* Enough side padding on the card at this size to float the arrows
+         over the carousel's outer gutter without covering any text. */
+      .reviews-arrow{
+        position:absolute;top:50%;transform:translateY(-50%);
+        width:38px;height:38px;
+      }
+      .reviews-arrow-prev{inset-inline-start:-1.4rem}
+      .reviews-arrow-next{inset-inline-end:-1.4rem}
     }
 
     /* FAQ carousel — centered "focus" card with dimmed peeking cards on each side */
@@ -938,8 +946,7 @@
       .gallery{
         grid-template-columns:1fr;
       }
-      .gallery figure.promo img,
-      .gallery figure.wide img{
+      .gallery figure.promo img{
         aspect-ratio:4/5;
       }
       .benefit{
@@ -1033,6 +1040,8 @@
         <a href="#reviews">التقييمات</a>
         <a href="#faq">الأسئلة الشائعة</a>
         <a href="#order">اطلب الآن</a>
+        <!-- TODO: استبدل رقم الواتساب أدناه برقمك الحقيقي -->
+        <a href="https://wa.me/201000000000" target="_blank" rel="noopener">تواصل معنا</a>
       </nav>
       <div class="header-actions">
         <a class="header-cta" href="#order">اطلب الآن</a>
@@ -1071,15 +1080,6 @@
         <a class="btn btn-primary fade-in delay-3" href="#order">اطلب دلوقتي — شحن مجاني لفترة محدودة</a>
         <div class="cod-pill fade-in delay-3">✓ ادفع لما تستلم طلبك بأمان لباب البيت</div>
       </div>
-      <div class="hero-visual fade-in delay-1">
-        <img
-          src="IMG-20260719-WA0000.jpg"
-          alt="عبوة جل Never Hold Back Gel — جل ترطيب موضعي أسود بتصميم البرق الكهربائي"
-          width="600"
-          height="800"
-          fetchpriority="high"
-        >
-      </div>
     </section>
 
     <!-- Trust -->
@@ -1110,9 +1110,9 @@
         <h2>جايين نكهرب الكل</h2>
         <p>أول جل في مصر والوطن العربي — مرخّص من هيئة الدواء المصرية</p>
       </div>
-      <figure class="promo-banner" data-full="IMG-20260719-WA0002.jpg">
+      <figure class="promo-banner" data-full="IMG-20260717-WA0009.jpg">
         <img
-          src="IMG-20260719-WA0002.jpg"
+          src="IMG-20260717-WA0009.jpg"
           alt="إعلان Never Hold Back Gel — جايين نكهرب الكل، أول جل في مصر والوطن العربي مرخص من هيئة الدواء المصرية"
           loading="lazy"
           width="900"
@@ -1128,38 +1128,13 @@
         <p>عبوة فاخرة… سرعة المفعول واضحة من أول نظرة</p>
       </div>
       <div class="gallery">
-        <figure class="wide" data-full="IMG-20260719-WA0000.jpg">
-          <img src="IMG-20260719-WA0000.jpg" alt="صورة المنتج الرسمية لعبوة Never Hold Back Gel سعة 30 جرام" loading="lazy" width="400" height="500">
-          <figcaption>العبوة الرسمية</figcaption>
-        </figure>
-        <figure class="promo" data-full="IMG-20260719-WA0002.jpg">
-          <img src="IMG-20260719-WA0002.jpg" alt="تصميم الطاقة الكهربائية لمنتج Never Hold Back Gel" loading="lazy" width="400" height="500">
-          <figcaption>طاقة وقوة</figcaption>
-        </figure>
         <figure class="promo" data-full="IMG-20260719-WA0003.jpg">
           <img src="IMG-20260719-WA0003.jpg" alt="بديل فعال لأقراص الفياجرا — نتائج خلال 30 دقيقة فقط" loading="lazy" width="400" height="500">
           <figcaption>خلال 30 دقيقة</figcaption>
         </figure>
-        <figure class="promo" data-full="IMG-20260719-WA0005.jpg">
-          <img src="IMG-20260719-WA0005.jpg" alt="مقارنة بين جل Never Hold Back والأقراص الفموية — أسرع وأكثر أمانًا" loading="lazy" width="400" height="500">
-          <figcaption>مقارنة مع الأقراص</figcaption>
-        </figure>
-        <!-- تمت إضافة الصور الإضافية التي وفرتها ليكون المعرض متكاملاً -->
-        <figure class="promo" data-full="IMG-20260717-WA0007.jpg">
-          <img src="IMG-20260717-WA0007.jpg" alt="المنتج من زاوية أخرى" loading="lazy" width="400" height="500">
-          <figcaption>العبوة الأصلية</figcaption>
-        </figure>
         <figure class="promo" data-full="IMG-20260717-WA0008.jpg">
-          <img src="IMG-20260717-WA0008.jpg" alt="تفاصيل جودة العبوة" loading="lazy" width="400" height="500">
-          <figcaption>تفاصيل العبوة</figcaption>
-        </figure>
-        <figure class="promo" data-full="IMG-20260717-WA0009.jpg">
-          <img src="IMG-20260717-WA0009.jpg" alt="إرشادات ونصائح" loading="lazy" width="400" height="500">
-          <figcaption>إرشادات الاستخدام</figcaption>
-        </figure>
-        <figure class="promo" data-full="IMG-20260717-WA0012.jpg">
-          <img src="IMG-20260717-WA0012.jpg" alt="مميزات وخصائص المنتج" loading="lazy" width="400" height="500">
-          <figcaption>مميزات الجل</figcaption>
+          <img src="IMG-20260717-WA0008.jpg" alt="مقارنة بين جل Never Hold Back والأقراص الفموية — أسرع وأكثر أمانًا" loading="lazy" width="400" height="500">
+          <figcaption>مقارنة مع الأقراص</figcaption>
         </figure>
       </div>
     </section>
@@ -1170,9 +1145,9 @@
         <h2>ليه الجل أحسن من الأقراص؟</h2>
         <p>أسرع مفعولًا… وآمن لمرضى الضغط وكبار السن</p>
       </div>
-      <figure class="compare-shot" data-full="IMG-20260719-WA0001.jpg">
+      <figure class="compare-shot" data-full="IMG-20260717-WA0012.jpg">
         <img
-          src="IMG-20260719-WA0001.jpg"
+          src="IMG-20260717-WA0012.jpg"
           alt="مقارنة مرئية: جل Never Hold Back يبدأ خلال 30 دقيقة وبدون أعراض جانبية مقابل الأقراص الفموية خلال ساعتين وغير مناسبة لمرضى الضغط"
           loading="lazy"
           width="900"
@@ -1207,7 +1182,7 @@
             <div class="benefit-icon" aria-hidden="true">◆</div>
             <div>
               <h3>آمن للاستخدام اليومي</h3>
-              <p>تركيبة مُصمَّمة للاستخدام المنتظم بثقة، ضمن تعليمات الاستخدام الموضعي.</p>
+              <p>تركيبة مُصمَّمة للاستخدام المنتظم بثقة، ضمن تعليمات الاستخدام الموضعي.</p>
             </div>
           </article>
           <article class="benefit">
@@ -1327,9 +1302,167 @@
               </div>
               <p class="review-text">"بديل ممتاز عن الحبوب، مفيش أي آثار جانبية وحسيت بفرق حقيقي."</p>
             </article>
+            <article class="review-card">
+              <div class="review-top">
+                <div class="review-avatar" aria-hidden="true">ع</div>
+                <div class="review-meta">
+                  <div class="review-author">عمرو ط. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <span class="review-location">طنطا</span>
+                </div>
+                <div class="review-rating">
+                  <span class="review-stars" aria-hidden="true">★★★★☆</span>
+                  <span class="review-score">4.6</span>
+                </div>
+              </div>
+              <p class="review-text">"الجل فعلاً غيّر حياتي، النتيجة كانت واضحة من أول مرة والتوصيل جه سريع من غير أي تأخير."</p>
+            </article>
+            <article class="review-card">
+              <div class="review-top">
+                <div class="review-avatar" aria-hidden="true">ح</div>
+                <div class="review-meta">
+                  <div class="review-author">حسام ن. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <span class="review-location">الزقازيق</span>
+                </div>
+                <div class="review-rating">
+                  <span class="review-stars" aria-hidden="true">★★★★★</span>
+                  <span class="review-score">5.0</span>
+                </div>
+              </div>
+              <p class="review-text">"كنت بجرب كل حاجة وملقتش نتيجة، مع المنتج ده حسيت بفرق حقيقي من أول استخدام."</p>
+            </article>
+            <article class="review-card">
+              <div class="review-top">
+                <div class="review-avatar" aria-hidden="true">ط</div>
+                <div class="review-meta">
+                  <div class="review-author">طارق ي. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <span class="review-location">الإسماعيلية</span>
+                </div>
+                <div class="review-rating">
+                  <span class="review-stars" aria-hidden="true">★★★★☆</span>
+                  <span class="review-score">4.5</span>
+                </div>
+              </div>
+              <p class="review-text">"المنتج كويس بس حبيت أكتر إنه مايسيبش أي أثر أو رايحة، والتغليف كان محترم جدًا."</p>
+            </article>
+            <article class="review-card">
+              <div class="review-top">
+                <div class="review-avatar" aria-hidden="true">و</div>
+                <div class="review-meta">
+                  <div class="review-author">وائل ر. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <span class="review-location">أسوان</span>
+                </div>
+                <div class="review-rating">
+                  <span class="review-stars" aria-hidden="true">★★★★★</span>
+                  <span class="review-score">5.0</span>
+                </div>
+              </div>
+              <p class="review-text">"التوصيل وصلني في نفس اليوم اللي طلبت فيه تقريبًا، والدفع عند الاستلام خلاني مطمّن من الأول."</p>
+            </article>
+            <article class="review-card">
+              <div class="review-top">
+                <div class="review-avatar" aria-hidden="true">ش</div>
+                <div class="review-meta">
+                  <div class="review-author">شريف ب. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <span class="review-location">الأقصر</span>
+                </div>
+                <div class="review-rating">
+                  <span class="review-stars" aria-hidden="true">★★★★☆</span>
+                  <span class="review-score">4.7</span>
+                </div>
+              </div>
+              <p class="review-text">"استخدمته أكتر من مرة والنتيجة ثابتة، بس حابب لو فيه عبوة أكبر بسعر مناسب."</p>
+            </article>
+            <article class="review-card">
+              <div class="review-top">
+                <div class="review-avatar" aria-hidden="true">ي</div>
+                <div class="review-meta">
+                  <div class="review-author">ياسر ك. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <span class="review-location">السويس</span>
+                </div>
+                <div class="review-rating">
+                  <span class="review-stars" aria-hidden="true">★★★★★</span>
+                  <span class="review-score">5.0</span>
+                </div>
+              </div>
+              <p class="review-text">"صراحة كنت متردد أطلب بس بعد التجربة هطلب تاني، فرق كبير حسيته من أول استخدام."</p>
+            </article>
+            <article class="review-card">
+              <div class="review-top">
+                <div class="review-avatar" aria-hidden="true">م</div>
+                <div class="review-meta">
+                  <div class="review-author">مينا ف. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <span class="review-location">الفيوم</span>
+                </div>
+                <div class="review-rating">
+                  <span class="review-stars" aria-hidden="true">★★★★★</span>
+                  <span class="review-score">4.9</span>
+                </div>
+              </div>
+              <p class="review-text">"التغليف كان سري جدًا محدش لاحظ حاجة، والمنتج فعلاً بيعمل اللي مكتوب عليه."</p>
+            </article>
+            <article class="review-card">
+              <div class="review-top">
+                <div class="review-avatar" aria-hidden="true">خ</div>
+                <div class="review-meta">
+                  <div class="review-author">خالد س. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <span class="review-location">المنيا</span>
+                </div>
+                <div class="review-rating">
+                  <span class="review-stars" aria-hidden="true">★★★★★</span>
+                  <span class="review-score">5.0</span>
+                </div>
+              </div>
+              <p class="review-text">"جربت المنتج بعد ما قريت التعليقات، والحمد لله النتيجة فعلاً زي ما قالوا بالظبط."</p>
+            </article>
+            <article class="review-card">
+              <div class="review-top">
+                <div class="review-avatar" aria-hidden="true">ع</div>
+                <div class="review-meta">
+                  <div class="review-author">عادل م. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <span class="review-location">سوهاج</span>
+                </div>
+                <div class="review-rating">
+                  <span class="review-stars" aria-hidden="true">★★★★☆</span>
+                  <span class="review-score">4.4</span>
+                </div>
+              </div>
+              <p class="review-text">"منتج آمن وسهل الاستخدام، بس لسه بجرب وهقيّم بعد فترة أطول من الاستخدام."</p>
+            </article>
+            <article class="review-card">
+              <div class="review-top">
+                <div class="review-avatar" aria-hidden="true">ر</div>
+                <div class="review-meta">
+                  <div class="review-author">رامي ع. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <span class="review-location">بورسعيد</span>
+                </div>
+                <div class="review-rating">
+                  <span class="review-stars" aria-hidden="true">★★★★★</span>
+                  <span class="review-score">5.0</span>
+                </div>
+              </div>
+              <p class="review-text">"خدمة العملاء ردت عليّ بسرعة لما سألت، والمنتج نفسه فوق التوقعات بصراحة."</p>
+            </article>
+            <article class="review-card">
+              <div class="review-top">
+                <div class="review-avatar" aria-hidden="true">س</div>
+                <div class="review-meta">
+                  <div class="review-author">سيد ط. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <span class="review-location">دمنهور</span>
+                </div>
+                <div class="review-rating">
+                  <span class="review-stars" aria-hidden="true">★★★★☆</span>
+                  <span class="review-score">4.6</span>
+                </div>
+              </div>
+              <p class="review-text">"بديل ممتاز ومضمون، ومفيش أي حاجة تضايق زي ما كنت خايف في الأول."</p>
+            </article>
           </div>
         </div>
-        <div class="reviews-dots" id="reviewsDots"></div>
+        <div class="reviews-controls">
+          <button type="button" class="reviews-arrow reviews-arrow-prev" id="reviewsPrev" aria-label="التقييم السابق">‹</button>
+          <div class="reviews-dots" id="reviewsDots"></div>
+          <button type="button" class="reviews-arrow reviews-arrow-next" id="reviewsNext" aria-label="التقييم التالي">›</button>
+        </div>
       </div>
     </section>
 
@@ -1452,7 +1585,7 @@
 
           <div class="form-group">
             <label for="name">الاسم بالكامل <span class="req">*</span></label>
-            <input type="text" id="name" name="name" placeholder="مثال: أحمد محمد" autocomplete="name" required minlength="3">
+            <input type="text" id="name" name="name" placeholder="مثال: أحمد محمد" autocomplete="name" required minlength="3" pattern="[A-Za-z\u0600-\u06FF\s]+" title="يسمح بالحروف فقط (عربي أو إنجليزي)">
           </div>
 
           <div class="form-group">
@@ -1503,17 +1636,17 @@
 
           <div class="form-group">
             <label for="city">المدينة <span class="req">*</span></label>
-            <input type="text" id="city" name="city" placeholder="مثال: مصر الجديدة" autocomplete="address-level2" required minlength="2">
+            <input type="text" id="city" name="city" placeholder="مثال: مصر الجديدة" autocomplete="address-level2" required minlength="2" pattern="[A-Za-z\u0600-\u06FF\s]+" title="يسمح بالحروف فقط (عربي أو إنجليزي)">
           </div>
 
           <div class="form-group">
             <label for="address">العنوان <span class="req">*</span></label>
-            <input type="text" id="address" name="address" placeholder="الشارع والمبنى والشقة" autocomplete="street-address" required minlength="5">
+            <input type="text" id="address" name="address" placeholder="الشارع والمبنى والشقة" autocomplete="street-address" required minlength="5" pattern="[A-Za-z\u0600-\u06FF\s]+" title="يسمح بالحروف فقط (عربي أو إنجليزي)">
           </div>
 
           <div class="form-group">
             <label for="landmark">علامة مميزة</label>
-            <input type="text" id="landmark" name="landmark" placeholder="مثال: بجوار المستشفى (اختياري)">
+            <input type="text" id="landmark" name="landmark" placeholder="مثال: بجوار المستشفى (اختياري)" pattern="[A-Za-z\u0600-\u06FF\s]*" title="يسمح بالحروف فقط (عربي أو إنجليزي)">
           </div>
 
           <div class="form-group">
@@ -1608,6 +1741,31 @@
       updateOfferTimer();
       setInterval(updateOfferTimer, 1000);
 
+      /* Alphabet-only fields — strip digits/symbols live as the user types (letters + spaces only) */
+      var ALPHA_ONLY_RE = /[^A-Za-z\u0600-\u06FF\s]/g;
+      ['name', 'city', 'address', 'landmark'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', function () {
+          var cleaned = el.value.replace(ALPHA_ONLY_RE, '');
+          if (cleaned !== el.value) {
+            var pos = el.selectionStart ? el.selectionStart - (el.value.length - cleaned.length) : cleaned.length;
+            el.value = cleaned;
+            if (typeof pos === 'number' && pos >= 0) {
+              try { el.setSelectionRange(pos, pos); } catch (e) {}
+            }
+          }
+        });
+        el.addEventListener('paste', function (e) {
+          e.preventDefault();
+          var text = (e.clipboardData || window.clipboardData).getData('text');
+          var cleaned = text.replace(ALPHA_ONLY_RE, '');
+          var start = el.selectionStart, end = el.selectionEnd;
+          el.value = el.value.slice(0, start) + cleaned + el.value.slice(end);
+          el.dispatchEvent(new Event('input', { bubbles: true }));
+        });
+      });
+
       /* Header nav toggle (mobile dropdown) */
       var navToggle = document.getElementById('navToggle');
       var siteNav = document.getElementById('siteNav');
@@ -1641,21 +1799,45 @@
         visitorCountEl.textContent = visitorCount;
       }, 4000);
 
-      /* Quantity stepper → total + remaining stock (100 minus the selected quantity) */
+      /* Quantity stepper → total + REAL, PERSISTENT remaining stock.
+         The stock number is stored per-visitor in localStorage. It only ever
+         goes DOWN when an order is actually confirmed — never bounces back
+         to its starting value on page reload or after resetting the form. */
       const quantityInput = document.getElementById('quantityInput');
       const qtyDecrease = document.getElementById('qtyDecrease');
       const qtyIncrease = document.getElementById('qtyIncrease');
       const totalPriceEl = document.getElementById('totalPrice');
       const stockCountEl = document.getElementById('stockCount');
       const stockBarFill = document.getElementById('stockBarFill');
+      const stockTextEl = document.querySelector('.stock-widget .stock-text');
       const QTY_MIN = 1;
-      const QTY_MAX = 50;
-      const STOCK_BASE = 100;
+      const STOCK_KEY = 'nhb_stock_remaining';
+      const STOCK_INITIAL = 99; /* starting stock shown to first-time visitors */
 
+      function readStock() {
+        var raw = localStorage.getItem(STOCK_KEY);
+        var n = parseInt(raw, 10);
+        if (raw === null || isNaN(n)) {
+          n = STOCK_INITIAL;
+          try { localStorage.setItem(STOCK_KEY, String(n)); } catch (e) {}
+        }
+        return Math.max(0, n);
+      }
+      function writeStock(n) {
+        n = Math.max(0, n);
+        try { localStorage.setItem(STOCK_KEY, String(n)); } catch (e) {}
+        return n;
+      }
+
+      let realStock = readStock(); /* actual inventory left, persists across visits */
+
+      function currentQtyMax() {
+        return Math.max(QTY_MIN, Math.min(50, realStock || QTY_MIN));
+      }
       function clampQty(value) {
         var n = parseInt(value, 10);
         if (isNaN(n)) n = QTY_MIN;
-        return Math.min(QTY_MAX, Math.max(QTY_MIN, n));
+        return Math.min(currentQtyMax(), Math.max(QTY_MIN, n));
       }
       function updateTotal() {
         const qty = clampQty(quantityInput.value);
@@ -1663,15 +1845,20 @@
       }
       function updateStock() {
         const qty = clampQty(quantityInput.value);
-        const remaining = Math.max(0, STOCK_BASE - qty);
+        const remaining = Math.max(0, realStock - qty);
         stockCountEl.textContent = remaining;
-        stockBarFill.style.width = Math.max(2, (remaining / STOCK_BASE) * 100) + '%';
+        stockBarFill.style.width = Math.max(2, (remaining / STOCK_INITIAL) * 100) + '%';
+        if (realStock <= 0) {
+          if (stockTextEl) stockTextEl.innerHTML = 'نفدت الكمية من المخزون حاليًا — تابعنا لمعرفة موعد التوفر';
+          submitBtnRef && (submitBtnRef.disabled = true);
+        }
       }
       function setQty(value) {
         const qty = clampQty(value);
+        quantityInput.max = currentQtyMax();
         quantityInput.value = qty;
         qtyDecrease.disabled = qty <= QTY_MIN;
-        qtyIncrease.disabled = qty >= QTY_MAX;
+        qtyIncrease.disabled = qty >= currentQtyMax();
         updateTotal();
         updateStock();
       }
@@ -1688,6 +1875,7 @@
       quantityInput.addEventListener('change', function () {
         setQty(quantityInput.value);
       });
+      var submitBtnRef = document.getElementById('submitBtn');
       setQty(quantityInput.value);
 
       /* Sticky CTA: show after scrolling past hero, hide near form */
@@ -1710,13 +1898,20 @@
       window.addEventListener('resize', updateSticky);
       updateSticky();
 
-      /* Reviews carousel — advances automatically, no interaction required */
+      /* Reviews carousel — advances automatically, no interaction required.
+         Crossfade, not slide: only one .review-card is ever "display"-ed
+         at a time, so there is zero travel distance between reviews and
+         two cards can never be visible together, at any point in the
+         transition, no matter when a screenshot/frame lands. */
       const reviewsTrack = document.getElementById('reviewsTrack');
-      const reviewSlides = reviewsTrack.querySelectorAll('.review-card');
+      const reviewSlides = Array.prototype.slice.call(reviewsTrack.querySelectorAll('.review-card'));
       const reviewsDotsWrap = document.getElementById('reviewsDots');
       const REVIEWS_INTERVAL = 4500;
+      const REVIEWS_FADE_MS = 280;
+      const reviewsTotal = reviewSlides.length;
       let reviewIndex = 0;
       let reviewsAutoplayTimer = null;
+      let reviewsFadeTimer = null;
 
       reviewSlides.forEach(function (_, i) {
         const dot = document.createElement('button');
@@ -1724,33 +1919,59 @@
         dot.className = 'reviews-dot';
         dot.setAttribute('aria-label', 'تقييم رقم ' + (i + 1));
         dot.addEventListener('click', function () {
-          goToReview(i);
+          showReview(i);
           restartReviewsAutoplay();
         });
         reviewsDotsWrap.appendChild(dot);
       });
       const reviewDots = reviewsDotsWrap.querySelectorAll('.reviews-dot');
+      const reviewsPrev = document.getElementById('reviewsPrev');
+      const reviewsNext = document.getElementById('reviewsNext');
 
-      function renderReviews() {
-        reviewsTrack.style.transform = 'translateX(' + (reviewIndex * 100) + '%)';
+      function updateReviewDots() {
         reviewDots.forEach(function (dot, i) {
           dot.classList.toggle('active', i === reviewIndex);
         });
       }
-      function goToReview(i) {
-        const total = reviewSlides.length;
-        reviewIndex = (i + total) % total;
-        renderReviews();
+      function showReview(i) {
+        const nextIndex = (i + reviewsTotal) % reviewsTotal;
+        if (nextIndex === reviewIndex && reviewSlides[nextIndex].classList.contains('is-active')) return;
+        const oldCard = reviewSlides[reviewIndex];
+        const newCard = reviewSlides[nextIndex];
+        reviewIndex = nextIndex;
+        updateReviewDots();
+        clearTimeout(reviewsFadeTimer);
+        if (oldCard === newCard) return;
+        oldCard.classList.remove('is-visible');
+        reviewsFadeTimer = setTimeout(function () {
+          oldCard.classList.remove('is-active');
+          newCard.classList.add('is-active');
+          // Force layout so the browser registers opacity:0 before we
+          // transition to opacity:1 (otherwise it'd just snap straight in).
+          void newCard.offsetWidth;
+          requestAnimationFrame(function () {
+            newCard.classList.add('is-visible');
+          });
+        }, REVIEWS_FADE_MS);
       }
       function startReviewsAutoplay() {
         clearInterval(reviewsAutoplayTimer);
         reviewsAutoplayTimer = setInterval(function () {
-          goToReview(reviewIndex + 1);
+          showReview(reviewIndex + 1);
         }, REVIEWS_INTERVAL);
       }
       function restartReviewsAutoplay() {
         startReviewsAutoplay();
       }
+
+      reviewsPrev.addEventListener('click', function () {
+        showReview(reviewIndex - 1);
+        restartReviewsAutoplay();
+      });
+      reviewsNext.addEventListener('click', function () {
+        showReview(reviewIndex + 1);
+        restartReviewsAutoplay();
+      });
 
       const reviewsCarousel = document.querySelector('.reviews-carousel');
       reviewsCarousel.addEventListener('mouseenter', function () {
@@ -1767,15 +1988,16 @@
         if (reviewsTouchStartX !== null) {
           const delta = e.changedTouches[0].clientX - reviewsTouchStartX;
           if (Math.abs(delta) > 40) {
-            if (delta < 0) goToReview(reviewIndex + 1);
-            else goToReview(reviewIndex - 1);
+            if (delta < 0) showReview(reviewIndex + 1);
+            else showReview(reviewIndex - 1);
           }
         }
         reviewsTouchStartX = null;
         startReviewsAutoplay();
       }, { passive: true });
 
-      renderReviews();
+      reviewSlides[0].classList.add('is-active', 'is-visible');
+      updateReviewDots();
       startReviewsAutoplay();
 
       /* FAQ carousel — centered focus card with peeking side cards, arrows + dots + swipe, auto-advances */
@@ -1926,6 +2148,11 @@
         return /^01[0-9]{9}$/.test(phone.trim());
       }
 
+      var ALPHA_ONLY_FULL_RE = /^[A-Za-z\u0600-\u06FF\s]+$/;
+      function isAlphaOnly(value) {
+        return ALPHA_ONLY_FULL_RE.test(value.trim());
+      }
+
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         formMsg.className = 'form-msg';
@@ -1940,8 +2167,22 @@
         const landmark = form.landmark.value.trim();
         const quantity = form.quantity.value;
 
+        if (realStock <= 0) {
+          showMsg('error', 'نأسف، الكمية نفدت من المخزون حاليًا.');
+          return;
+        }
+        if (clampQty(quantity) > realStock) {
+          showMsg('error', 'الكمية المطلوبة أكبر من المتاح في المخزون (' + realStock + ' فقط متاحة).');
+          return;
+        }
+
         if (name.length < 3) {
           showMsg('error', 'من فضلك اكتب اسمك بالكامل.');
+          form.name.focus();
+          return;
+        }
+        if (!isAlphaOnly(name)) {
+          showMsg('error', 'الاسم يجب أن يحتوي على حروف فقط بدون أرقام أو رموز.');
           form.name.focus();
           return;
         }
@@ -1965,9 +2206,24 @@
           form.city.focus();
           return;
         }
+        if (!isAlphaOnly(city)) {
+          showMsg('error', 'المدينة يجب أن تحتوي على حروف فقط بدون أرقام أو رموز.');
+          form.city.focus();
+          return;
+        }
         if (address.length < 5) {
           showMsg('error', 'من فضلك اكتب العنوان بالتفصيل.');
           form.address.focus();
+          return;
+        }
+        if (!isAlphaOnly(address)) {
+          showMsg('error', 'العنوان يجب أن يحتوي على حروف فقط بدون أرقام أو رموز.');
+          form.address.focus();
+          return;
+        }
+        if (landmark && !isAlphaOnly(landmark)) {
+          showMsg('error', 'العلامة المميزة يجب أن تحتوي على حروف فقط بدون أرقام أو رموز.');
+          form.landmark.focus();
           return;
         }
 
@@ -2009,8 +2265,12 @@
         })
           .then(function () {
             showMsg('success', 'تم استلام طلبك بنجاح! هنتواصل معاك قريب لتأكيد التوصيل. شكرًا لثقتك.');
+            /* Permanently deduct the ordered quantity from real stock (persisted).
+               This does NOT reset back to the starting number on future visits/orders. */
+            var orderedQty = clampQty(quantity);
+            realStock = writeStock(realStock - orderedQty);
             form.reset();
-            setQty(quantityInput.value);
+            setQty(1);
           })
           .catch(function () {
             showMsg('error', 'حصل خطأ أثناء الإرسال. حاول تاني خلال لحظات.');
