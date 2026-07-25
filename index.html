@@ -667,12 +667,6 @@
     .review-text{color:var(--muted);font-size:.92rem;margin-bottom:.9rem;line-height:1.75}
     .review-author{font-weight:800;font-size:.9rem;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
     .review-location{display:block;color:var(--muted);font-weight:600;font-size:.8rem}
-    .review-verified{
-      display:inline-flex;align-items:center;gap:.2rem;
-      background:rgba(34,197,94,.14);border:1px solid rgba(34,197,94,.4);
-      color:var(--success);font-size:.72rem;font-weight:700;
-      padding:.15rem .5rem;border-radius:999px;white-space:nowrap;
-    }
     .review-rating{
       display:flex;flex-direction:column;align-items:flex-end;gap:.15rem;
       flex-shrink:0;margin-inline-start:auto;
@@ -916,6 +910,42 @@
     }
     .form-group input::placeholder{color:var(--white);opacity:.75}
     .form-hint{font-size:.78rem;color:var(--white);margin-top:.35rem}
+    /* Metro delivery option (Cairo / Giza only) */
+    .shipping-method-options{display:flex;flex-direction:column;gap:.6rem}
+    .shipping-method-option{
+      display:flex;align-items:center;gap:.65rem;
+      padding:.75rem 1rem;
+      background:var(--bg);
+      border:1.5px solid rgba(0,240,255,.2);
+      border-radius:12px;
+      cursor:pointer;
+      transition:border-color .2s,background .2s;
+      font-weight:600;font-size:.9rem;
+    }
+    .shipping-method-option:hover{border-color:rgba(0,240,255,.5)}
+    .form-group input[type="radio"].sm-radio{
+      -webkit-appearance:none;appearance:none;
+      width:20px;height:20px;min-height:0;flex-shrink:0;
+      margin:0;padding:0;
+      border:2px solid rgba(0,240,255,.4);
+      border-radius:50%;
+      background:var(--bg);
+      cursor:pointer;
+      position:relative;
+      transition:border-color .2s;
+    }
+    .form-group input[type="radio"].sm-radio:checked{border-color:var(--neon)}
+    .form-group input[type="radio"].sm-radio:checked::after{
+      content:'';
+      position:absolute;
+      inset:3px;
+      border-radius:50%;
+      background:var(--neon);
+    }
+    .form-group input[type="radio"].sm-radio:focus-visible{box-shadow:0 0 0 3px var(--neon-dim)}
+    .shipping-method-option.is-selected{border-color:var(--neon);background:var(--neon-dim)}
+    .shipping-method-option:has(input:checked){border-color:var(--neon);background:var(--neon-dim)}
+    .shipping-method-option .sm-price{margin-inline-start:auto;color:var(--neon);font-weight:800}
     /* Quantity stepper */
     .qty-stepper{
       display:flex;align-items:center;flex-wrap:wrap;gap:.85rem;
@@ -964,6 +994,13 @@
     }
     .order-summary span{color:var(--muted);font-weight:600}
     .order-summary strong{color:var(--neon);font-size:1.25rem}
+    .order-summary.shipping-row{
+      margin:0 0 .6rem;
+      padding:.7rem 1rem;
+      background:rgba(0,240,255,.06);
+      border-color:rgba(0,240,255,.15);
+    }
+    .order-summary.shipping-row strong{color:var(--white);font-size:1rem}
     .form-msg{
       display:none;margin-top:1rem;padding:1rem;
       border-radius:12px;text-align:center;font-weight:700;
@@ -1423,7 +1460,7 @@
               <div class="review-top">
                 <div class="review-avatar" aria-hidden="true">أ</div>
                 <div class="review-meta">
-                  <div class="review-author">أحمد س. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <div class="review-author">أحمد س.</div>
                   <span class="review-location">القاهرة</span>
                 </div>
                 <div class="review-rating">
@@ -1437,7 +1474,7 @@
               <div class="review-top">
                 <div class="review-avatar" aria-hidden="true">م</div>
                 <div class="review-meta">
-                  <div class="review-author">محمود ع. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <div class="review-author">محمود ع.</div>
                   <span class="review-location">الجيزة</span>
                 </div>
                 <div class="review-rating">
@@ -1451,7 +1488,7 @@
               <div class="review-top">
                 <div class="review-avatar" aria-hidden="true">ك</div>
                 <div class="review-meta">
-                  <div class="review-author">كريم م. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <div class="review-author">كريم م.</div>
                   <span class="review-location">الإسكندرية</span>
                 </div>
                 <div class="review-rating">
@@ -1465,7 +1502,7 @@
               <div class="review-top">
                 <div class="review-avatar" aria-hidden="true">إ</div>
                 <div class="review-meta">
-                  <div class="review-author">إسلام ح. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <div class="review-author">إسلام ح.</div>
                   <span class="review-location">المنصورة</span>
                 </div>
                 <div class="review-rating">
@@ -1479,7 +1516,7 @@
               <div class="review-top">
                 <div class="review-avatar" aria-hidden="true">ع</div>
                 <div class="review-meta">
-                  <div class="review-author">عمرو ط. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <div class="review-author">عمرو ط.</div>
                   <span class="review-location">طنطا</span>
                 </div>
                 <div class="review-rating">
@@ -1493,7 +1530,7 @@
               <div class="review-top">
                 <div class="review-avatar" aria-hidden="true">ح</div>
                 <div class="review-meta">
-                  <div class="review-author">حسام ن. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <div class="review-author">حسام ن.</div>
                   <span class="review-location">الزقازيق</span>
                 </div>
                 <div class="review-rating">
@@ -1507,7 +1544,7 @@
               <div class="review-top">
                 <div class="review-avatar" aria-hidden="true">ط</div>
                 <div class="review-meta">
-                  <div class="review-author">طارق ي. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <div class="review-author">طارق ي.</div>
                   <span class="review-location">الإسماعيلية</span>
                 </div>
                 <div class="review-rating">
@@ -1521,7 +1558,7 @@
               <div class="review-top">
                 <div class="review-avatar" aria-hidden="true">و</div>
                 <div class="review-meta">
-                  <div class="review-author">وائل ر. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <div class="review-author">وائل ر.</div>
                   <span class="review-location">أسوان</span>
                 </div>
                 <div class="review-rating">
@@ -1535,7 +1572,7 @@
               <div class="review-top">
                 <div class="review-avatar" aria-hidden="true">ش</div>
                 <div class="review-meta">
-                  <div class="review-author">شريف ب. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <div class="review-author">شريف ب.</div>
                   <span class="review-location">الأقصر</span>
                 </div>
                 <div class="review-rating">
@@ -1549,7 +1586,7 @@
               <div class="review-top">
                 <div class="review-avatar" aria-hidden="true">ي</div>
                 <div class="review-meta">
-                  <div class="review-author">ياسر ك. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <div class="review-author">ياسر ك.</div>
                   <span class="review-location">السويس</span>
                 </div>
                 <div class="review-rating">
@@ -1563,7 +1600,7 @@
               <div class="review-top">
                 <div class="review-avatar" aria-hidden="true">م</div>
                 <div class="review-meta">
-                  <div class="review-author">مينا ف. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <div class="review-author">مينا ف.</div>
                   <span class="review-location">الفيوم</span>
                 </div>
                 <div class="review-rating">
@@ -1577,7 +1614,7 @@
               <div class="review-top">
                 <div class="review-avatar" aria-hidden="true">خ</div>
                 <div class="review-meta">
-                  <div class="review-author">خالد س. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <div class="review-author">خالد س.</div>
                   <span class="review-location">المنيا</span>
                 </div>
                 <div class="review-rating">
@@ -1591,7 +1628,7 @@
               <div class="review-top">
                 <div class="review-avatar" aria-hidden="true">ع</div>
                 <div class="review-meta">
-                  <div class="review-author">عادل م. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <div class="review-author">عادل م.</div>
                   <span class="review-location">سوهاج</span>
                 </div>
                 <div class="review-rating">
@@ -1605,7 +1642,7 @@
               <div class="review-top">
                 <div class="review-avatar" aria-hidden="true">ر</div>
                 <div class="review-meta">
-                  <div class="review-author">رامي ع. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <div class="review-author">رامي ع.</div>
                   <span class="review-location">بورسعيد</span>
                 </div>
                 <div class="review-rating">
@@ -1619,7 +1656,7 @@
               <div class="review-top">
                 <div class="review-avatar" aria-hidden="true">س</div>
                 <div class="review-meta">
-                  <div class="review-author">سيد ط. <span class="review-verified">✓ عميل موثّق</span></div>
+                  <div class="review-author">سيد ط.</div>
                   <span class="review-location">دمنهور</span>
                 </div>
                 <div class="review-rating">
@@ -1792,6 +1829,21 @@
             </select>
           </div>
 
+          <div class="form-group" id="shippingMethodGroup" style="display:none;">
+            <label>طريقة التوصيل</label>
+            <div class="shipping-method-options">
+              <label class="shipping-method-option is-selected">
+                <input type="radio" class="sm-radio" name="shippingMethod" value="home" checked>
+                <span>توصيل للمنزل</span>
+              </label>
+              <label class="shipping-method-option">
+                <input type="radio" class="sm-radio" name="shippingMethod" value="metro">
+                <span>توصيل عبر المترو</span>
+                <span class="sm-price">70 ج.م</span>
+              </label>
+            </div>
+          </div>
+
           <div class="form-group">
             <label for="city">المدينة <span class="req">*</span></label>
             <input type="text" id="city" name="city" placeholder="مثال: مصر الجديدة" autocomplete="address-level2" required minlength="2" pattern="[A-Za-z\u0600-\u06FF\s]+" title="يسمح بالحروف فقط (عربي أو إنجليزي)">
@@ -1821,8 +1873,13 @@
             </div>
           </div>
 
+          <div class="order-summary shipping-row" id="shippingRow" aria-live="polite" style="display:none;">
+            <span>شحن لهذه المحافظة</span>
+            <strong id="shippingPrice">0 ج.م</strong>
+          </div>
+
           <div class="order-summary" aria-live="polite">
-            <span>الإجمالي المتوقع</span>
+            <span>الإجمالي المتوقع (شامل الشحن)</span>
             <strong id="totalPrice">220 ج.م</strong>
           </div>
 
@@ -1886,6 +1943,42 @@
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyv42Ob87yf648qZcA4F2vOjxIVltVNnJjQNyEKPclaHRS5Nm9r53cOe5GWU3BOu0odRw/exec';
     const UNIT_PRICE = 220;
     const ORIGINAL_PRICE = 400;
+
+    /* Shipping fee per governorate (ج.م) — added on top of the product total */
+    const SHIPPING_PRICES = {
+      'القاهرة': 85,
+      'الجيزة': 85,
+      'الإسكندرية': 100,
+      'الدقهلية': 100,
+      'البحر الأحمر': 135,
+      'البحيرة': 105,
+      'الفيوم': 115,
+      'الغربية': 105,
+      'الإسماعيلية': 105,
+      'المنوفية': 105,
+      'المنيا': 115,
+      'القليوبية': 85,
+      'الوادي الجديد': 135,
+      'السويس': 105,
+      'أسوان': 125,
+      'أسيوط': 125,
+      'بني سويف': 110,
+      'بورسعيد': 105,
+      'دمياط': 105,
+      'الشرقية': 105,
+      'جنوب سيناء': 165,
+      'كفر الشيخ': 105,
+      'مطروح': 130,
+      'الأقصر': 125,
+      'قنا': 125,
+      'شمال سيناء': 165,
+      'سوهاج': 115,
+      'باقي المحافظات': 150
+    };
+
+    /* Metro delivery — cheaper alternative offered only in Cairo & Giza */
+    const METRO_PRICE = 70;
+    const METRO_GOVERNORATES = ['القاهرة', 'الجيزة', 'القليوبية'];
 
     (function () {
       document.getElementById('year').textContent = new Date().getFullYear();
@@ -1976,6 +2069,46 @@
       const qtyDecrease = document.getElementById('qtyDecrease');
       const qtyIncrease = document.getElementById('qtyIncrease');
       const totalPriceEl = document.getElementById('totalPrice');
+      const governorateSelect = document.getElementById('governorate');
+      const shippingRow = document.getElementById('shippingRow');
+      const shippingPriceEl = document.getElementById('shippingPrice');
+      const shippingMethodGroup = document.getElementById('shippingMethodGroup');
+      const shippingMethodInputs = document.querySelectorAll('input[name="shippingMethod"]');
+      function isMetroGovernorate(gov) {
+        return METRO_GOVERNORATES.indexOf(gov) !== -1;
+      }
+      function currentShippingMethod() {
+        var checked = document.querySelector('input[name="shippingMethod"]:checked');
+        return checked ? checked.value : 'home';
+      }
+      /* Manually toggle the highlighted card style — don't rely solely on
+         the :has() selector, since some in-app/older browsers don't support it. */
+      function syncShippingMethodUI() {
+        shippingMethodInputs.forEach(function (input) {
+          var option = input.closest('.shipping-method-option');
+          if (option) option.classList.toggle('is-selected', input.checked);
+        });
+      }
+      function refreshShippingMethodVisibility() {
+        var gov = governorateSelect && governorateSelect.value;
+        if (isMetroGovernorate(gov)) {
+          shippingMethodGroup.style.display = 'block';
+        } else {
+          shippingMethodGroup.style.display = 'none';
+          /* reset to the default home delivery so a stale metro choice
+             doesn't silently apply after switching to another governorate */
+          shippingMethodInputs.forEach(function (input) {
+            input.checked = input.value === 'home';
+          });
+        }
+        syncShippingMethodUI();
+      }
+      function currentShippingFee() {
+        var gov = governorateSelect && governorateSelect.value;
+        if (!gov || !SHIPPING_PRICES.hasOwnProperty(gov)) return 0;
+        if (isMetroGovernorate(gov) && currentShippingMethod() === 'metro') return METRO_PRICE;
+        return SHIPPING_PRICES[gov];
+      }
       const stockCountEl = document.getElementById('stockCount');
       const stockBarFill = document.getElementById('stockBarFill');
       const stockTextEl = document.querySelector('.stock-widget .stock-text');
@@ -2028,7 +2161,17 @@
       }
       function updateTotal() {
         const qty = clampQty(quantityInput.value);
-        totalPriceEl.textContent = (qty * UNIT_PRICE) + ' ج.م';
+        const shippingFee = currentShippingFee();
+        if (shippingFee > 0) {
+          shippingRow.style.display = 'flex';
+          shippingRow.querySelector('span').textContent = (
+            isMetroGovernorate(governorateSelect.value) && currentShippingMethod() === 'metro'
+          ) ? 'شحن عبر المترو' : 'شحن لهذه المحافظة';
+          shippingPriceEl.textContent = shippingFee + ' ج.م';
+        } else {
+          shippingRow.style.display = 'none';
+        }
+        totalPriceEl.textContent = ((qty * UNIT_PRICE) + shippingFee) + ' ج.م';
       }
       function updateStock() {
         const qty = clampQty(quantityInput.value);
@@ -2064,6 +2207,19 @@
       });
       var submitBtnRef = document.getElementById('submitBtn');
       setQty(quantityInput.value);
+      if (governorateSelect) {
+        governorateSelect.addEventListener('change', function () {
+          refreshShippingMethodVisibility();
+          updateTotal();
+        });
+      }
+      shippingMethodInputs.forEach(function (input) {
+        input.addEventListener('change', function () {
+          syncShippingMethodUI();
+          updateTotal();
+        });
+      });
+      refreshShippingMethodVisibility();
 
       /* Sticky CTA: show after scrolling past hero, hide near form */
       const stickyCta = document.getElementById('stickyCta');
@@ -2476,6 +2632,9 @@
          * name+phone are present.
          */
         var product = (form.product && form.product.value) || 'Never Hold Back Gel';
+        var shippingFee = currentShippingFee();
+        var shippingMethod = isMetroGovernorate(governorate) ? currentShippingMethod() : 'home';
+        var orderTotal = (clampQty(quantity) * UNIT_PRICE) + shippingFee;
         var params = new URLSearchParams({
           name: name,
           phone: phone,
@@ -2486,6 +2645,9 @@
           landmark: landmark,
           quantity: String(quantity),
           product: product,
+          shippingMethod: shippingMethod,
+          shippingFee: String(shippingFee),
+          total: String(orderTotal),
           _ts: Date.now() /* cache-buster */
         });
         var requestUrl = GOOGLE_SCRIPT_URL + '?' + params.toString();
@@ -2503,6 +2665,8 @@
             realStock = writeStock(realStock - orderedQty);
             form.reset();
             setQty(1);
+            refreshShippingMethodVisibility();
+            updateTotal();
           })
           .catch(function () {
             showMsg('error', 'حصل خطأ أثناء الإرسال. حاول تاني خلال لحظات.');
