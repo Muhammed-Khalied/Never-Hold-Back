@@ -885,7 +885,8 @@
     }
     .form-group label .req{color:var(--neon)}
     .form-group input,
-    .form-group select{
+    .form-group select,
+    .form-group textarea{
       width:100%;min-height:52px;
       padding:.75rem 1rem;
       background:var(--bg);
@@ -903,12 +904,18 @@
       background-position:left 1rem center;
       padding-left:2.5rem;
     }
+    .form-group textarea{
+      min-height:96px;resize:vertical;
+      font-family:inherit;font-size:1rem;line-height:1.5;
+    }
     .form-group input:focus,
-    .form-group select:focus{
+    .form-group select:focus,
+    .form-group textarea:focus{
       border-color:var(--neon);
       box-shadow:0 0 0 3px var(--neon-dim);
     }
-    .form-group input::placeholder{color:var(--white);opacity:.75}
+    .form-group input::placeholder,
+    .form-group textarea::placeholder{color:var(--white);opacity:.75}
     .form-hint{font-size:.78rem;color:var(--white);margin-top:.35rem}
     /* Metro delivery option (Cairo / Giza only) */
     .shipping-method-options{display:flex;flex-direction:column;gap:.6rem}
@@ -1860,6 +1867,11 @@
           </div>
 
           <div class="form-group">
+            <label for="notes">تفاصيل إضافية (اختياري)</label>
+            <textarea id="notes" name="notes" placeholder="أي تفاصيل تحب تضيفها عن طلبك (اختياري)" rows="3" maxlength="500"></textarea>
+          </div>
+
+          <div class="form-group">
             <label id="quantityLabel" for="quantityInput">الكمية <span class="req">*</span></label>
             <div class="qty-stepper">
               <button type="button" class="qty-btn" id="qtyIncrease" aria-label="زيادة الكمية">+</button>
@@ -2552,6 +2564,7 @@
         const city = form.city.value.trim();
         const address = form.address.value.trim();
         const landmark = form.landmark.value.trim();
+        const notes = form.notes.value.trim();
         const quantity = form.quantity.value;
 
         if (realStock <= 0) {
@@ -2643,6 +2656,7 @@
           city: city,
           address: address,
           landmark: landmark,
+          notes: notes,
           quantity: String(quantity),
           product: product,
           shippingMethod: shippingMethod,
