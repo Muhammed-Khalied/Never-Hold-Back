@@ -870,6 +870,38 @@
       border-top-color:#041018;border-radius:50%;
       animation:spin .7s linear infinite;
     }
+
+    /* Circular order-progress indicator (shown right after a successful order) */
+    .order-progress{
+      display:none;
+      flex-direction:column;align-items:center;gap:.75rem;
+      margin-top:1.15rem;padding:1.5rem 1rem;
+      background:var(--neon-dim);
+      border:1px solid rgba(0,240,255,.3);
+      border-radius:var(--radius);
+      animation:fadeUp .5s ease both;
+    }
+    .order-progress.show{display:flex}
+    .order-progress-circle{position:relative;width:120px;height:120px;flex-shrink:0}
+    .order-progress-ring{transform:rotate(-90deg)}
+    .order-progress-track{fill:none;stroke:rgba(255,255,255,.12);stroke-width:8}
+    .order-progress-bar{
+      fill:none;stroke:var(--neon);stroke-width:8;stroke-linecap:round;
+      stroke-dasharray:326.73;stroke-dashoffset:326.73;
+      transition:stroke-dashoffset .12s linear;
+      filter:drop-shadow(0 0 6px var(--neon-glow));
+    }
+    .order-progress-percent{
+      position:absolute;inset:0;
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.5rem;font-weight:900;color:var(--neon);
+      font-variant-numeric:tabular-nums;
+      transition:color .3s;
+    }
+    .order-progress-percent.done{color:var(--success);font-size:2rem}
+    .order-progress-label{
+      font-size:.88rem;font-weight:700;color:var(--white);text-align:center;
+    }
     .form-footer-note{
       text-align:center;margin-top:1rem;
       color:var(--muted);font-size:.82rem;
@@ -1094,12 +1126,12 @@
         <div class="price-row fade-in delay-2">
           <div class="price-block">
             <div class="price-old">400 ج.م</div>
-            <div class="price">350 <small>ج.م</small></div>
+            <div class="price">220 <small>ج.م</small></div>
           </div>
-          <span class="discount-badge">وفّر 50 ج.م</span>
+          <span class="discount-badge">وفّر 180 ج.م</span>
           <div class="price-note">سعر خاص لفترة محدودة</div>
         </div>
-        <a class="btn btn-primary fade-in delay-3" href="#order">اطلب دلوقتي — شحن مجاني لفترة محدودة</a>
+        <a class="btn btn-primary fade-in delay-3" href="#order">اطلب دلوقتي</a>
         <div class="cod-pill fade-in delay-3">✓ ادفع لما تستلم طلبك بأمان لباب البيت</div>
       </div>
     </section>
@@ -1316,7 +1348,7 @@
                   <span class="review-score">4.9</span>
                 </div>
               </div>
-              <p class="review-text">"التوصيل كان سريع و🔥شحن مجاني لفترة محدودة خلاني مطمّن أكتر. المنتج فعلاً يستحق."</p>
+              <p class="review-text">"التوصيل كان سريع جدًا وده خلاني مطمّن أكتر. المنتج فعلاً يستحق."</p>
             </article>
             <article class="review-card">
               <div class="review-top">
@@ -1670,7 +1702,7 @@
               <button type="button" class="qty-btn" id="qtyIncrease" aria-label="زيادة الكمية">+</button>
               <input type="number" id="quantityInput" name="quantity" value="1" min="1" max="50" step="1" inputmode="numeric" aria-labelledby="quantityLabel">
               <button type="button" class="qty-btn" id="qtyDecrease" aria-label="تقليل الكمية">−</button>
-              <span class="qty-unit-price">350 ج.م / عبوة</span>
+              <span class="qty-unit-price">220 ج.م / عبوة</span>
             </div>
             <div class="stock-widget" aria-live="polite">
               <div class="stock-text"><span id="stockCount">--</span> عبوات فقط متبقية في المخزون — اطلب قبل النفاد</div>
@@ -1680,7 +1712,7 @@
 
           <div class="order-summary" aria-live="polite">
             <span>الإجمالي المتوقع</span>
-            <strong id="totalPrice">350 ج.م</strong>
+            <strong id="totalPrice">220 ج.م</strong>
           </div>
 
           <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
@@ -1688,6 +1720,18 @@
           </button>
 
           <div class="form-msg" id="formMsg" role="status" aria-live="polite"></div>
+
+          <div class="order-progress" id="orderProgress" aria-hidden="true" role="status" aria-live="polite">
+            <div class="order-progress-circle">
+              <svg class="order-progress-ring" viewBox="0 0 120 120" width="120" height="120" aria-hidden="true">
+                <circle class="order-progress-track" cx="60" cy="60" r="52"></circle>
+                <circle class="order-progress-bar" id="orderProgressBar" cx="60" cy="60" r="52"></circle>
+              </svg>
+              <span class="order-progress-percent" id="orderProgressPercent">0%</span>
+            </div>
+            <span class="order-progress-label" id="orderProgressLabel">جاري تجهيز طلبك للشحن...</span>
+          </div>
+
           <p class="form-footer-note">✓ بياناتك آمنة ولن تُستخدم إلا لتوصيل طلبك</p>
         </form>
       </div>
@@ -1717,7 +1761,7 @@
 
   <!-- Sticky mobile CTA -->
   <div class="sticky-cta" id="stickyCta" aria-hidden="true">
-    <div class="sticky-price">350 ج.م<small>بدل 400 ج.م — الدفع عند الاستلام</small></div>
+    <div class="sticky-price">220 ج.م<small>بدل 400 ج.م — الدفع عند الاستلام</small></div>
     <a class="btn btn-primary" href="#order">اطلب الآن</a>
   </div>
 
@@ -1729,7 +1773,7 @@
 
   <script>
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyv42Ob87yf648qZcA4F2vOjxIVltVNnJjQNyEKPclaHRS5Nm9r53cOe5GWU3BOu0odRw/exec';
-    const UNIT_PRICE = 350;
+    const UNIT_PRICE = 220;
     const ORIGINAL_PRICE = 400;
 
     (function () {
@@ -2176,6 +2220,49 @@
         formMsg.textContent = text;
       }
 
+      /* Circular order-progress indicator — animates 0% → 100% right after
+         the order is successfully submitted, then settles on a checkmark. */
+      const orderProgress = document.getElementById('orderProgress');
+      const orderProgressBar = document.getElementById('orderProgressBar');
+      const orderProgressPercent = document.getElementById('orderProgressPercent');
+      const orderProgressLabel = document.getElementById('orderProgressLabel');
+      const ORDER_PROGRESS_CIRCUMFERENCE = 2 * Math.PI * 52;
+      const ORDER_PROGRESS_DURATION = 2200;
+      let orderProgressRaf = null;
+
+      function hideOrderProgress() {
+        if (orderProgressRaf) cancelAnimationFrame(orderProgressRaf);
+        orderProgress.classList.remove('show');
+        orderProgress.setAttribute('aria-hidden', 'true');
+      }
+
+      function runOrderProgress() {
+        if (orderProgressRaf) cancelAnimationFrame(orderProgressRaf);
+        orderProgress.classList.add('show');
+        orderProgress.setAttribute('aria-hidden', 'false');
+        orderProgressPercent.classList.remove('done');
+        orderProgressPercent.textContent = '0%';
+        orderProgressLabel.textContent = 'جاري تجهيز طلبك للشحن...';
+        orderProgressBar.style.strokeDashoffset = String(ORDER_PROGRESS_CIRCUMFERENCE);
+
+        const start = performance.now();
+        function step(now) {
+          const elapsed = now - start;
+          const pct = Math.min(100, Math.round((elapsed / ORDER_PROGRESS_DURATION) * 100));
+          orderProgressBar.style.strokeDashoffset = String(ORDER_PROGRESS_CIRCUMFERENCE * (1 - pct / 100));
+          orderProgressPercent.textContent = pct + '%';
+          if (elapsed < ORDER_PROGRESS_DURATION) {
+            orderProgressRaf = requestAnimationFrame(step);
+          } else {
+            orderProgressBar.style.strokeDashoffset = '0';
+            orderProgressPercent.textContent = '✓';
+            orderProgressPercent.classList.add('done');
+            orderProgressLabel.textContent = 'تم تأكيد طلبك بنجاح!';
+          }
+        }
+        orderProgressRaf = requestAnimationFrame(step);
+      }
+
       function validatePhone(phone) {
         return /^01[0-9]{9}$/.test(phone.trim());
       }
@@ -2189,6 +2276,7 @@
         e.preventDefault();
         formMsg.className = 'form-msg';
         formMsg.textContent = '';
+        hideOrderProgress();
 
         const name = form.name.value.trim();
         const phone = form.phone.value.trim();
@@ -2265,6 +2353,7 @@
         }
 
         setLoading(true);
+        runOrderProgress();
 
         /*
          * GET with query params instead of POST.
@@ -2306,6 +2395,7 @@
           })
           .catch(function () {
             showMsg('error', 'حصل خطأ أثناء الإرسال. حاول تاني خلال لحظات.');
+            hideOrderProgress();
           })
           .finally(function () {
             setLoading(false);
