@@ -48,7 +48,7 @@
   <!-- Structured data: Organization + Product + FAQPage.
        Manufacturer entity name below is "Yapharmia Pharmaceuticals", matching
        the on-page credibility box — keep both in sync if this ever changes. -->
-  <script type="application/ld+json">
+  <script type="application/ld+json" id="productLd">
   {
     "@context": "https://schema.org",
     "@graph": [
@@ -1334,10 +1334,10 @@
         </div>
         <div class="price-row fade-in delay-2">
           <div class="price-block">
-            <div class="price-old">400 ج.م</div>
-            <div class="price">349 <small>ج.م</small></div>
+            <div class="price-old"><span class="js-price-old">400</span> ج.م</div>
+            <div class="price"><span class="js-price-now">349</span> <small>ج.م</small></div>
           </div>
-          <span class="discount-badge">وفّر 51 ج.م</span>
+          <span class="discount-badge js-discount-amount">وفّر 51 ج.م</span>
           <div class="price-note">سعر خاص لفترة محدودة</div>
         </div>
         <a class="btn btn-primary fade-in delay-3" href="#order">اطلب دلوقتي</a>
@@ -1845,7 +1845,7 @@
         <p class="order-lead">املأ البيانات وسنتواصل معك لتأكيد الطلب — شحن مجاني لجميع المحافظات (عرض لفترة محدودة) والدفع عند الاستلام</p>
 
         <form id="orderForm" novalidate>
-          <input type="hidden" name="product" value="Never Hold Back Gel">
+          <input type="hidden" name="product" id="productNameField" value="Never Hold Back Gel">
 
           <div class="form-group">
             <label for="name">الاسم بالكامل <span class="req">*</span></label>
@@ -1922,9 +1922,9 @@
             <label id="quantityLabel" for="quantityInput">الكمية <span class="req">*</span></label>
             <div class="qty-stepper">
               <button type="button" class="qty-btn" id="qtyIncrease" aria-label="زيادة الكمية">+</button>
-              <input type="number" id="quantityInput" name="quantity" value="1" min="1" max="50" step="1" inputmode="numeric" aria-labelledby="quantityLabel">
+              <input type="number" id="quantityInput" name="quantity" value="1" min="1" max="20" step="1" inputmode="numeric" aria-labelledby="quantityLabel">
               <button type="button" class="qty-btn" id="qtyDecrease" aria-label="تقليل الكمية">−</button>
-              <span class="qty-unit-price">349 ج.م / عبوة</span>
+              <span class="qty-unit-price" id="qtyUnitPrice">349 ج.م / عبوة</span>
             </div>
             <div class="stock-widget" aria-live="polite">
               <div class="stock-text"><span id="stockCount">--</span> عبوات فقط متبقية في المخزون — اطلب قبل النفاد</div>
@@ -1989,7 +1989,7 @@
 
   <!-- Sticky mobile CTA -->
   <div class="sticky-cta" id="stickyCta" aria-hidden="true">
-    <div class="sticky-price">349 ج.م<small>بدل 400 ج.م — شحن مجاني لفترة محدودة</small></div>
+    <div class="sticky-price"><span class="js-price-now">349</span> ج.م<small>بدل <span class="js-price-old">400</span> ج.م — شحن مجاني لفترة محدودة</small></div>
     <a class="btn btn-primary" href="#order">اطلب الآن</a>
   </div>
 
@@ -2001,14 +2001,21 @@
 
   <script>
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyv42Ob87yf648qZcA4F2vOjxIVltVNnJjQNyEKPclaHRS5Nm9r53cOe5GWU3BOu0odRw/exec';
-    const UNIT_PRICE = 349;
-    const ORIGINAL_PRICE = 400;
-
-    /* Shipping is free for all governorates */
-    const SHIPPING_FEE = 0;
 
     (function () {
       document.getElementById('year').textContent = new Date().getFullYear();
+
+      /* ---- Dynamic pricing: the backend (Google Sheet "Settings" /
+         "ShippingFees" tabs) is the single source of truth for price and
+         shipping. The numbers below are FALLBACK values only — shown
+         immediately so the page never looks empty, and used as-is if the
+         live config fetch fails (e.g. visitor is offline). Do not rely on
+         editing these to change the real price; edit the Settings tab in
+         the Google Sheet instead, see Code.gs for details. */
+      let UNIT_PRICE = 349;
+      let ORIGINAL_PRICE = 400;
+      let PRODUCT_NAME = 'Never Hold Back Gel';
+      let shippingFees = {}; /* empty = free shipping everywhere, current default */
 
       /* Offer countdown timer — resets automatically every night at midnight */
       var timerH = document.getElementById('timerH');
@@ -2141,9 +2148,18 @@
       const qtyDecrease = document.getElementById('qtyDecrease');
       const qtyIncrease = document.getElementById('qtyIncrease');
       const totalPriceEl = document.getElementById('totalPrice');
+      const shippingPriceEl = document.getElementById('shippingPrice');
       const governorateSelect = document.getElementById('governorate');
       function currentShippingFee() {
-        return SHIPPING_FEE;
+        var gov = governorateSelect && governorateSelect.value;
+        if (!gov) return 0;
+        if (Object.prototype.hasOwnProperty.call(shippingFees, gov)) {
+          return Number(shippingFees[gov]) || 0;
+        }
+        if (Object.prototype.hasOwnProperty.call(shippingFees, 'باقي المحافظات')) {
+          return Number(shippingFees['باقي المحافظات']) || 0;
+        }
+        return 0;
       }
       const stockCountEl = document.getElementById('stockCount');
       const stockBarFill = document.getElementById('stockBarFill');
@@ -2188,7 +2204,7 @@
       let realStock = readStock(); /* actual inventory left, persists across visits */
 
       function currentQtyMax() {
-        return Math.max(QTY_MIN, Math.min(50, realStock || QTY_MIN));
+        return Math.max(QTY_MIN, Math.min(20, realStock || QTY_MIN)); /* matches the backend's max-order-quantity cap */
       }
       function clampQty(value) {
         var n = parseInt(value, 10);
@@ -2197,7 +2213,9 @@
       }
       function updateTotal() {
         const qty = clampQty(quantityInput.value);
-        totalPriceEl.textContent = (qty * UNIT_PRICE) + ' ج.م';
+        const fee = currentShippingFee();
+        if (shippingPriceEl) shippingPriceEl.textContent = fee > 0 ? (fee + ' ج.م') : 'مجاني';
+        totalPriceEl.textContent = ((qty * UNIT_PRICE) + fee) + ' ج.م';
       }
       function updateStock() {
         const qty = clampQty(quantityInput.value);
@@ -2238,6 +2256,59 @@
           updateTotal();
         });
       }
+
+      /* ---- Fetch live price/shipping config from the backend once per
+         page load, then refresh every place the price appears. If this
+         fails (offline, slow network, etc.) the fallback numbers above stay
+         on screen, so the page always shows a valid price. ---- */
+      function applyPricingToPage() {
+        var discount = Math.max(0, ORIGINAL_PRICE - UNIT_PRICE);
+        document.querySelectorAll('.js-price-old').forEach(function (el) { el.textContent = ORIGINAL_PRICE; });
+        document.querySelectorAll('.js-price-now').forEach(function (el) { el.textContent = UNIT_PRICE; });
+        document.querySelectorAll('.js-discount-amount').forEach(function (el) { el.textContent = 'وفّر ' + discount + ' ج.م'; });
+        var qtyUnitEl = document.getElementById('qtyUnitPrice');
+        if (qtyUnitEl) qtyUnitEl.textContent = UNIT_PRICE + ' ج.م / عبوة';
+        var productNameField = document.getElementById('productNameField');
+        if (productNameField) productNameField.value = PRODUCT_NAME;
+        updateTotal();
+        updateJsonLdPrice();
+      }
+
+      function updateJsonLdPrice() {
+        try {
+          var ldEl = document.getElementById('productLd');
+          if (!ldEl) return;
+          var data = JSON.parse(ldEl.textContent);
+          var graph = data['@graph'] || [];
+          var product = graph.find(function (n) { return n['@type'] === 'Product'; });
+          if (product && product.offers) {
+            product.offers.price = String(UNIT_PRICE);
+            ldEl.textContent = JSON.stringify(data);
+          }
+        } catch (e) { /* non-critical — structured data just keeps its fallback price */ }
+      }
+
+      var configFetchPromise = null;
+      function loadSiteConfig() {
+        if (configFetchPromise) return configFetchPromise; /* only ever fetched once per page load */
+        configFetchPromise = fetch(GOOGLE_SCRIPT_URL + '?action=getConfig', { cache: 'no-store' })
+          .then(function (res) { return res.json(); })
+          .then(function (cfg) {
+            if (cfg && cfg.ok) {
+              if (typeof cfg.price === 'number' && cfg.price > 0) UNIT_PRICE = cfg.price;
+              if (typeof cfg.originalPrice === 'number' && cfg.originalPrice > 0) ORIGINAL_PRICE = cfg.originalPrice;
+              if (cfg.productName) PRODUCT_NAME = cfg.productName;
+              if (cfg.shipping && typeof cfg.shipping === 'object') shippingFees = cfg.shipping;
+              applyPricingToPage();
+            }
+            return cfg;
+          })
+          .catch(function (err) {
+            console.warn('NHB: live pricing fetch failed, showing fallback price.', err);
+          });
+        return configFetchPromise;
+      }
+      loadSiteConfig();
 
       /* Sticky CTA: show after scrolling past hero, hide near form */
       const stickyCta = document.getElementById('stickyCta');
@@ -2650,7 +2721,7 @@
          * redirect intact, and doGet() in Code.gs writes the order when
          * name+phone are present.
          */
-        var product = (form.product && form.product.value) || 'Never Hold Back Gel';
+        var product = (form.product && form.product.value) || PRODUCT_NAME;
         var shippingFee = currentShippingFee();
         var orderTotal = (clampQty(quantity) * UNIT_PRICE) + shippingFee;
         var params = new URLSearchParams({
