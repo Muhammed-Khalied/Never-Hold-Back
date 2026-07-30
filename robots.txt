@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://never-hold-back.vercel.app/sitemap.xml
