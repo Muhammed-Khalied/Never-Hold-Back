@@ -10,6 +10,24 @@
     gtag('config', 'G-GLWS9P797W');
   </script>
 
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '2630707424051634');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=2630707424051634&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="index, follow">
@@ -3303,6 +3321,19 @@
                This does NOT reset back to the starting number on future visits/orders. */
             var orderedQty = clampQty(quantity);
             realStock = writeStock(realStock - orderedQty);
+
+            /* Meta Pixel — fire on confirmed order success (not on click) so the
+               ads algorithm only optimizes for real completed orders. */
+            if (typeof fbq === 'function') {
+              fbq('track', 'Purchase', {
+                value: orderTotal,
+                currency: 'EGP',
+                content_name: product,
+                content_type: 'product',
+                num_items: orderedQty
+              });
+            }
+
             form.reset();
             setQty(1);
             updateTotal();
@@ -3314,6 +3345,15 @@
           .finally(function () {
             setLoading(false);
           });
+      });
+
+      /* Meta Pixel — fire a "Contact" event whenever a visitor clicks any
+         WhatsApp link on the page (nav, floating button, quiz CTA, etc).
+         Delegated on document so it also catches the quiz's CTA link, which
+         is injected into the DOM later at runtime. */
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest && e.target.closest('a[href*="wa.me"]');
+        if (link && typeof fbq === 'function') fbq('track', 'Contact');
       });
     })();
   </script>
