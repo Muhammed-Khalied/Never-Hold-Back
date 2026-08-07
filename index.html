@@ -17,8 +17,8 @@
     })();
   </script>
   <meta name="google-site-verification" content="T8JHnOGN56j4Knm5UHms1-mIZgpyJwHQMt6DRoy3pM4" />
-  <title>جل تقوية الانتصاب للرجال | Never Hold Back Gel - نتائج خلال 30 دقيقة</title>
-  <meta name="description" content="جل تقوية الانتصاب للرجال Never Hold Back — نتائج خلال 30 دقيقة، بدون آثار جانبية كالحبوب، آمن لكبار السن ومرضى ضغط الدم. مرخّص من هيئة الدواء المصرية. شحن مجاني لجميع محافظات مصر لفترة محدودة، والدفع عند الاستلام.">
+  <title>جل تقوية الانتصاب والتأخير للرجال | Never Hold Back Gel - نتائج خلال 30 دقيقة</title>
+  <meta name="description" content="جل تقوية الانتصاب والتأخير للرجال Never Hold Back — نتائج خلال 30 دقيقة، بدون آثار جانبية كالحبوب، آمن لكبار السن ومرضى ضغط الدم. مرخّص من هيئة الدواء المصرية. شحن مجاني لجميع محافظات مصر لفترة محدودة، والدفع عند الاستلام.">
   <link rel="canonical" href="https://never-hold-back.vercel.app/">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0e17'/%3E%3Ctext x='32' y='44' font-size='34' font-weight='900' text-anchor='middle' fill='%2300f0ff' font-family='Arial,sans-serif'%3EN%3C/text%3E%3C/svg%3E">
 
@@ -26,14 +26,14 @@
   <meta property="og:type" content="product">
   <meta property="og:locale" content="ar_EG">
   <meta property="og:site_name" content="Never Hold Back Gel">
-  <meta property="og:title" content="جل تقوية الانتصاب للرجال | Never Hold Back Gel - نتائج خلال 30 دقيقة">
-  <meta property="og:description" content="جيل موضعي لتقوية الانتصاب للرجال — نتائج خلال 30 دقيقة، بدون آثار جانبية كالحبوب، مرخّص من هيئة الدواء المصرية. شحن مجاني لفترة محدودة، والدفع عند الاستلام.">
+  <meta property="og:title" content="جل تقوية الانتصاب والتأخير للرجال | Never Hold Back Gel - نتائج خلال 30 دقيقة">
+  <meta property="og:description" content="جيل موضعي لتقوية الانتصاب والتأخير للرجال — نتائج خلال 30 دقيقة، بدون آثار جانبية كالحبوب، مرخّص من هيئة الدواء المصرية. شحن مجاني لفترة محدودة، والدفع عند الاستلام.">
   <meta property="og:image" content="https://never-hold-back.vercel.app/IMG-20260717-WA0009.jpg">
   <meta property="og:url" content="https://never-hold-back.vercel.app/">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="جل تقوية الانتصاب للرجال | Never Hold Back Gel">
+  <meta name="twitter:title" content="جل تقوية الانتصاب والتأخير للرجال | Never Hold Back Gel">
   <meta name="twitter:description" content="نتائج خلال 30 دقيقة، بدون آثار جانبية، مرخّص من هيئة الدواء المصرية. شحن مجاني لفترة محدودة، والدفع عند الاستلام.">
   <meta name="twitter:image" content="https://never-hold-back.vercel.app/IMG-20260717-WA0009.jpg">
 
@@ -72,7 +72,7 @@
           "@type": "Offer",
           "url": "https://never-hold-back.vercel.app/",
           "priceCurrency": "EGP",
-          "price": "349",
+          "price": "600",
           "availability": "https://schema.org/InStock"
         }
       },
@@ -116,7 +116,7 @@
             "name": "هل له علاقة بسرعة القذف؟",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "لا، المنتج مخصص لحالات ضعف الانتصاب فقط. يمكن استخدامه مع منتج آخر مخصص للتأخير إذا لزم الأمر."
+              "text": "نعم، المنتج يساعد في حالات ضعف الانتصاب وحالات سرعة القذف (التأخير) معًا، حسب حالة كل شخص."
             }
           },
           {
@@ -1123,6 +1123,142 @@
       .order-card{padding:2rem 2.25rem 2.25rem;max-width:560px;margin-inline:auto}
     }
 
+    /* Suitability quiz — centered modal floating over real customer
+       WhatsApp screenshots that drift/rotate gently in the background
+       (kept crisp and legible, not blurred into an abstract texture). */
+    .quiz-modal-backdrop{
+      position:fixed;inset:0;z-index:1000;
+      display:flex;align-items:center;justify-content:center;
+      padding:1rem;overflow-y:auto;
+      animation:quizBackdropIn .25s ease;
+    }
+    .quiz-modal-backdrop.is-hidden{display:none}
+    body.quiz-modal-lock{overflow:hidden}
+    .quiz-modal-bg{
+      position:fixed;inset:0;z-index:0;
+      overflow:hidden;
+      background-image:url('IMG-20260731-WA0032.jpg');
+      background-size:cover;
+      background-position:center;
+      pointer-events:none;
+    }
+    .quiz-modal-bg img{
+      position:absolute;
+      width:240px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:0 18px 45px rgba(0,0,0,.55);
+      object-fit:cover;
+      opacity:1;
+    }
+    /* Left side: three stacked screenshots (top / middle / bottom) */
+    .quiz-modal-bg img:nth-child(1){top:3%;left:2%;animation:quizFloatA 15s ease-in-out infinite}
+    .quiz-modal-bg img:nth-child(3){top:38%;left:3%;width:230px;animation:quizFloatB 20s ease-in-out infinite;animation-delay:-9s}
+    .quiz-modal-bg img:nth-child(4){bottom:3%;left:2%;width:250px;animation:quizFloatA 17s ease-in-out infinite;animation-delay:-6s}
+    /* Right side: only this one screenshot */
+    .quiz-modal-bg img:nth-child(2){top:38%;right:2%;width:230px;animation:quizFloatB 18s ease-in-out infinite;animation-delay:-4s}
+    .quiz-modal-bg img:nth-child(5){top:8%;left:50%;width:200px;animation:quizFloatA 22s ease-in-out infinite;animation-delay:-13s}
+    @keyframes quizFloatA{
+      0%,100%{transform:translate(0,0) rotate(-3deg)}
+      50%{transform:translate(18px,-22px) rotate(3deg)}
+    }
+    @keyframes quizFloatB{
+      0%,100%{transform:translate(0,0) rotate(3deg)}
+      50%{transform:translate(-20px,18px) rotate(-3deg)}
+    }
+    .quiz-modal-tint{
+      position:fixed;inset:0;z-index:1;
+      background:linear-gradient(180deg,rgba(3,8,16,.12),rgba(3,8,16,.2));
+      pointer-events:none;
+    }
+    .quiz-modal{
+      position:relative;z-index:2;width:100%;max-width:560px;
+      max-height:calc(100vh - 2rem);overflow-y:auto;
+      background:var(--bg-3);
+      border:1px solid rgba(var(--neon-rgb),.25);
+      border-radius:20px;
+      padding:1.75rem 1.25rem 1.5rem;
+      box-shadow:0 25px 70px rgba(0,0,0,.5),0 0 60px rgba(var(--neon-rgb),.1);
+      margin:auto;
+      animation:quizModalIn .3s ease;
+    }
+    .quiz-modal .section-head{margin-bottom:1.1rem}
+    @keyframes quizBackdropIn{from{opacity:0}to{opacity:1}}
+    @keyframes quizModalIn{
+      from{opacity:0;transform:translateY(14px) scale(.97)}
+      to{opacity:1;transform:translateY(0) scale(1)}
+    }
+    .quiz-skip-row{text-align:center;margin-bottom:1.1rem}
+    .quiz-skip-btn{display:inline-flex}
+    .quiz-card{
+      padding:0;
+    }
+    .quiz-progress{
+      height:6px;border-radius:999px;overflow:hidden;
+      background:rgba(255,255,255,.08);margin-bottom:1.35rem;
+    }
+    .quiz-progress-bar{
+      height:100%;width:8%;border-radius:999px;
+      background:linear-gradient(90deg,var(--neon),var(--accent-solid));
+      transition:width .35s ease;
+    }
+    .quiz-step-title{
+      font-size:clamp(1.05rem,3.2vw,1.3rem);font-weight:800;
+      margin-bottom:.4rem;line-height:1.5;
+    }
+    .quiz-step-subtitle{color:var(--muted);font-size:.85rem;margin-bottom:1.1rem}
+    .quiz-options{display:flex;flex-direction:column;gap:.65rem}
+    .quiz-option{
+      display:flex;align-items:center;gap:.65rem;width:100%;text-align:right;
+      padding:.85rem 1rem;
+      background:var(--bg);
+      border:1.5px solid rgba(var(--neon-rgb),.2);
+      border-radius:12px;
+      color:var(--white);font-weight:700;font-size:.95rem;
+      cursor:pointer;
+      transition:border-color .2s,background .2s,transform .2s;
+    }
+    .quiz-option:hover{border-color:var(--neon);background:var(--neon-dim)}
+    .quiz-option:active{transform:scale(.98)}
+    .quiz-option.is-selected{border-color:var(--neon);background:var(--neon-dim)}
+    .quiz-option-check{
+      width:20px;height:20px;flex-shrink:0;border-radius:6px;
+      border:1.5px solid rgba(var(--neon-rgb),.4);
+      display:flex;align-items:center;justify-content:center;
+    }
+    .quiz-option.is-selected .quiz-option-check{background:var(--neon);border-color:var(--neon)}
+    .quiz-option.is-selected .quiz-option-check::before{content:"✓";color:#041018;font-weight:900;font-size:.72rem}
+    .quiz-continue{margin-top:1rem}
+    .quiz-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.35rem;gap:.75rem}
+    .quiz-nav button{
+      display:inline-flex;align-items:center;justify-content:center;gap:.35rem;
+      background:var(--bg);
+      border:1.5px solid rgba(var(--neon-rgb),.35);
+      border-radius:999px;
+      color:var(--white);
+      font-weight:700;font-size:.85rem;cursor:pointer;
+      padding:.6rem 1.15rem;
+      transition:border-color .2s,background .2s,color .2s,transform .2s;
+    }
+    .quiz-nav button:hover{border-color:var(--neon);background:var(--neon-dim);color:var(--neon)}
+    .quiz-nav button:active{transform:scale(.96)}
+    .quiz-result{text-align:center}
+    .quiz-result-icon{font-size:2.6rem;margin-bottom:.6rem}
+    .quiz-result-title{font-size:clamp(1.15rem,3.6vw,1.45rem);font-weight:900;margin-bottom:.55rem}
+    .quiz-result.tone-success .quiz-result-title{color:var(--success)}
+    .quiz-result.tone-danger .quiz-result-title{color:var(--danger)}
+    .quiz-result.tone-warning .quiz-result-title{color:#ff8a00}
+    .quiz-result.tone-info .quiz-result-title{color:var(--neon)}
+    .quiz-result-body{color:var(--muted);font-size:.94rem;margin-bottom:1rem;line-height:1.75}
+    .quiz-result-note{
+      background:rgba(255,138,0,.08);
+      border:1px solid rgba(255,138,0,.35);
+      border-radius:10px;padding:.75rem .9rem;
+      font-size:.82rem;color:var(--white);margin-bottom:1.1rem;text-align:right;
+    }
+    .quiz-result-actions{display:flex;flex-direction:column;gap:.65rem}
+    .quiz-noscript{text-align:center;color:var(--muted);margin-top:1rem}
+
     /* Sticky mobile CTA */
     .sticky-cta{
       position:fixed;bottom:0;inset-inline:0;z-index:90;
@@ -1290,6 +1426,44 @@
   </style>
 </head>
 <body>
+  <!-- No JS: don't trap visitors behind a backdrop they can't dismiss —
+       fall back to a plain in-flow box instead of a fixed overlay. -->
+  <noscript><style>.quiz-modal-backdrop{position:static;padding:.5rem 1rem 0}.quiz-modal-bg,.quiz-modal-tint{display:none}</style></noscript>
+
+  <!-- Suitability quiz modal — pops up centered over a blurred backdrop as
+       soon as the page opens, so visitors can self-qualify before anything
+       else. Stays open until the quiz is finished or skipped to order. -->
+  <div class="quiz-modal-backdrop" id="quizModalBackdrop">
+    <div class="quiz-modal-bg" aria-hidden="true">
+      <img src="IMG-20260731-WA0026.jpg" alt="" loading="eager">
+      <img src="IMG-20260731-WA0033.jpg" alt="" loading="eager">
+      <img src="IMG-20260731-WA0034.jpg" alt="" loading="eager">
+      <img src="IMG-20260807-WA0000.jpg" alt="" loading="eager">
+      <img src="IMG-20260807-WA0001.jpg" alt="" loading="eager">
+    </div>
+    <div class="quiz-modal-tint" aria-hidden="true"></div>
+    <section class="quiz-modal quiz-section" id="quiz" role="dialog" aria-modal="true" aria-label="تحقق من ملاءمة المنتج لحالتك">
+      <div class="section-head">
+        <h2>هل المنتج مناسب لحالتك؟</h2>
+        <p>جاوب على أسئلة سريعة واعرف النتيجة فورًا — مجانًا وبدون أي بيانات مطلوبة</p>
+      </div>
+      <div class="quiz-skip-row">
+        <a href="#order" class="btn btn-ghost quiz-skip-btn" id="quizSkipBtn">متأكد إنه يناسبك؟ اطلب الآن مباشرة ←</a>
+      </div>
+      <div class="quiz-card">
+        <div class="quiz-progress" aria-hidden="true">
+          <div class="quiz-progress-bar" id="quizProgressBar"></div>
+        </div>
+        <div class="quiz-stage" id="quizStage"></div>
+        <div class="quiz-nav">
+          <button type="button" class="quiz-back" id="quizBack" hidden>‹ رجوع</button>
+          <button type="button" class="quiz-restart" id="quizRestart" hidden>إعادة البدء</button>
+        </div>
+      </div>
+      <noscript><p class="quiz-noscript">فعّل الجافاسكريبت لاستخدام الاستبيان، أو <a href="https://wa.me/201555348184" target="_blank" rel="noopener">تواصل معنا على واتساب</a> مباشرة.</p></noscript>
+    </section>
+  </div>
+
   <div class="top-bar" id="topBar" aria-live="polite">
     <span aria-hidden="true">🔥</span>
     <span><span id="visitorCount">120</span> شخص يشاهدون هذا المنتج الآن</span>
@@ -1328,10 +1502,10 @@
       <div class="hero-copy">
         <div class="hero-badge fade-in">⚡ الأول من نوعه في مصر والعالم العربي</div>
         <h1 class="fade-in delay-1">
-          لا تؤجّل اللحظة — جل تقوية الانتصاب للرجال <span>خلال 30 دقيقة</span>
+          لا تؤجّل اللحظة — جل تقوية الانتصاب والتأخير للرجال <span>خلال 30 دقيقة</span>
         </h1>
         <p class="hero-sub fade-in delay-2">
-          جيل موضعي لعلاج ضعف الانتصاب للرجال — بدون آثار جانبية كالحبوب، آمن للاستخدام اليومي، ومناسب لكبار السن ومرضى ضغط الدم.
+          جيل موضعي لعلاج ضعف الانتصاب وتأخير القذف للرجال — بدون آثار جانبية كالحبوب، آمن للاستخدام اليومي، ومناسب لكبار السن ومرضى ضغط الدم.
         </p>
         <div class="offer-timer fade-in delay-2" role="timer" aria-live="off">
           <span class="offer-timer-label">⏰ العرض ينتهي الليلة خلال</span>
@@ -1341,10 +1515,10 @@
         </div>
         <div class="price-row fade-in delay-2">
           <div class="price-block">
-            <div class="price-old"><span class="js-price-old">400</span> ج.م</div>
-            <div class="price"><span class="js-price-now">349</span> <small>ج.م</small></div>
+            <div class="price-old"><span class="js-price-old">850</span> ج.م</div>
+            <div class="price"><span class="js-price-now">600</span> <small>ج.م</small></div>
           </div>
-          <span class="discount-badge js-discount-amount">وفّر 51 ج.م</span>
+          <span class="discount-badge js-discount-amount">وفّر 250 ج.م</span>
           <div class="price-note">سعر خاص لفترة محدودة</div>
         </div>
         <a class="btn btn-primary fade-in delay-3" href="#order">اطلب دلوقتي</a>
@@ -1824,9 +1998,9 @@
             <article class="faq-slide">
               <h3 class="faq-q">هل له علاقة بسرعة القذف؟</h3>
               <div class="faq-a">
-                <p>لا</p>
-                <p>المنتج مخصص لحالات ضعف الانتصاب فقط.</p>
-                <p>يمكن استخدامه مع منتج آخر مخصص للتأخير إذا لزم الأمر.</p>
+                <p>نعم.</p>
+                <p>المنتج يساعد في حالات ضعف الانتصاب وحالات سرعة القذف (التأخير) معًا.</p>
+                <p>الاستخدام يختلف حسب حالتك — تقدر تعرف الأنسب لك عن طريق التواصل معنا مباشرة.</p>
               </div>
             <article class="faq-slide">
               <h3 class="faq-q">لماذا تختار هذا المنتج؟</h3>
@@ -1934,7 +2108,7 @@
               <button type="button" class="qty-btn" id="qtyIncrease" aria-label="زيادة الكمية">+</button>
               <input type="number" id="quantityInput" name="quantity" value="1" min="1" max="20" step="1" inputmode="numeric" aria-labelledby="quantityLabel">
               <button type="button" class="qty-btn" id="qtyDecrease" aria-label="تقليل الكمية">−</button>
-              <span class="qty-unit-price" id="qtyUnitPrice">349 ج.م / عبوة</span>
+              <span class="qty-unit-price" id="qtyUnitPrice">600 ج.م / عبوة</span>
             </div>
             <div class="stock-widget" aria-live="polite">
               <div class="stock-text"><span id="stockCount">--</span> عبوات فقط متبقية في المخزون — اطلب قبل النفاد</div>
@@ -1950,7 +2124,7 @@
 
           <div class="order-summary" aria-live="polite">
             <span>الإجمالي المتوقع</span>
-            <strong id="totalPrice">349 ج.م</strong>
+            <strong id="totalPrice">600 ج.م</strong>
           </div>
 
           <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
@@ -1999,7 +2173,7 @@
 
   <!-- Sticky mobile CTA -->
   <div class="sticky-cta" id="stickyCta" aria-hidden="true">
-    <div class="sticky-price"><span class="js-price-now">349</span> ج.م<small>بدل <span class="js-price-old">400</span> ج.م — شحن مجاني لفترة محدودة</small></div>
+    <div class="sticky-price"><span class="js-price-now">600</span> ج.م<small>بدل <span class="js-price-old">850</span> ج.م — شحن مجاني لفترة محدودة</small></div>
     <a class="btn btn-primary" href="#order">اطلب الآن</a>
   </div>
 
@@ -2022,8 +2196,8 @@
          live config fetch fails (e.g. visitor is offline). Do not rely on
          editing these to change the real price; edit the Settings tab in
          the Google Sheet instead, see Code.gs for details. */
-      let UNIT_PRICE = 349;
-      let ORIGINAL_PRICE = 400;
+      let UNIT_PRICE = 600;
+      let ORIGINAL_PRICE = 850;
       let PRODUCT_NAME = 'Never Hold Back Gel';
       let shippingFees = {}; /* empty = free shipping everywhere, current default */
 
@@ -2092,6 +2266,30 @@
       window.addEventListener('resize', function () {
         if (window.matchMedia('(min-width: 900px)').matches) closeNav();
       });
+
+      /* Suitability quiz modal — centered overlay with a blurred backdrop.
+         Opens automatically on page load and stays open until the visitor
+         either finishes the quiz or uses the "order now" skip link — there
+         is no close/exit control, so it can't be dismissed without action. */
+      var quizModalBackdrop = document.getElementById('quizModalBackdrop');
+      var quizSkipBtn = document.getElementById('quizSkipBtn');
+      function openQuizModal() {
+        quizModalBackdrop.classList.remove('is-hidden');
+        document.body.classList.add('quiz-modal-lock');
+      }
+      function closeQuizModal() {
+        quizModalBackdrop.classList.add('is-hidden');
+        document.body.classList.remove('quiz-modal-lock');
+      }
+      window.openQuizModal = openQuizModal;
+      window.closeQuizModal = closeQuizModal;
+      quizSkipBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        closeQuizModal();
+        var orderSection = document.getElementById('order');
+        if (orderSection) setTimeout(function () { orderSection.scrollIntoView({ behavior: 'smooth' }); }, 50);
+      });
+      openQuizModal();
 
       /* Light/dark theme toggle.
          Default follows the visitor's OS/browser preference; once they pick
@@ -2565,6 +2763,339 @@
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') closeLightbox();
       });
+
+      /* Suitability quiz — self-serve questionnaire that helps a visitor
+         confirm the product fits their situation before ordering. Branches
+         by condition (ED vs. premature ejaculation), age, prohibited-drug
+         use, and — for ED — chronic conditions (diabetes/blood pressure/
+         prostate) with a pharmacist-referral safety net. Pure client-side,
+         no data is collected or sent anywhere during the quiz itself. */
+      (function () {
+        var quizStage = document.getElementById('quizStage');
+        var quizProgressBar = document.getElementById('quizProgressBar');
+        var quizBackBtn = document.getElementById('quizBack');
+        var quizRestartBtn = document.getElementById('quizRestart');
+        if (!quizStage) return;
+
+        var WHATSAPP_NUMBER = '201555348184';
+        function whatsappLink(message) {
+          return 'https://wa.me/' + WHATSAPP_NUMBER + (message ? '?text=' + encodeURIComponent(message) : '');
+        }
+
+        var QUIZ_STEPS = {
+          q_problem: {
+            type: 'single',
+            title: 'ما هي المشكلة التي تواجهها؟',
+            options: [
+              { label: 'ضعف الانتصاب', next: 'ed_age' },
+              { label: 'سرعة القذف', next: 'pe_age' }
+            ]
+          },
+          ed_age: {
+            type: 'single',
+            title: 'تمام، كم عمرك؟',
+            options: [
+              { label: 'أقل من 40 سنة', next: 'ed_meds' },
+              { label: 'من 40 إلى 50 سنة', next: 'ed_chronic', set: { ageBracket: '40-50' } },
+              { label: 'من 50 إلى 60 سنة', next: 'r_pharmacist' }
+            ]
+          },
+          ed_meds: {
+            type: 'single',
+            title: 'هل تتناول أي مواد أو أدوية محظورة مثل الترامادول أو ما شابه؟',
+            subtitle: 'سؤال مهم لضمان سلامتك — إجابتك تبقى سرية تمامًا.',
+            options: [
+              { label: 'نعم', next: 'r_unsuitable' },
+              { label: 'لا', next: 'r_suitable_ed' }
+            ]
+          },
+          ed_chronic: {
+            type: 'multi',
+            title: 'هل تعاني من أي من الأمراض المزمنة التالية؟',
+            subtitle: 'اختر كل ما ينطبق عليك، ثم اضغط "استمرار"',
+            options: [
+              { value: 'sugar', label: 'السكر' },
+              { value: 'pressure', label: 'الضغط' },
+              { value: 'prostate', label: 'تضخم البروستاتا' },
+              { value: 'none', label: 'لا شيء من هذه', exclusive: true }
+            ],
+            next: function (selected) {
+              if (!selected.length || selected.indexOf('none') !== -1) return finalSuitableEd();
+              if (selected.length > 1) return 'r_pharmacist';
+              if (selected[0] === 'sugar') return 'ed_sugar_controlled';
+              if (selected[0] === 'pressure') return 'ed_pressure_controlled';
+              return 'ed_prostate';
+            }
+          },
+          ed_sugar_controlled: {
+            type: 'single',
+            title: 'هل قياسات السكر عندك منضبطة مع الدواء؟',
+            options: [
+              { label: 'نعم', next: 'ed_nerves' },
+              { label: 'لا', next: 'r_pharmacist' }
+            ]
+          },
+          ed_pressure_controlled: {
+            type: 'single',
+            title: 'هل قياسات ضغط الدم عندك منضبطة مع الدواء؟',
+            options: [
+              { label: 'نعم', next: 'ed_nerves' },
+              { label: 'لا', next: 'r_pharmacist' }
+            ]
+          },
+          ed_nerves: {
+            type: 'single',
+            title: 'هل تشعر أن أعصاب  الجسم سليمة وقوية (بدون تنميل أو ضعف حسي)؟',
+            options: [
+              { label: 'نعم', next: function () { return finalSuitableEd(); } },
+              { label: 'لا', next: 'r_suitable_ed_nerve_injection' }
+            ]
+          },
+          ed_prostate: {
+            type: 'single',
+            title: 'وقت الحمام هل بيحصل تفريعة فالبول ولما حضرتك بتخلص بتحس إنك لسا مفضيتش كل حاجه ؟',
+            options: [
+              { label: 'نعم', next: 'r_pharmacist' },
+              { label: 'لا', next: function () { return finalSuitableEd(); } }
+            ]
+          },
+          ed_pde_check: {
+            type: 'single',
+            title: 'سؤال أخير قبل النتيجة: هل جربت من قبل أقراص منشطة للانتصاب مثل الفياجرا؟',
+            subtitle: 'إجابتك تساعدنا نطمّنك أكتر على النتيجة المتوقعة',
+            options: [
+              { label: 'لم أجربها من قبل', next: 'r_suitable_ed' },
+              { label: 'جربتها ونجحت معايا', next: 'r_suitable_ed' },
+              { label: 'جربتها ولم تنجح معايا', next: 'r_unsuitable_pde' }
+            ]
+          },
+          pe_age: {
+            type: 'single',
+            title: 'تمام، كم عمرك؟',
+            options: [
+              { label: 'أقل من 40 سنة', next: 'pe_meds' },
+              { label: '40 سنة أو أكثر', next: 'r_suitable_pe' }
+            ]
+          },
+          pe_meds: {
+            type: 'single',
+            title: 'هل تتناول أي مواد أو أدوية محظورة مثل الترامادول أو ما شابه؟',
+            subtitle: 'سؤال مهم لضمان سلامتك — إجابتك تبقى سرية تمامًا.',
+            options: [
+              { label: 'نعم', next: 'r_unsuitable' },
+              { label: 'لا', next: 'r_suitable_pe' }
+            ]
+          }
+        };
+
+        var QUIZ_RESULTS = {
+          r_suitable_ed: {
+            icon: '✅',
+            tone: 'success',
+            title: 'الجل مناسب لحالتك!',
+            body: 'بناءً على إجاباتك، Never Hold Back Gel مناسب لحالتك. تقدر تكمّل طلبك دلوقتي بثقة كاملة.',
+            note: '⚠️ تنبيه مهم: لا تستخدم الجل مع أقراص منشطة للانتصاب (مثل الفياجرا أو ما شابه) في نفس الوقت إلا بعد استشارة الصيدلي.',
+            cta: { label: 'أكمل طلبك الآن ←', action: 'order' },
+            notesTag: 'نتيجة الاستبيان: ضعف الانتصاب — مناسب'
+          },
+          r_suitable_ed_nerve_injection: {
+            icon: '✅',
+            tone: 'success',
+            title: 'الجل مناسب لحضرتك!',
+            body: 'بناءً على إجاباتك، الجل مناسب لحالتك، وتقدر تكمّل طلبك دلوقتي بثقة كاملة.',
+            note: '⚠️ ملحوظة مهمة: يجب استعمال حقن أعصاب (بيتولفكس) عضل مرة كل أسبوع بجانب الجل — متوفرة في جميع الصيدليات.',
+            cta: { label: 'أكمل طلبك الآن ←', action: 'order' },
+            notesTag: 'نتيجة الاستبيان: ضعف الانتصاب — مناسب مع حقن أعصاب (بيتولفكس) أسبوعيًا'
+          },
+          r_suitable_pe: {
+            icon: '✅',
+            tone: 'success',
+            title: 'الجل مناسب لحالتك!',
+            body: 'بناءً على إجاباتك، Never Hold Back Gel مناسب لحالتك. تقدر تكمّل طلبك دلوقتي بثقة كاملة.',
+            note: '⚠️ تنبيه مهم: لا تستخدم الجل مع أقراص منشطة للانتصاب (مثل الفياجرا أو ما شابه) في نفس الوقت إلا بعد استشارة الصيدلي.',
+            cta: { label: 'أكمل طلبك الآن ←', action: 'order' },
+            notesTag: 'نتيجة الاستبيان: سرعة القذف — مناسب'
+          },
+          r_unsuitable: {
+            icon: '❌',
+            tone: 'danger',
+            title: 'نأسف، المنتج غير مناسب لحالتك حاليًا',
+            body: 'بسبب استخدامك لأدوية أو مواد قد تتفاعل مع مكونات الجل، لا يمكننا نرشحه لك دون إشراف طبي. يُرجى استشارة طبيبك أو الصيدلي أولًا.',
+            cta: { label: 'تواصل مع الصيدلي على واتساب', action: 'whatsapp', message: 'حابب أستشير الصيدلي قبل استخدام المنتج' }
+          },
+          r_unsuitable_pde: {
+            icon: '❌',
+            tone: 'danger',
+            title: 'الجل قد لا يكون الحل المناسب لحالتك',
+            body: 'بما إن الأقراص المنشطة للانتصاب (مثل الفياجرا) لم تنجح معك من قبل، فحالتك قد تحتاج تقييم طبي أشمل، والجل غالبًا لن يعطي نتيجة كافية بمفرده في هذه الحالة.'
+          },
+          r_pharmacist: {
+            icon: '👨‍⚕️',
+            tone: 'warning',
+            title: 'حالتك تحتاج مراجعة الصيدلي أولًا',
+            body: 'ده مش معناه إن المنتج غير مناسب، لكن حالتك الصحية تحتاج تقييم بسيط من صيدلي مختص لتحديد الجرعة والملاءمة الصحيحة لك.',
+            cta: { label: 'تواصل مع الصيدلي على واتساب', action: 'whatsapp', message: 'حابب أستشير الصيدلي المختص قبل طلب المنتج بخصوص حالتي الصحية' }
+          }
+        };
+
+        var quizHistory = [];
+        var selectedIdx = {};
+        var quizContext = {}; /* carries answers that affect later branches, e.g. the ED age bracket */
+
+        /* The 40-50 ED age bracket gets one extra safety question (tried
+           stimulant tablets like Viagra before?) right before the "suitable"
+           result — the 50-60 bracket and the under-40 path skip it. */
+        function finalSuitableEd() {
+          return quizContext.ageBracket === '40-50' ? 'ed_pde_check' : 'r_suitable_ed';
+        }
+
+        function estimateProgress() {
+          return Math.min(92, 12 + quizHistory.length * 16);
+        }
+        function setProgress(pct) {
+          quizProgressBar.style.width = pct + '%';
+        }
+
+        function getSelectedValues(step) {
+          var values = [];
+          step.options.forEach(function (o, i) { if (selectedIdx[i]) values.push(o.value); });
+          return values;
+        }
+
+        function handleMultiClick(step, idx, opt, el) {
+          var wasSelected = !!selectedIdx[idx];
+          if (opt.exclusive) {
+            selectedIdx = {};
+            quizStage.querySelectorAll('.quiz-option').forEach(function (o) { o.classList.remove('is-selected'); });
+            if (!wasSelected) {
+              selectedIdx[idx] = true;
+              el.classList.add('is-selected');
+            }
+            return;
+          }
+          step.options.forEach(function (o, i) {
+            if (o.exclusive && selectedIdx[i]) {
+              selectedIdx[i] = false;
+              var exEl = quizStage.querySelector('.quiz-option[data-idx="' + i + '"]');
+              if (exEl) exEl.classList.remove('is-selected');
+            }
+          });
+          if (wasSelected) {
+            selectedIdx[idx] = false;
+            el.classList.remove('is-selected');
+          } else {
+            selectedIdx[idx] = true;
+            el.classList.add('is-selected');
+          }
+        }
+
+        function renderQuestion(stepId) {
+          var step = QUIZ_STEPS[stepId];
+          selectedIdx = {};
+          setProgress(estimateProgress());
+
+          var html = '<div class="quiz-step-title">' + step.title + '</div>';
+          if (step.subtitle) html += '<div class="quiz-step-subtitle">' + step.subtitle + '</div>';
+          html += '<div class="quiz-options" role="group">';
+          step.options.forEach(function (opt, idx) {
+            if (step.type === 'multi') {
+              html += '<button type="button" class="quiz-option" data-idx="' + idx + '"><span class="quiz-option-check" aria-hidden="true"></span><span>' + opt.label + '</span></button>';
+            } else {
+              html += '<button type="button" class="quiz-option" data-idx="' + idx + '"><span>' + opt.label + '</span></button>';
+            }
+          });
+          html += '</div>';
+          if (step.type === 'multi') {
+            html += '<button type="button" class="btn btn-primary btn-block quiz-continue" id="quizContinueBtn">استمرار</button>';
+          }
+          quizStage.innerHTML = html;
+
+          quizStage.querySelectorAll('.quiz-option').forEach(function (el) {
+            el.addEventListener('click', function () {
+              var idx = Number(el.getAttribute('data-idx'));
+              var opt = step.options[idx];
+              if (step.type === 'multi') {
+                handleMultiClick(step, idx, opt, el);
+              } else {
+                if (opt.set) {
+                  Object.keys(opt.set).forEach(function (key) { quizContext[key] = opt.set[key]; });
+                }
+                quizHistory.push(stepId);
+                goTo(typeof opt.next === 'function' ? opt.next() : opt.next);
+              }
+            });
+          });
+
+          if (step.type === 'multi') {
+            document.getElementById('quizContinueBtn').addEventListener('click', function () {
+              quizHistory.push(stepId);
+              goTo(step.next(getSelectedValues(step)));
+            });
+          }
+
+          quizBackBtn.hidden = quizHistory.length === 0;
+          quizRestartBtn.hidden = quizHistory.length === 0;
+        }
+
+        function renderResult(resultId) {
+          var result = QUIZ_RESULTS[resultId];
+          setProgress(100);
+
+          var html = '<div class="quiz-result tone-' + result.tone + '">';
+          html += '<div class="quiz-result-icon" aria-hidden="true">' + result.icon + '</div>';
+          html += '<div class="quiz-result-title">' + result.title + '</div>';
+          html += '<p class="quiz-result-body">' + result.body + '</p>';
+          if (result.note) html += '<div class="quiz-result-note">' + result.note + '</div>';
+          if (result.cta) {
+            html += '<div class="quiz-result-actions">';
+            if (result.cta.action === 'order') {
+              html += '<button type="button" class="btn btn-primary btn-block" id="quizCtaBtn">' + result.cta.label + '</button>';
+            } else if (result.cta.action === 'whatsapp') {
+              html += '<a class="btn btn-primary btn-block" id="quizCtaBtn" href="' + whatsappLink(result.cta.message) + '" target="_blank" rel="noopener">' + result.cta.label + '</a>';
+            }
+            html += '</div>';
+          }
+          html += '</div>';
+          quizStage.innerHTML = html;
+
+          if (result.cta && result.cta.action === 'order') {
+            document.getElementById('quizCtaBtn').addEventListener('click', function () {
+              var notesEl = document.getElementById('notes');
+              if (notesEl && result.notesTag && !notesEl.value.trim()) notesEl.value = result.notesTag;
+              if (typeof window.closeQuizModal === 'function') window.closeQuizModal();
+              var orderSection = document.getElementById('order');
+              var nameEl = document.getElementById('name');
+              setTimeout(function () {
+                if (orderSection) orderSection.scrollIntoView({ behavior: 'smooth' });
+                if (nameEl) setTimeout(function () { nameEl.focus(); }, 500);
+              }, 50);
+            });
+          }
+
+          quizBackBtn.hidden = quizHistory.length === 0;
+          quizRestartBtn.hidden = quizHistory.length === 0;
+        }
+
+        function goTo(stepId) {
+          if (QUIZ_RESULTS[stepId]) {
+            renderResult(stepId);
+          } else {
+            renderQuestion(stepId);
+          }
+        }
+
+        quizBackBtn.addEventListener('click', function () {
+          if (!quizHistory.length) return;
+          goTo(quizHistory.pop());
+        });
+        quizRestartBtn.addEventListener('click', function () {
+          quizHistory = [];
+          quizContext = {};
+          goTo('q_problem');
+        });
+
+        goTo('q_problem');
+      })();
 
       /* Form submit → Google Apps Script */
       const form = document.getElementById('orderForm');
