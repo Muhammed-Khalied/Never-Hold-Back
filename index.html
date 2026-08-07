@@ -22,6 +22,10 @@
     'https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '2630707424051634');
     fbq('track', 'PageView');
+    fbq('track', 'ViewContent', {
+      content_name: 'Never Hold Back Gel',
+      content_type: 'product'
+    });
   </script>
   <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=2630707424051634&ev=PageView&noscript=1"
@@ -3064,9 +3068,19 @@
           quizRestartBtn.hidden = quizHistory.length === 0;
         }
 
+        var quizLeadFired = false;
         function renderResult(resultId) {
           var result = QUIZ_RESULTS[resultId];
           setProgress(100);
+
+          /* Meta Pixel — fire "Lead" once, the first time a visitor completes
+             the quiz and reaches any result screen (regardless of which
+             result). Signals qualified purchase intent before an order or
+             WhatsApp contact happens. */
+          if (!quizLeadFired) {
+            quizLeadFired = true;
+            if (typeof fbq === 'function') fbq('track', 'Lead');
+          }
 
           var html = '<div class="quiz-result tone-' + result.tone + '">';
           html += '<div class="quiz-result-icon" aria-hidden="true">' + result.icon + '</div>';
@@ -3129,6 +3143,17 @@
       const submitBtn = document.getElementById('submitBtn');
       const formMsg = document.getElementById('formMsg');
       const btnText = submitBtn.querySelector('.btn-text');
+
+      /* Meta Pixel — fire "InitiateCheckout" once, the first time a visitor
+         interacts with any field in the order form (not on page load, and
+         not repeatedly on every field). Powers a "started but didn't finish
+         an order" retargeting audience in Ads Manager. */
+      var checkoutStarted = false;
+      form.addEventListener('focusin', function () {
+        if (checkoutStarted) return;
+        checkoutStarted = true;
+        if (typeof fbq === 'function') fbq('track', 'InitiateCheckout');
+      });
 
       function setLoading(isLoading) {
         submitBtn.disabled = isLoading;
