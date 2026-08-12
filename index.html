@@ -1108,6 +1108,10 @@
       display:block;background:rgba(var(--danger-rgb),.12);
       border:1px solid rgba(var(--danger-rgb),.4);color:var(--danger);
     }
+    .form-msg-link{
+      display:inline-block;margin-top:.6rem;color:#128C7E;
+      text-decoration:underline;font-weight:800;
+    }
     .spinner{
       width:18px;height:18px;border:2.5px solid rgba(4,16,24,.25);
       border-top-color:#041018;border-radius:50%;
@@ -3164,9 +3168,19 @@
         }
       }
 
-      function showMsg(type, text) {
+      function showMsg(type, text, link) {
         formMsg.className = 'form-msg ' + type;
         formMsg.textContent = text;
+        if (link) {
+          var a = document.createElement('a');
+          a.href = link.href;
+          a.target = '_blank';
+          a.rel = 'noopener';
+          a.className = 'form-msg-link';
+          a.textContent = link.label;
+          formMsg.appendChild(document.createElement('br'));
+          formMsg.appendChild(a);
+        }
       }
 
       /* Circular order-progress indicator — animates 0% → 100% right after
@@ -3313,6 +3327,13 @@
          * an empty payload and writes nothing. GET query params survive the
          * redirect intact, and doGet() in Code.gs writes the order when
          * name+phone are present.
+         *
+         * Regular fetch on purpose (no "no-cors"): Code.gs's response sends
+         * Access-Control-Allow-Origin: * on every hop, so the real ok/error
+         * JSON can be read here. That lets us tell the customer the truth
+         * instead of always showing "success" even when the order actually
+         * failed to save — Code.gs also logs/emails every failure itself
+         * (see notifyFailedOrder_ in Code.gs) as a second safety net.
          */
         var product = (form.product && form.product.value) || PRODUCT_NAME;
         var shippingFee = currentShippingFee();
@@ -3335,12 +3356,37 @@
         });
         var requestUrl = GOOGLE_SCRIPT_URL + '?' + params.toString();
 
+        /* Last-resort fallback so an order is never fully lost even if the
+           sheet write fails for any reason (site or Apps Script bug,
+           deployment permission issue, quota, etc). Pre-fills a WhatsApp
+           message with every field the customer already typed, so they can
+           finish in one tap instead of retyping everything or giving up. */
+        function buildFallbackWhatsAppMessage() {
+          var lines = [
+            'أريد تأكيد طلبي (تعذر إرساله تلقائيًا من الموقع):',
+            'الاسم: ' + name,
+            'الهاتف: ' + phone
+          ];
+          if (altPhone) lines.push('هاتف بديل: ' + altPhone);
+          lines.push('المحافظة: ' + governorate);
+          lines.push('المدينة: ' + city);
+          lines.push('العنوان: ' + address);
+          if (landmark) lines.push('علامة مميزة: ' + landmark);
+          lines.push('المنتج: ' + product);
+          lines.push('الكمية: ' + quantity);
+          if (notes) lines.push('ملاحظات: ' + notes);
+          return lines.join('\n');
+        }
+
         fetch(requestUrl, {
           method: 'GET',
-          mode: 'no-cors',
           cache: 'no-store'
         })
-          .then(function () {
+          .then(function (res) { return res.json(); })
+          .then(function (result) {
+            if (!result || result.ok !== true) {
+              throw new Error((result && result.error) || 'order not saved');
+            }
             showMsg('success', 'تم استلام طلبك بنجاح! هنتواصل معاك قريب لتأكيد التوصيل. شكرًا لثقتك.');
             /* Permanently deduct the ordered quantity from real stock (persisted).
                This does NOT reset back to the starting number on future visits/orders. */
@@ -3364,8 +3410,12 @@
             updateTotal();
           })
           .catch(function () {
-            showMsg('error', 'حصل خطأ أثناء الإرسال. حاول تاني خلال لحظات.');
             hideOrderProgress();
+            showMsg(
+              'error',
+              'حصل خطأ ولم نتأكد من حفظ طلبك. من فضلك أكمل الطلب على واتساب دلوقتي حتى لا يضيع:',
+              { href: whatsappLink(buildFallbackWhatsAppMessage()), label: '📩 أكمل الطلب على واتساب الآن' }
+            );
           })
           .finally(function () {
             setLoading(false);
